@@ -5,7 +5,7 @@
     <!-- Основной стиль для кнопок с иконками вместо текста-->
     <Style x:Key="TextBlockWhithIconAwesome" TargetType="{x:Type TextBlock}">
         <Setter Property="FontFamily" Value="{StaticResource FontAwesome}" />
-        <Setter Property="FontSize" Value="22" />
+        <Setter Property="FontSize" Value="20" />
         <Setter Property="Padding" Value="5"/>
         <Setter Property="Cursor" Value="Hand"/>
     </Style>

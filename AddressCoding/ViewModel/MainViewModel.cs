@@ -19,6 +19,16 @@ namespace AddressCoding.ViewModel
         /// </summary>
         private RelayCommand<DragEventArgs> _commandDragDrop;
 
+        /// <summary>
+        /// Поле для хранения команды получения файла
+        /// </summary>
+        private RelayCommand _commandGetFile;
+
+        /// <summary>
+        /// Поле для хранения команды получения данных из файла
+        /// </summary>
+        private RelayCommand _commandGetDataFromFile;
+
         #endregion PrivateField
 
         #region PublicProperties
@@ -46,6 +56,26 @@ namespace AddressCoding.ViewModel
 
                             }));
 
+        /// <summary>
+        /// Команда для получения файла
+        /// </summary>
+        public RelayCommand CommandGetFile =>
+        _commandGetFile ?? (_commandGetFile = new RelayCommand(
+                    () =>
+                    {
+
+                    }));
+
+        /// <summary>
+        /// Команда получения данных из файла
+        /// </summary>
+        public RelayCommand CommandGetDataFromFile =>
+        _commandGetDataFromFile ?? (_commandGetDataFromFile = new RelayCommand(
+                    () =>
+                    {
+
+                    }));
+
         #endregion PublicCommand
 
         #region PrivateMethod
@@ -53,9 +83,6 @@ namespace AddressCoding.ViewModel
 
         #region PublicMethod
         #endregion PublicMethod
-
-
-
 
 
 
