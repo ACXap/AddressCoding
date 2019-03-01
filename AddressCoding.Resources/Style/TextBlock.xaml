@@ -1,0 +1,33 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:AddressCoding.Resources.Style">
+
+    <!-- Основной стиль для кнопок с иконками вместо текста-->
+    <Style x:Key="TextBlockWhithIconAwesome" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontFamily" Value="{StaticResource FontAwesome}" />
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="Padding" Value="5"/>
+        <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+    
+    <!-- Текст для кнопки открытия помощи-->
+    <Style x:Key="TextBlockHelp" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TextBlockWhithIconAwesome}">
+        <Setter Property="Text" Value="{StaticResource FontAwesomeHelp}"/>
+    </Style>
+    
+    <!-- Текст для кнопки открытия папки программы-->
+    <Style x:Key="TextBlockFolder" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TextBlockWhithIconAwesome}">
+        <Setter Property="Text" Value="{StaticResource FontAwesomeFolderClose}" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Text" Value="{StaticResource FontAwesomeFolderOpen}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Текст для кнопки открытия настроек-->
+    <Style x:Key="TextBlockSettings" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TextBlockWhithIconAwesome}">
+        <Setter Property="Text" Value="{StaticResource FontAwesomeSettings}" />
+    </Style>
+
+</ResourceDictionary>

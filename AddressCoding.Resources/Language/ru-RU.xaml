@@ -1,0 +1,29 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:AddressCoding.Resources.Language"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+   
+    <!--#region Текст интерфейса -->
+    
+    <!-- Заголовок окна-->
+    <system:String x:Key="txtTitleWindow">Орпонизация</system:String>
+    
+    <!-- Панель команд на заголовке окна-->
+    <system:String x:Key="txtHelp">Помощь</system:String>
+    <system:String x:Key="txtFolderApp">Папка программы</system:String>
+    <system:String x:Key="txtSettings">Настройки</system:String>
+    
+    <!-- Всплывающие окна-->
+    <system:String x:Key="txtSettingsApp">Настройки приложения</system:String>
+
+    <!--#endregion Текст интерфейса-->
+    
+    <!--#region Текст внутри кода программы -->
+    
+    <!-- Всплывающее окно помощи-->
+    <system:String x:Key="csFlyoutHelpErrorTxt">А нет файла помощи. Незачем было удалять файл:</system:String>
+    <system:String x:Key="csFlyoutHelpError">Чот упало в помощи</system:String>
+    
+    <!--#endregion Текст внутри кода программы-->
+    
+</ResourceDictionary>

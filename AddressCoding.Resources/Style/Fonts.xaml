@@ -1,0 +1,18 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:AddressCoding.Resources.Style"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <FontFamily x:Key="FontAwesome">/AddressCoding.Fonts;Component/#FontAwesome</FontFamily>
+
+    <system:String x:Key="FontAwesomeError">&#xf057;</system:String>
+    <system:String x:Key="FontAwesomeOk">&#xf058;</system:String>
+    <system:String x:Key="FontAwesomeNotCheck">&#xf059;</system:String>
+    <system:String x:Key="FontAwesomeCheckNow">&#xf144;</system:String>
+    <system:String x:Key="FontAwesomePause">&#xf28b;</system:String>
+    <system:String x:Key="FontAwesomeFolderOpen">&#xf07c;</system:String>
+    <system:String x:Key="FontAwesomeFolderClose">&#xf07b;</system:String>
+    <system:String x:Key="FontAwesomeSettings">&#xf013;</system:String>
+    <system:String x:Key="FontAwesomeSave">&#xf0c7;</system:String>
+    <system:String x:Key="FontAwesomeHelp">&#xf128;</system:String>
+</ResourceDictionary>
