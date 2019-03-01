@@ -6,14 +6,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:local="clr-namespace:AddressCoding"
-                      xmlns:uc="clr-namespace:AddressCoding.UserControls"
+        xmlns:uc="clr-namespace:AddressCoding.UserControls"
+                      xmlns:cmd="http://www.galasoft.ch/mvvmlight"
                       mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
         BorderBrush="{DynamicResource AccentColorBrush}"
         BorderThickness="1"
         Title="{DynamicResource txtTitleWindow}"
-                      Width="1400"
-    Height="800">
+        Width="1400"
+        Height="800">
     <!--  Панель команд на заголовке окна  -->
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
@@ -39,7 +40,81 @@
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
 
-    <Grid>
+    <!--  Основная панель контролов  -->
+    <Grid AllowDrop="True">
+        <!--  Обработка перетаскивания файлов на окно программы  -->
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="PreviewDrop">
+                <cmd:EventToCommand Command="{Binding CommandDragDrop}" PassEventArgsToCommand="True" />
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!--  Работа с получением данных и сохранением  -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="3*" />
+            </Grid.ColumnDefinitions>
+        </Grid>
+
+        <!--  Вкладки Файл, Адрес  -->
+        <TabControl Grid.Column="0" Controls:TabControlHelper.Underlined="SelectedTabItem">
+            <!--  Работа с файлами  -->
+            <TabItem Header="{DynamicResource txtHederTabItemFile}">
+                
+                <!--  Панель работы с входным файлом  -->
+                <Border
+                        Padding="5"
+                        BorderBrush="{DynamicResource AccentColorBrush}"
+                        BorderThickness="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <!--  Имя входного файла с данными  -->
+                        <TextBox
+                                Grid.Row="0"
+                                Controls:TextBoxHelper.Watermark="{DynamicResource txtWatermarkInputFile}"
+                                IsReadOnly="True"
+                                Style="{StaticResource TextBoxFolderOpen}"
+                                Text="{Binding FileInput}" />
+
+                        <!--  Управление входным файлом  -->
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <!--  Кнопка получения данных  -->
+                            <Button ToolTip="{DynamicResource txtToolTipButtonGetData}"
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    Command="{Binding CommandGetDataFromFile}"
+                                    Content="{DynamicResource txtContentButtonGetData}"
+                                    Style="{StaticResource ButtonMainStyle}" />
+
+                            <!--  Выбор файла с данными, открываем проводник  -->
+                            <Button ToolTip="{DynamicResource txtToolTipButtonGetFile}"
+                                    Grid.Column="2"
+                                    Command="{Binding CommandGetFile}"
+                                    Content="{DynamicResource txtContentButtonGetFile}"
+                                    Style="{StaticResource ButtonMainStyle}" />
+                        </Grid>
+                    </Grid>
+                </Border>
+            </TabItem>
+
+            <TabItem Header="{DynamicResource txtHederTabItemAddress}"/>
+        </TabControl>
     </Grid>
 
     <!--  Всплывающие окна  -->

@@ -1,34 +1,67 @@
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.CommandWpf;
+using System.Windows;
 
 namespace AddressCoding.ViewModel
 {
-    /// <summary>
-    /// This class contains properties that the main View can data bind to.
-    /// <para>
-    /// Use the <strong>mvvminpc</strong> snippet to add bindable properties to this ViewModel.
-    /// </para>
-    /// <para>
-    /// You can also use Blend to data bind with the tool's support.
-    /// </para>
-    /// <para>
-    /// See http://www.galasoft.ch/mvvm
-    /// </para>
-    /// </summary>
     public class MainViewModel : ViewModelBase
     {
+
+        #region PrivateField
+        
         /// <summary>
-        /// Initializes a new instance of the MainViewModel class.
+        /// Поле для хранения имени входного файла
         /// </summary>
+        private string _fileInput = string.Empty;
+
+        /// <summary>
+        /// Поле для хранения ссылки на команду обработки перетаскивания
+        /// </summary>
+        private RelayCommand<DragEventArgs> _commandDragDrop;
+
+        #endregion PrivateField
+
+        #region PublicProperties
+
+        /// <summary>
+        /// Имя входного файла
+        /// </summary>
+        public string FileInput
+        {
+            get => _fileInput;
+            set => Set(ref _fileInput, value);
+        }
+
+        #endregion PublicProperties
+
+        #region PublicCommand
+
+        /// <summary>
+        /// Команда обработки перетаскивания файлов на окно программы
+        /// </summary>
+        public RelayCommand<DragEventArgs> CommandDragDrop =>
+                _commandDragDrop ?? (_commandDragDrop = new RelayCommand<DragEventArgs>(
+                            obj =>
+                            {
+
+                            }));
+
+        #endregion PublicCommand
+
+        #region PrivateMethod
+        #endregion PrivateMethod
+
+        #region PublicMethod
+        #endregion PublicMethod
+
+
+
+
+
+
         public MainViewModel()
         {
-            ////if (IsInDesignMode)
-            ////{
-            ////    // Code runs in Blend --> create design time data.
-            ////}
-            ////else
-            ////{
-            ////    // Code runs "for real"
-            ////}
+
         }
     }
 }

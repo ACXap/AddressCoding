@@ -16,6 +16,18 @@
     <!-- Всплывающие окна-->
     <system:String x:Key="txtSettingsApp">Настройки приложения</system:String>
 
+    <!-- Панель работы с входным файлом-->
+    <system:String x:Key="txtHederTabItemFile">Файл</system:String>
+    <system:String x:Key="txtHederTabItemAddress">Адрес</system:String>
+    
+    <system:String x:Key="txtWatermarkInputFile">Выбрать файл с данными</system:String>
+
+    <system:String x:Key="txtToolTipButtonGetData">Считать данные из файла в таблицу данных</system:String>
+    <system:String x:Key="txtContentButtonGetData">Получить данные</system:String>
+
+    <system:String x:Key="txtToolTipButtonGetFile">Открытие диалога выбора файла с данными</system:String>
+    <system:String x:Key="txtContentButtonGetFile">Выбрать файл с данными</system:String>
+
     <!--#endregion Текст интерфейса-->
     
     <!--#region Текст внутри кода программы -->

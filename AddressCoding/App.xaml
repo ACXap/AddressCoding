@@ -12,6 +12,8 @@
                 <ResourceDictionary Source="pack://application:,,,/AddressCoding.Resources;component/Language/ru-RU.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/AddressCoding.Resources;component/Style/Fonts.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/AddressCoding.Resources;component/Style/TextBlock.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/AddressCoding.Resources;component/Style/TextBox.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/AddressCoding.Resources;component/Style/Button.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/AddressCoding.Resources;component/Style/Flyout.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
