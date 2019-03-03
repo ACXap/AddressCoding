@@ -27,6 +27,17 @@
 
     <system:String x:Key="txtToolTipButtonGetFile">Открытие диалога выбора файла с данными</system:String>
     <system:String x:Key="txtContentButtonGetFile">Выбрать файл с данными</system:String>
+    
+    <!-- Панель работы с выходным файлом-->
+    <system:String x:Key="txtWatermarkOutputFile">Выбрать файл для сохранения</system:String>
+
+    <system:String x:Key="txtContentButtonGetOutputFile">Выбрать файл для сохранения</system:String>
+    <system:String x:Key="txtToolTipButtonGetOutputFile">Открытие диалога выбора файла для сохранения</system:String>
+
+    <system:String x:Key="txtSplitOutputFile">Разбить файл на части (по строкам):</system:String>
+
+    <system:String x:Key="txtContentButtonSaveOutputFile">Сохранить данные</system:String>
+    <system:String x:Key="txtToolTipButtonSaveOutputFile">Сохранить полученные данные в выбраном файле</system:String>
 
     <!--#endregion Текст интерфейса-->
     

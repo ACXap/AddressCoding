@@ -70,7 +70,7 @@ namespace AddressCoding.ViewModel
                         {
                             FileInput = result.Object;
                         }
-                        else if(result!=null && result.Error!=null)
+                        else if (result != null && result.Error != null)
                         {
                             _notification.NotificationAsync(null, result.Error.Message);
                         }
@@ -100,6 +100,34 @@ namespace AddressCoding.ViewModel
 
         private readonly IFileService _fileService;
         private readonly INotifications _notification;
+
+        private RelayCommand _commandSetFileOutput;
+        public RelayCommand CommandSetFileOutput =>
+            _commandSetFileOutput ?? (_commandSetFileOutput = new RelayCommand(
+            () =>
+            {
+                var result = _fileService.SetFileForSave();
+                if (result != null && result.Result && result.Error == null)
+                {
+                    FileOutput = result.Object;
+                }
+                else if (result != null && result.Error != null)
+                {
+                    _notification.NotificationAsync(null, result.Error.Message);
+                }
+                else
+                {
+                    throw new System.ArgumentException(nameof(result));
+                }
+            }));
+
+        private string _fileOutput;
+        public string FileOutput
+        {
+            get => _fileOutput;
+            set => Set(ref _fileOutput, value);
+        }
+
 
         public MainViewModel(IFileService fileService, INotifications notification)
         {

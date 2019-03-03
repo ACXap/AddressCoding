@@ -13,5 +13,12 @@ namespace AddressCoding.FileService
         /// <param name="defaultFolder">Папка по умолчанию</param>
         /// <returns>Возвращает полный путь к файлу</returns>
         EntityResult<string> GetFile(string defaultFolder = "");
+
+        /// <summary>
+        /// Метод для выбора имени(папки) файла для сохранения данных
+        /// </summary>
+        /// <param name="defaultName">Имя файла по умолчанию</param>
+        /// <returns>Возвращает полный путь к файлу для сохранения</returns>
+        EntityResult<string> SetFileForSave(string defaultName = "");
     }
 }
