@@ -1,3 +1,5 @@
+using AddressCoding.FileService;
+using AddressCoding.Notifications;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.Windows;
@@ -8,7 +10,7 @@ namespace AddressCoding.ViewModel
     {
 
         #region PrivateField
-        
+
         /// <summary>
         /// Поле для хранения имени входного файла
         /// </summary>
@@ -63,7 +65,19 @@ namespace AddressCoding.ViewModel
         _commandGetFile ?? (_commandGetFile = new RelayCommand(
                     () =>
                     {
-
+                        var result = _fileService.GetFile();
+                        if (result != null && result.Result && result.Error == null)
+                        {
+                            FileInput = result.Object;
+                        }
+                        else if(result!=null && result.Error!=null)
+                        {
+                            _notification.NotificationAsync(null, result.Error.Message);
+                        }
+                        else
+                        {
+                            throw new System.ArgumentException(nameof(result));
+                        }
                     }));
 
         /// <summary>
@@ -84,11 +98,13 @@ namespace AddressCoding.ViewModel
         #region PublicMethod
         #endregion PublicMethod
 
+        private readonly IFileService _fileService;
+        private readonly INotifications _notification;
 
-
-        public MainViewModel()
+        public MainViewModel(IFileService fileService, INotifications notification)
         {
-
+            _fileService = fileService;
+            _notification = notification;
         }
     }
 }

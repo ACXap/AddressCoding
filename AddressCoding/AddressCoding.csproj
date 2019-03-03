@@ -132,9 +132,21 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AddressCoding.Entities\AddressCoding.Entities.csproj">
+      <Project>{cccdadfa-4e0b-40bb-b9f2-8d4080655a83}</Project>
+      <Name>AddressCoding.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AddressCoding.FileService\AddressCoding.FileService.csproj">
+      <Project>{8dec482b-d0dc-47c5-8801-619dfdaf7915}</Project>
+      <Name>AddressCoding.FileService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AddressCoding.Fonts\AddressCoding.Fonts.csproj">
       <Project>{c0db9d02-8c63-411c-b210-179917601486}</Project>
       <Name>AddressCoding.Fonts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AddressCoding.Notifications\AddressCoding.Notifications.csproj">
+      <Project>{469F1F7E-7E95-4E1A-A35F-A78E2952F3DE}</Project>
+      <Name>AddressCoding.Notifications</Name>
     </ProjectReference>
     <ProjectReference Include="..\AddressCoding.Resources\AddressCoding.Resources.csproj">
       <Project>{9a0b5294-a775-4d25-8ac5-274d6152aec3}</Project>

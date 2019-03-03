@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.168
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28621.142
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddressCoding", "AddressCoding\AddressCoding.csproj", "{2CBC9886-1CD7-45FA-AC01-6D92927EE9AC}"
 EndProject
@@ -10,6 +10,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddressCoding.Fonts", "AddressCoding.Fonts\AddressCoding.Fonts.csproj", "{C0DB9D02-8C63-411C-B210-179917601486}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddressCoding.FileService", "AddressCoding.FileService\AddressCoding.FileService.csproj", "{8DEC482B-D0DC-47C5-8801-619DFDAF7915}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddressCoding.Entities", "AddressCoding.Entities\AddressCoding.Entities.csproj", "{CCCDADFA-4E0B-40BB-B9F2-8D4080655A83}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddressCoding.Notifications", "AddressCoding.Notifications\AddressCoding.Notifications.csproj", "{469F1F7E-7E95-4E1A-A35F-A78E2952F3DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{8DEC482B-D0DC-47C5-8801-619DFDAF7915}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DEC482B-D0DC-47C5-8801-619DFDAF7915}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DEC482B-D0DC-47C5-8801-619DFDAF7915}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCCDADFA-4E0B-40BB-B9F2-8D4080655A83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCCDADFA-4E0B-40BB-B9F2-8D4080655A83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCCDADFA-4E0B-40BB-B9F2-8D4080655A83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCCDADFA-4E0B-40BB-B9F2-8D4080655A83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{469F1F7E-7E95-4E1A-A35F-A78E2952F3DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{469F1F7E-7E95-4E1A-A35F-A78E2952F3DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{469F1F7E-7E95-4E1A-A35F-A78E2952F3DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{469F1F7E-7E95-4E1A-A35F-A78E2952F3DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

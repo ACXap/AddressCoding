@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AddressCoding.Entities;
 
 namespace AddressCoding.FileService
 {
@@ -11,7 +7,11 @@ namespace AddressCoding.FileService
     /// </summary>
     public interface IFileService
     {
-
-        void GetFile( string defaultFolder = "");
+        /// <summary>
+        /// Метод выбора файла
+        /// </summary>
+        /// <param name="defaultFolder">Папка по умолчанию</param>
+        /// <returns>Возвращает полный путь к файлу</returns>
+        EntityResult<string> GetFile(string defaultFolder = "");
     }
 }
