@@ -36,7 +36,10 @@
             </ToggleButton>
 
             <!--  Кнопка открытия папки программы  -->
-            <Button ToolTip="{DynamicResource txtFolderApp}" Command="{Binding CommandOpenFolder}" CommandParameter="AppFolder">
+            <Button
+                Command="{Binding CommandOpenFolder}"
+                CommandParameter="AppFolder"
+                ToolTip="{DynamicResource txtFolderApp}">
                 <TextBlock Style="{StaticResource TextBlockFolder}" />
             </Button>
 
@@ -47,12 +50,9 @@
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
 
-    <!-- Отображение процесса геокодирования на панели задач-->
+    <!--  Отображение процесса геокодирования на панели задач  -->
     <Controls:MetroWindow.TaskbarItemInfo>
-        <TaskbarItemInfo
-            ProgressValue="{Binding Source={StaticResource Locator}, Path=Stat.Statistics.Percent, Converter={StaticResource ConverterStatToProgress}}"
-            ProgressState="{Binding IsStartOrponing, Converter={StaticResource ConverterStatOrponingToProgressState}}">
-        </TaskbarItemInfo>
+        <TaskbarItemInfo ProgressState="{Binding IsStartOrponing, Converter={StaticResource ConverterStatOrponingToProgressState}}" ProgressValue="{Binding Source={StaticResource Locator}, Path=Stat.Statistics.Percent, Converter={StaticResource ConverterStatToProgress}}" />
     </Controls:MetroWindow.TaskbarItemInfo>
 
     <!--  Основная панель контролов  -->
@@ -180,15 +180,13 @@
                             Orientation="Vertical">
 
                             <!--  Настройка разбиения выходного файла  -->
-                            <StackPanel 
-                                Orientation="Horizontal" 
-                                ToolTip="Разбить выходной файл на части (по количеству строк), 0 - без разбиения"
-                                DataContext="{Binding Source={StaticResource Locator}, Path=Settings.FileSettings}">
+                            <StackPanel
+                                DataContext="{Binding Source={StaticResource Locator}, Path=Settings.FileSettings}"
+                                Orientation="Horizontal"
+                                ToolTip="Разбить выходной файл на части (по количеству строк), 0 - без разбиения">
 
                                 <!--  Разбивать ли выходной файл на части (по количеству строк)  -->
-                                <CheckBox 
-                                    Content="{DynamicResource txtSplitOutputFile}" 
-                                    IsChecked="{Binding CanBreakFileOutput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                <CheckBox Content="{DynamicResource txtSplitOutputFile}" IsChecked="{Binding CanBreakFileOutput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                                 <!--  Максимальное количество строк в файле  -->
                                 <TextBox
@@ -204,8 +202,8 @@
                             Grid.Column="2"
                             Command="{Binding CommandSaveData}"
                             Content="{DynamicResource txtContentButtonSaveOutputFile}"
-                            ToolTip="{DynamicResource txtToolTipButtonSaveOutputFile}"
-                            Style="{StaticResource ButtonMainStyle}" />
+                            Style="{StaticResource ButtonMainStyle}"
+                            ToolTip="{DynamicResource txtToolTipButtonSaveOutputFile}" />
                     </Grid>
                 </Grid>
             </Border>
@@ -213,23 +211,27 @@
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
 
             <!--  Индикация работы орпонизации  -->
             <uc:WorkIndication
-                HorizontalAlignment="Center" VerticalAlignment="Top"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
                 Panel.ZIndex="1"
                 IsActive="{Binding IsStartOrponing}"
                 Text="{DynamicResource txtWorkIndication}" />
 
             <TabControl Grid.Column="0">
                 <TabItem Header="{DynamicResource txtTabDataHeder}">
-                    <DataGrid ItemsSource="{Binding Collection}" Style="{StaticResource DataGridMainAll}" SelectedItem="{Binding CurrentOrpon}">
+                    <DataGrid
+                        ItemsSource="{Binding Collection}"
+                        SelectedItem="{Binding CurrentOrpon}"
+                        Style="{StaticResource DataGridMainAll}">
                         <DataGrid.Columns>
 
-                            <!-- Колонка статуса-->
+                            <!--  Колонка статуса  -->
                             <DataGridTemplateColumn SortMemberPath="Status">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -238,7 +240,7 @@
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
 
-                            <!-- Колонка адреса-->
+                            <!--  Колонка адреса  -->
                             <DataGridTemplateColumn Header="{DynamicResource txtTabDataHederAddress}" SortMemberPath="Address">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -247,7 +249,7 @@
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
 
-                            <!-- Колонка орпонАйди-->
+                            <!--  Колонка орпонАйди  -->
                             <DataGridTemplateColumn Header="{DynamicResource txtTabDataHederOrponId}" SortMemberPath="Orpon.GlobalID">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -256,7 +258,7 @@
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
 
-                            <!-- Колонка качества разбора-->
+                            <!--  Колонка качества разбора  -->
                             <DataGridTemplateColumn Header="{DynamicResource txtTabDataHederQualitiCode}" SortMemberPath="Orpon.QualityCode">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -265,7 +267,7 @@
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
 
-                            <!-- Колонка типа объекта-->
+                            <!--  Колонка типа объекта  -->
                             <DataGridTemplateColumn Header="{DynamicResource txtTabDataHederParsingLevel}" SortMemberPath="Orpon.ParsingLevelCode">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -281,20 +283,20 @@
 
             <Grid Grid.Column="1" Width="200">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
 
                 <!--  Статистика  -->
                 <uc:Statistics Grid.Row="0" />
-                
+
                 <!--  Запуск геокодирования  -->
                 <Button Grid.Row="2" Style="{StaticResource ButtonStopStart}" />
             </Grid>
         </Grid>
-        
+
     </Grid>
 
     <!--  Всплывающие окна  -->

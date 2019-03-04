@@ -1,25 +1,26 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:AddressCoding.Language"
-                    xmlns:system="clr-namespace:System;assembly=mscorlib">
-   
-    <!--#region Текст интерфейса -->
-    
-    <!-- Заголовок окна-->
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:AddressCoding.Language"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <!--#region Текст интерфейса-->
+
+    <!--  Заголовок окна  -->
     <system:String x:Key="txtTitleWindow">Орпонизация</system:String>
-    
-    <!-- Панель команд на заголовке окна-->
+
+    <!--  Панель команд на заголовке окна  -->
     <system:String x:Key="txtHelp">Помощь</system:String>
     <system:String x:Key="txtFolderApp">Папка программы</system:String>
     <system:String x:Key="txtSettings">Настройки</system:String>
-    
-    <!-- Всплывающие окна-->
+
+    <!--  Всплывающие окна  -->
     <system:String x:Key="txtSettingsApp">Настройки приложения</system:String>
 
-    <!-- Панель работы с входным файлом-->
+    <!--  Панель работы с входным файлом  -->
     <system:String x:Key="txtHederTabItemFile">Файл</system:String>
     <system:String x:Key="txtHederTabItemAddress">Адрес</system:String>
-    
+
     <system:String x:Key="txtWatermarkInputFile">Выбрать файл с данными</system:String>
 
     <system:String x:Key="txtToolTipButtonGetData">Считать данные из файла в таблицу данных</system:String>
@@ -27,8 +28,8 @@
 
     <system:String x:Key="txtToolTipButtonGetFile">Открытие диалога выбора файла с данными</system:String>
     <system:String x:Key="txtContentButtonGetFile">Выбрать файл с данными</system:String>
-    
-    <!-- Панель работы с выходным файлом-->
+
+    <!--  Панель работы с выходным файлом  -->
     <system:String x:Key="txtWatermarkOutputFile">Выбрать файл для сохранения</system:String>
 
     <system:String x:Key="txtContentButtonGetOutputFile">Выбрать файл для сохранения</system:String>
@@ -39,28 +40,28 @@
     <system:String x:Key="txtContentButtonSaveOutputFile">Сохранить данные</system:String>
     <system:String x:Key="txtToolTipButtonSaveOutputFile">Сохранить полученные данные в выбраном файле</system:String>
 
-    <!-- Индикация работы-->
+    <!--  Индикация работы  -->
     <system:String x:Key="txtWorkIndication">Идет обработка данных...</system:String>
-    
-    <!-- Таблица данных-->
+
+    <!--  Таблица данных  -->
     <system:String x:Key="txtTabDataHeder">Данные</system:String>
     <system:String x:Key="txtTabDataHederAddress">Адрес</system:String>
     <system:String x:Key="txtTabDataHederOrponId">Орпон ID</system:String>
     <system:String x:Key="txtTabDataHederQualitiCode">Качество</system:String>
     <system:String x:Key="txtTabDataHederParsingLevel">Тип объекта</system:String>
-    
-    <!-- Контекстное меню таблицы данных-->
+
+    <!--  Контекстное меню таблицы данных  -->
     <system:String x:Key="txtContextMenuGetOrppon">Выполнить орпонизацию</system:String>
     <system:String x:Key="txtContextMenuCopyAddress">Копировать адрес</system:String>
     <system:String x:Key="txtContextMenuClearCollection">Очистить коллекцию</system:String>
-    
-    <!-- Кнопка запуска работы-->
+
+    <!--  Кнопка запуска работы  -->
     <system:String x:Key="txtContentStart">Орпонизировать</system:String>
     <system:String x:Key="txtToolTipStart">Запустить орпонизацию</system:String>
     <system:String x:Key="txtContentStop">Стоп</system:String>
     <system:String x:Key="txtToolTipStop">Остановить орпонизацию</system:String>
-    
-    <!-- Статистика-->
+
+    <!--  Статистика  -->
     <system:String x:Key="txtStatHeader">Статистика</system:String>
     <system:String x:Key="txtStatAll">Всего</system:String>
     <system:String x:Key="txtStatOrponing">ОРПОНизированы</system:String>
@@ -72,16 +73,16 @@
     <system:String x:Key="txtStatNotFound">Не найдено</system:String>
     <system:String x:Key="txtStatTimeOrponing">Время выполнения</system:String>
     <system:String x:Key="txtStatTimeLeftOrponing">Время осталось</system:String>
-    
+
 
     <!--#endregion Текст интерфейса-->
-    
-    <!--#region Текст внутри кода программы -->
-    
-    <!-- Всплывающее окно помощи-->
+
+    <!--#region Текст внутри кода программы-->
+
+    <!--  Всплывающее окно помощи  -->
     <system:String x:Key="csFlyoutHelpErrorTxt">А нет файла помощи. Незачем было удалять файл:</system:String>
     <system:String x:Key="csFlyoutHelpError">Чот упало в помощи</system:String>
-    
+
     <!--#endregion Текст внутри кода программы-->
-    
+
 </ResourceDictionary>

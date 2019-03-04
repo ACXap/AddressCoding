@@ -1,9 +1,10 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
-                    xmlns:local="clr-namespace:AddressCoding.Style">
-    
-    <!-- Стиль для всплывающих окон-->
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:local="clr-namespace:AddressCoding.Style">
+
+    <!--  Стиль для всплывающих окон  -->
     <Style x:Key="FlyoutStyleMain" TargetType="{x:Type Controls:Flyout}">
         <Setter Property="Width" Value="{Binding ElementName=mainWindow, Path=ActualWidth}" />
         <Setter Property="Height" Value="{Binding ElementName=mainWindow, Path=ActualHeight}" />
@@ -11,5 +12,5 @@
         <Setter Property="IsPinned" Value="False" />
         <Setter Property="Theme" Value="Inverse" />
     </Style>
-    
+
 </ResourceDictionary>

@@ -4,12 +4,27 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Threading;
+using GalaSoft.MvvmLight.CommandWpf;
+using AddressCoding.FileService;
+using AddressCoding.Notifications;
 
 namespace AddressCoding.ViewModel
 {
     public class StatisticsViewModel :ViewModelBase
     {
         #region PrivateFields
+        /// <summary>
+        /// Поле для хранения ссылки на модуль работы с файлами
+        /// </summary>
+        private readonly IFileService _fileService;
+        /// <summary>
+        /// Поле для работы с настройками
+        /// </summary>
+        private readonly SettingsViewModel _set;
+        /// <summary>
+        /// Поле для хранения ссылки на модуль работы с оповещениями
+        /// </summary>
+        private readonly INotifications _notification;
         /// <summary>
         /// Поле для хранения статистики
         /// </summary>
@@ -127,5 +142,38 @@ namespace AddressCoding.ViewModel
         }
         #endregion PrivateMethod
 
+        private RelayCommand _commandSaveStatistics;
+        public RelayCommand CommandSaveStatistics =>
+            _commandSaveStatistics ?? (_commandSaveStatistics = new RelayCommand(
+            () =>
+            {
+
+            }));
+
+        private RelayCommand<string> _commandOpenFolder;
+        /// <summary>
+        /// Команда открытия папки
+        /// </summary>
+        public RelayCommand<string> CommandOpenFolder =>
+        _commandOpenFolder ?? (_commandOpenFolder = new RelayCommand<string>(
+            obj =>
+            {
+                if (obj == "StatFolder")
+                {
+                    obj = _set.FileSettings.FolderStatistics;
+                }
+                var result = _fileService.OpenFolder(obj);
+                if (result != null && result.Error != null)
+                {
+                    _notification.NotificationAsync(null, result.Error.Message);
+                }
+            }));
+
+        public StatisticsViewModel(IFileService fileService, SettingsViewModel set, INotifications notification)
+        {
+            _fileService = fileService;
+            _set = set;
+            _notification = notification;
+        }
     }
 }
