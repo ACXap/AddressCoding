@@ -299,6 +299,10 @@ namespace AddressCoding.ViewModel
         _commandOpenFolder ?? (_commandOpenFolder = new RelayCommand<string>(
             obj =>
             {
+                if(obj == "AppFolder")
+                {
+                    obj = _set.FileSettings.FolderApp;
+                }
                 var result = _fileService.OpenFolder(obj);
                 if (result != null && result.Error != null)
                 {

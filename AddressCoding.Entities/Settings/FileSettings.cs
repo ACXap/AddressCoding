@@ -4,6 +4,16 @@ namespace AddressCoding.Entities.Settings
 {
     public class FileSettings:ViewModelBase
     {
+        private string _folderApp = string.Empty;
+        /// <summary>
+        /// Имя папки программы
+        /// </summary>
+        public string FolderApp
+        {
+            get => _folderApp;
+            set => Set(ref _folderApp, value);
+        }
+
         private string _folderInput = string.Empty;
         /// <summary>
         /// Имя папки для входящих файлов

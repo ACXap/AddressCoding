@@ -24,6 +24,7 @@ namespace AddressCoding.ViewModel
             _fileSettings.FolderTemp = dir + "\\Temp";
             _fileSettings.FolderStatistics = dir + "\\Statistics";
             _fileSettings.FolderErrors = dir + "\\Error";
+            _fileSettings.FolderApp = dir;
         }
     }
 }
