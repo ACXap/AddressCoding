@@ -36,6 +36,10 @@ namespace AddressCoding.ViewModel
         /// </summary>
         private ObservableCollection<EntityOrpon> _collection;
         /// <summary>
+        /// Поле для хранения ссылки на текущий выделенный элемент
+        /// </summary>
+        private EntityOrpon _currentOrpon;
+        /// <summary>
         /// Поле для хранения имени входного файла
         /// </summary>
         private string _fileInput = string.Empty;
@@ -87,6 +91,18 @@ namespace AddressCoding.ViewModel
         /// Поле для хранения команды записи данных в файл
         /// </summary>
         private RelayCommand _commandSaveData;
+        /// <summary>
+        /// Поле для хранения команды орпонизации выбранного объекта
+        /// </summary>
+        private RelayCommand _сommandGetOrpon;
+        /// <summary>
+        /// Поле для хранения команды копирования адреса в буфер
+        /// </summary>
+        private RelayCommand _commandCopyAddress;
+        /// <summary>
+        /// Поле для хранения команды очистки коллекции
+        /// </summary>
+        private RelayCommand _commandClearCollection;
         #endregion PrivateField
 
         #region PublicProperties
@@ -97,6 +113,14 @@ namespace AddressCoding.ViewModel
         {
             get => _collection;
             set => Set(ref _collection, value);
+        }
+        /// <summary>
+        /// Текущий выделенный элемент
+        /// </summary>
+        public EntityOrpon CurrentOrpon
+        {
+            get => _currentOrpon;
+            set => Set(ref _currentOrpon, value);
         }
         /// <summary>
         /// Запущена ли процедура
@@ -226,6 +250,46 @@ namespace AddressCoding.ViewModel
             }));
 
         /// <summary>
+        /// Команда запуска орпонизации выбранного объекта
+        /// </summary>
+        public RelayCommand CommandGetOrpon =>
+        _сommandGetOrpon ?? (_сommandGetOrpon = new RelayCommand(
+                    () =>
+                    {
+
+                    }));
+
+        /// <summary>
+        /// Команда для копирования адреса в буфер
+        /// </summary>
+        public RelayCommand CommandCopyAddress =>
+        _commandCopyAddress ?? (_commandCopyAddress = new RelayCommand(
+                    () =>
+                    {
+                        try
+                        {
+                            Clipboard.SetText(_currentOrpon.Address, TextDataFormat.UnicodeText);
+                        }
+                        catch (Exception ex)
+                        {
+                            _notification.NotificationAsync(null, ex.Message);
+                        }
+                    }));
+
+        /// <summary>
+        /// Команда очистки коллекции
+        /// </summary>
+        public RelayCommand CommandClearCollection =>
+        _commandClearCollection ?? (_commandClearCollection = new RelayCommand(
+                    () =>
+                    {
+                        if (_collection != null && _collection.Any())
+                        {
+                            _collection.Clear();
+                        }
+                    }, () => _collection != null && _collection.Any()));
+
+        /// <summary>
         /// Команда открытия папки
         /// </summary>
         public RelayCommand<string> CommandOpenFolder =>
@@ -321,6 +385,7 @@ namespace AddressCoding.ViewModel
 
         #region PublicMethod
         #endregion PublicMethod
+
 
         public MainViewModel(IFileService fileService, INotifications notification, StatisticsViewModel stat, SettingsViewModel set)
         {

@@ -82,32 +82,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Language\ru-RU.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Style\Button.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Style\Flyout.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Style\Fonts.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Style\TextBlock.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Style\TextBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\AddressCoding.Entities\AddressCoding.Entities.csproj">
       <Project>{cccdadfa-4e0b-40bb-b9f2-8d4080655a83}</Project>
       <Name>AddressCoding.Entities</Name>
@@ -116,6 +90,10 @@
       <Project>{c0db9d02-8c63-411c-b210-179917601486}</Project>
       <Name>AddressCoding.Fonts</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Language\" />
+    <Folder Include="Style\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -87,6 +87,9 @@
     <Compile Include="UserControls\FlyoutSettings.xaml.cs">
       <DependentUpon>FlyoutSettings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Information.xaml.cs">
+      <DependentUpon>Information.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Statistics.xaml.cs">
       <DependentUpon>Statistics.xaml</DependentUpon>
     </Compile>
@@ -109,7 +112,43 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Style\Button.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Style\DataGrid.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Style\Flyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Style\Fonts.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Style\Language\ru-RU.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Style\TextBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Style\TextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Style\ToolTip.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UserControls\FlyoutSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Information.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -165,10 +204,6 @@
     <ProjectReference Include="..\AddressCoding.Notifications\AddressCoding.Notifications.csproj">
       <Project>{469F1F7E-7E95-4E1A-A35F-A78E2952F3DE}</Project>
       <Name>AddressCoding.Notifications</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AddressCoding.Resources\AddressCoding.Resources.csproj">
-      <Project>{9a0b5294-a775-4d25-8ac5-274d6152aec3}</Project>
-      <Name>AddressCoding.Resources</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

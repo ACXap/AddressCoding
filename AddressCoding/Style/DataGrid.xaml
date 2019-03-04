@@ -1,0 +1,57 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:l="clr-namespace:AddressCoding.Entities;assembly=AddressCoding.Entities"
+                    xmlns:local="clr-namespace:AddressCoding.Style">
+    <ContextMenu x:Key="ContextMenuRow">
+        <MenuItem
+            Command="{Binding DataContext.CommandGetOrpon, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+            Header="{DynamicResource txtContextMenuGetOrppon}" />
+        <Separator />
+        <MenuItem
+            Command="{Binding DataContext.CommandCopyAddress, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+            Header="{DynamicResource txtContextMenuCopyAddress}" />
+        <Separator />
+        <MenuItem
+            Command="{Binding DataContext.CommandClearCollection, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+            Header="{DynamicResource txtContextMenuClearCollection}" />
+    </ContextMenu>
+
+    <Style
+        x:Key="DataGridMainRow"
+        BasedOn="{StaticResource MetroDataGridRow}"
+        TargetType="{x:Type DataGridRow}">
+        <Setter Property="ContextMenu" Value="{StaticResource ContextMenuRow}" />
+        <Setter Property="ToolTip">
+            <Setter.Value>
+                <ToolTip Style="{StaticResource ToolTipDataGrid}" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style
+        x:Key="DataGridMainRowAll"
+        BasedOn="{StaticResource DataGridMainRow}"
+        TargetType="{x:Type DataGridRow}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Status}" Value="{x:Static l:StatusType.Error}">
+                <Setter Property="Background" Value="Red" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    
+    <Style
+        x:Key="DataGridMain"
+        BasedOn="{StaticResource MetroDataGrid}"
+        TargetType="{x:Type DataGrid}">
+        <Setter Property="AutoGenerateColumns" Value="False" />
+        <Setter Property="CanUserAddRows" Value="False" />
+        <Setter Property="IsReadOnly" Value="True" />
+    </Style>
+
+    <Style
+        x:Key="DataGridMainAll"
+        BasedOn="{StaticResource DataGridMain}"
+        TargetType="{x:Type DataGrid}">
+        <Setter Property="RowStyle" Value="{StaticResource DataGridMainRowAll}" />
+    </Style>
+
+</ResourceDictionary>

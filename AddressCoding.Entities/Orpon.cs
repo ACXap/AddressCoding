@@ -44,7 +44,6 @@ namespace AddressCoding.Entities
             set => Set(ref _systemCode, value);
         }
 
-
         private string _globalID = string.Empty;
         /// <summary>
         /// 

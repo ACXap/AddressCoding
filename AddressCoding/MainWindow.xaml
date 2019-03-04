@@ -10,7 +10,7 @@
     xmlns:local="clr-namespace:AddressCoding"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:uc="clr-namespace:AddressCoding.UserControls"
-    Name="metroWindow"
+    x:Name="mainWindow"
     Title="{DynamicResource txtTitleWindow}"
     Width="1400"
     Height="800"
@@ -226,7 +226,7 @@
 
             <TabControl Grid.Column="0">
                 <TabItem Header="{DynamicResource txtTabDataHeder}">
-                    <DataGrid ItemsSource="{Binding Collection}" AutoGenerateColumns="False">
+                    <DataGrid ItemsSource="{Binding Collection}" Style="{StaticResource DataGridMainAll}" SelectedItem="{Binding CurrentOrpon}">
                         <DataGrid.Columns>
 
                             <!-- Колонка статуса-->
