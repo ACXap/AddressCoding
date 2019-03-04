@@ -1,10 +1,10 @@
+using AddressCoding.Entities;
 using AddressCoding.FileService;
 using AddressCoding.Notifications;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using System.Windows;
 using System.Collections.ObjectModel;
-using AddressCoding.Entities;
+using System.Windows;
 
 namespace AddressCoding.ViewModel
 {
@@ -122,7 +122,6 @@ namespace AddressCoding.ViewModel
             set => Set(ref _fileOutput, value);
         }
 
-
         private ObservableCollection<EntityOrpon> _collection;
         /// <summary>
         /// 
@@ -133,7 +132,6 @@ namespace AddressCoding.ViewModel
             set => Set(ref _collection, value);
         }
 
-
         private RelayCommand _commandGetAllGeoCod;
         public RelayCommand CommandGetAllGeoCod =>
         _commandGetAllGeoCod ?? (_commandGetAllGeoCod = new RelayCommand(
@@ -141,7 +139,6 @@ namespace AddressCoding.ViewModel
                     {
 
                     }));
-
 
         private bool _isStartOrponing = false;
         /// <summary>
@@ -153,7 +150,6 @@ namespace AddressCoding.ViewModel
             set => Set(ref _isStartOrponing, value);
         }
 
-
         private RelayCommand _commandStopOrponing;
         public RelayCommand CommandStopOrponing =>
         _commandStopOrponing ?? (_commandStopOrponing = new RelayCommand(
@@ -162,10 +158,52 @@ namespace AddressCoding.ViewModel
 
                     }));
 
-        public MainViewModel(IFileService fileService, INotifications notification)
+        private RelayCommand<string> _commandOpenFolder;
+        public RelayCommand<string> CommandOpenFolder =>
+        _commandOpenFolder ?? (_commandOpenFolder = new RelayCommand<string>(
+                    obj =>
+                    {
+
+                    }));
+
+
+        private bool _canBreakFileOutput = false;
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool CanBreakFileOutput
+        {
+            get => _canBreakFileOutput;
+            set => Set(ref _canBreakFileOutput, value);
+        }
+
+        private RelayCommand _commandSaveData;
+        public RelayCommand CommandSaveData =>
+        _commandSaveData ?? (_commandSaveData = new RelayCommand(
+                    () =>
+                    {
+
+                    }));
+
+
+        private int _maxSizePart = 0;
+        /// <summary>
+        /// 
+        /// </summary>
+        public int MaxSizePart
+        {
+            get => _maxSizePart;
+            set => Set(ref _maxSizePart, value);
+        }
+
+
+        private readonly StatisticsViewModel _stat;
+
+        public MainViewModel(IFileService fileService, INotifications notification, StatisticsViewModel stat)
         {
             _fileService = fileService;
             _notification = notification;
+            _stat = stat;
         }
     }
 }

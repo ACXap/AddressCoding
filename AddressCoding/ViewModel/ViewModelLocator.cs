@@ -15,6 +15,7 @@ namespace AddressCoding.ViewModel
             SimpleIoc.Default.Register<INotifications, Notification>();
 
             SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<StatisticsViewModel>();
         }
 
         public MainViewModel Main
@@ -30,6 +31,14 @@ namespace AddressCoding.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<INotifications>();
+            }
+        }
+
+        public StatisticsViewModel Stat
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<StatisticsViewModel>();
             }
         }
         

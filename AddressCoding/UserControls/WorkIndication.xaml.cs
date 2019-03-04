@@ -39,6 +39,5 @@ namespace AddressCoding.UserControls
 
         public static readonly DependencyProperty TextColorProperty =
             DependencyProperty.Register("TextColor", typeof(Brush), typeof(WorkIndication), new PropertyMetadata(Brushes.Red));
-
     }
 }

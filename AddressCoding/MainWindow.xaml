@@ -50,8 +50,8 @@
     <!-- Отображение процесса геокодирования на панели задач-->
     <Controls:MetroWindow.TaskbarItemInfo>
         <TaskbarItemInfo
-            ProgressValue="{Binding Stat.Statistics.Percent, Converter={StaticResource ConverterStatToProgress}}"
-            ProgressState="{Binding IsStartGeoCoding, Converter={StaticResource ConverterStatOrponingToProgressState}}">
+            ProgressValue="{Binding Source={StaticResource Locator}, Path=Stat.Statistics.Percent, Converter={StaticResource ConverterStatToProgress}}"
+            ProgressState="{Binding IsStartOrponing, Converter={StaticResource ConverterStatOrponingToProgressState}}">
         </TaskbarItemInfo>
     </Controls:MetroWindow.TaskbarItemInfo>
 
@@ -185,14 +185,14 @@
                                 <!--  Разбивать ли выходной файл на части (по количеству строк)  -->
                                 <CheckBox 
                                     Content="{DynamicResource txtSplitOutputFile}" 
-                                    IsChecked="{Binding FilesSettings.CanBreakFileOutput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    IsChecked="{Binding CanBreakFileOutput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                                 <!--  Максимальное количество строк в файле  -->
                                 <TextBox
                                     Width="80"
                                     Margin="5,0,0,0"
-                                    IsEnabled="{Binding FilesSettings.CanBreakFileOutput}"
-                                    Text="{Binding FilesSettings.MaxSizePart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    IsEnabled="{Binding CanBreakFileOutput}"
+                                    Text="{Binding MaxSizePart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </StackPanel>
                         </StackPanel>
 
@@ -218,7 +218,7 @@
             <uc:WorkIndication
                 HorizontalAlignment="Center" VerticalAlignment="Top"
                 Panel.ZIndex="1"
-                IsActive="{Binding IsStartGeoCoding}"
+                IsActive="{Binding IsStartOrponing}"
                 Text="{DynamicResource txtWorkIndication}" />
 
             <TabControl Grid.Column="0">

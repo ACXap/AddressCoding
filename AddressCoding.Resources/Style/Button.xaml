@@ -32,7 +32,7 @@
             </Setter.Value>
         </Setter>
         <Style.Triggers>
-            <DataTrigger Binding="{Binding IsStartGeoCoding}" Value="True">
+            <DataTrigger Binding="{Binding IsStartOrponing}" Value="True">
                 <Setter Property="Content">
                     <Setter.Value>
                         <Grid>
@@ -45,8 +45,8 @@
                         VerticalAlignment="Center" HorizontalAlignment="Center"
                         Content="{DynamicResource txtContentStop}" ToolTip="{DynamicResource txtToolTipStop}"
                         ContentCharacterCasing="Upper" />
-                            <TextBlock Grid.Row="1" Text="{Binding Stat.Statistics.Percent, StringFormat=\{0:N\}%}" HorizontalAlignment="Center" FontSize="14"/>
-                            <Controls:MetroProgressBar Grid.Row="2" IsIndeterminate="{Binding IsStartGeoCoding}" EllipseDiameter="7"/>
+                            <!--<TextBlock Grid.Row="1" Text="{Binding Source={StaticResource Locator}, Path=Stat.Statistics.Percent, StringFormat=\{0:N\}%}" HorizontalAlignment="Center" FontSize="14"/>-->
+                            <Controls:MetroProgressBar Grid.Row="2" IsIndeterminate="{Binding IsStartOrponing}" EllipseDiameter="7"/>
                         </Grid>
                     </Setter.Value>
                 </Setter>
