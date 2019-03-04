@@ -17,7 +17,7 @@
         x:Key="ButtonStopStart"
         BasedOn="{StaticResource ButtonMainStyle}"
         TargetType="{x:Type Button}">
-        <Setter Property="Command" Value="{Binding CommandGetAllGeoCod}" />
+        <Setter Property="Command" Value="{Binding CommandGetAllOrpon}" />
         <Setter Property="Height" Value="80" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

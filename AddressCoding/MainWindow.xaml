@@ -180,7 +180,10 @@
                             Orientation="Vertical">
 
                             <!--  Настройка разбиения выходного файла  -->
-                            <StackPanel Orientation="Horizontal" ToolTip="Разбить выходной файл на части (по количеству строк), 0 - без разбиения">
+                            <StackPanel 
+                                Orientation="Horizontal" 
+                                ToolTip="Разбить выходной файл на части (по количеству строк), 0 - без разбиения"
+                                DataContext="{Binding Source={StaticResource Locator}, Path=Settings.FileSettings}">
 
                                 <!--  Разбивать ли выходной файл на части (по количеству строк)  -->
                                 <CheckBox 
@@ -223,7 +226,7 @@
 
             <TabControl Grid.Column="0">
                 <TabItem Header="{DynamicResource txtTabDataHeder}">
-                    <DataGrid ItemsSource="{Binding Collection}">
+                    <DataGrid ItemsSource="{Binding Collection}" AutoGenerateColumns="False">
                         <DataGrid.Columns>
 
                             <!-- Колонка статуса-->
