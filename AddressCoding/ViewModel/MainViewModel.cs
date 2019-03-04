@@ -208,8 +208,11 @@ namespace AddressCoding.ViewModel
         _commandGetDataFromFile ?? (_commandGetDataFromFile = new RelayCommand(
                     () =>
                     {
-                        GetDataFromFile();
-                    }));
+                        if (CanGetDataFromFile())
+                        {
+                            GetDataFromFile();
+                        }
+                    }, ()=> CanGetDataFromFile()));
 
         /// <summary>
         /// Команда для выбора файла для сохранения данных
@@ -237,7 +240,7 @@ namespace AddressCoding.ViewModel
             () =>
             {
 
-            }));
+            }, ()=> CanStartOrponing()));
 
         /// <summary>
         /// Команда для остановки процесса орпонизации
@@ -283,11 +286,11 @@ namespace AddressCoding.ViewModel
         _commandClearCollection ?? (_commandClearCollection = new RelayCommand(
                     () =>
                     {
-                        if (_collection != null && _collection.Any())
+                        if (CanClearCollection())
                         {
                             _collection.Clear();
                         }
-                    }, () => _collection != null && _collection.Any()));
+                    }, () => CanClearCollection()));
 
         /// <summary>
         /// Команда открытия папки
@@ -297,12 +300,12 @@ namespace AddressCoding.ViewModel
             obj =>
             {
                 var result = _fileService.OpenFolder(obj);
-                if(result!=null && result.Error!=null)
+                if (result != null && result.Error != null)
                 {
                     _notification.NotificationAsync(null, result.Error.Message);
                 }
             }));
-      
+
         /// <summary>
         /// Команда для сохранения данных в файл
         /// </summary>
@@ -310,31 +313,42 @@ namespace AddressCoding.ViewModel
         _commandSaveData ?? (_commandSaveData = new RelayCommand(
             () =>
             {
-                var data = new List<string>(_collection.Count)
+                if (CanSaveFile())
                 {
-                    $"Адрес;QualityCode;CheckStatus;ParsingLevelCode;GlobalID"
-                };
-                data.AddRange(_collection.Select(x =>
-                {
-                    return $"{x.Address};{x.Orpon?.QualityCode};{x.Orpon?.CheckStatus};{x.Orpon?.ParsingLevelCode};{x.Orpon?.GlobalID}";
-                }));
+                    var data = new List<string>(_collection.Count)
+                    {
+                        $"Адрес;QualityCode;CheckStatus;ParsingLevelCode;GlobalID"
+                    };
+                    data.AddRange(_collection.Select(x =>
+                    {
+                        return $"{x.Address};{x.Orpon?.QualityCode};{x.Orpon?.CheckStatus};{x.Orpon?.ParsingLevelCode};{x.Orpon?.GlobalID}";
+                    }));
 
-                var result = _fileService.SaveData(data, _fileOutput);
+                    var result = _fileService.SaveData(data, _fileOutput);
 
-                if(result != null && result.Error == null)
-                {
-                    _notification.NotificationAsync(null, "Save Ok");
+                    if (result != null && result.Error == null)
+                    {
+                        _notification.NotificationAsync(null, "Save Ok");
+                    }
+                    else if (result != null && result.Error != null)
+                    {
+                        _notification.NotificationAsync(null, result.Error.Message);
+                    }
                 }
-                else if(result !=null && result.Error!=null)
+                else
                 {
-                    _notification.NotificationAsync(null, result.Error.Message);
+                    _notification.NotificationAsync(null, "Error");
                 }
-            }));
+            }, () => CanSaveFile()));
 
         #endregion PublicCommand
 
         #region PrivateMethod
 
+        /// <summary>
+        /// Метод для установки имени входного файла
+        /// </summary>
+        /// <param name="file">Имя файла</param>
         private void SetFileInput(string file)
         {
             FileInput = file;
@@ -343,11 +357,15 @@ namespace AddressCoding.ViewModel
             FileOutput = GetDefaultName();
         }
 
+        /// <summary>
+        /// Метод для получения имени файла по умолчанию
+        /// </summary>
+        /// <returns></returns>
         private string GetDefaultName()
         {
             string defName = string.Empty;
 
-            if (_collection!=null && _collection.Any())
+            if (_collection != null && _collection.Any())
             {
                 defName = $"{DateTime.Now.ToString("yyyy_MM_dd")}_{System.IO.Path.GetFileNameWithoutExtension(_fileInput)}_{_collection.Count}.csv";
             }
@@ -359,6 +377,9 @@ namespace AddressCoding.ViewModel
             return $"{_set.FileSettings.FolderOutput}\\{defName}";
         }
 
+        /// <summary>
+        /// Метод получения данных из файла
+        /// </summary>
         private void GetDataFromFile()
         {
             var result = _fileService.GetData(_fileInput);
@@ -369,7 +390,7 @@ namespace AddressCoding.ViewModel
                     return new EntityOrpon() { Address = x };
                 }));
 
-                if(_collection!=null)
+                if (_collection != null)
                 {
                     _stat.Init(_collection);
                 }
@@ -381,11 +402,55 @@ namespace AddressCoding.ViewModel
             }
         }
 
+        /// <summary>
+        /// Метод для проверки возможности записать данные в выходной файл
+        /// </summary>
+        /// <returns>Возвращает true если коллекция существует, имеет объекты и есть выходной файл</returns>
+        private bool CanSaveFile()
+        {
+            return _collection != null && _collection.Any() && !string.IsNullOrEmpty(_fileOutput);
+        }
+
+        /// <summary>
+        /// Метод для проверки возможности очистки коллекции
+        /// </summary>
+        /// <returns>Возвращает true, если процесс орпонизации не запущен, коллекция существует, в коллекции есть элементы</returns>
+        private bool CanClearCollection()
+        {
+            return !_isStartOrponing && _collection != null && _collection.Any();
+        }
+
+        /// <summary>
+        /// Метод для проверки возможности получения данных из файла
+        /// </summary>
+        /// <returns>Возвращает true, если процесс орпонизации не запущен, есть файл</returns>
+        private bool CanGetDataFromFile()
+        {
+            return !_isStartOrponing && !string.IsNullOrEmpty(_fileInput);
+        }
+
+        /// <summary>
+        /// Метод для проверки возможности запуска орпонизации
+        /// </summary>
+        /// <returns>Возвращает true, если процесс орпонизации не запущен, коллекция существует, коллекция имеет элементы</returns>
+        private bool CanStartOrponing()
+        {
+            return !_isStartOrponing && _collection != null && _collection.Any();
+        }
+        
+        /// <summary>
+        /// метод для проверки возможности орпонизации выбранного объекта
+        /// </summary>
+        /// <returns>Возвращает true, если элемент не равен null</returns>
+        private bool CanGetOrpon()
+        {
+            return _currentOrpon != null;
+        }
+
         #endregion PrivateMethod
 
         #region PublicMethod
         #endregion PublicMethod
-
 
         public MainViewModel(IFileService fileService, INotifications notification, StatisticsViewModel stat, SettingsViewModel set)
         {
