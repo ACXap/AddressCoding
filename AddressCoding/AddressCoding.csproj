@@ -81,9 +81,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\ConverterStartOrponingToProgress.cs" />
+    <Compile Include="Converters\ConverterStatToProgress.cs" />
     <Compile Include="Helpers\FlowDocumentFromFile.cs" />
     <Compile Include="UserControls\FlyoutSettings.xaml.cs">
       <DependentUpon>FlyoutSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Statistics.xaml.cs">
+      <DependentUpon>Statistics.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\WorkIndication.xaml.cs">
+      <DependentUpon>WorkIndication.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
@@ -100,6 +108,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="UserControls\FlyoutSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Statistics.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\WorkIndication.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

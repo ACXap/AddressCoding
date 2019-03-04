@@ -108,6 +108,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AddressCoding.Entities\AddressCoding.Entities.csproj">
+      <Project>{cccdadfa-4e0b-40bb-b9f2-8d4080655a83}</Project>
+      <Name>AddressCoding.Entities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AddressCoding.Fonts\AddressCoding.Fonts.csproj">
       <Project>{c0db9d02-8c63-411c-b210-179917601486}</Project>
       <Name>AddressCoding.Fonts</Name>

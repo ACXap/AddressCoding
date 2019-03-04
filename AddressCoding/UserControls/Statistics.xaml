@@ -1,0 +1,142 @@
+﻿<UserControl x:Class="AddressCoding.UserControls.Statistics"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AddressCoding.UserControls"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <d:DesignerProperties.DesignStyle>
+        <Style TargetType="UserControl">
+            <Setter Property="Background" Value="White" />
+        </Style>
+    </d:DesignerProperties.DesignStyle>
+    <GroupBox Margin="3">
+        <GroupBox.HeaderTemplate>
+            <DataTemplate>
+                <Grid>
+                    <Controls:ContentControlEx
+                        VerticalAlignment="Center"
+                        Content="{DynamicResource txtStatHeader}"
+                        ContentCharacterCasing="Upper" />
+                    <!--<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                        <Button Command="{Binding DataContext.CommandSaveStatistics, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <TextBlock Margin="5,0" Style="{StaticResource TextBlockSave}" />
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                        <Button Command="{Binding DataContext.CommandOpenFolder, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" CommandParameter="StatFolder">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <TextBlock Margin="5,0" Style="{StaticResource TextBlockFolder}" />
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </StackPanel>-->
+                </Grid>
+            </DataTemplate>
+        </GroupBox.HeaderTemplate>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Text="{DynamicResource txtStatAll}" />
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="2"
+                Text="{Binding Statistics.AllEntity}" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                Text="{DynamicResource txtStatOrponing}" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="2"
+                Text="{Binding Statistics.OK}" />
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="0"
+                Text="{DynamicResource txtStatError}" />
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="2"
+                Text="{Binding Statistics.Error}" />
+            <TextBlock
+                Grid.Row="3"
+                Grid.Column="0"
+                Text="{DynamicResource txtStatNotOrponing}" />
+            <TextBlock
+                Grid.Row="3"
+                Grid.Column="2"
+                Text="{Binding Statistics.NotOrponing}" />
+            <TextBlock
+                Grid.Row="4"
+                Grid.Column="0"
+                Text="{DynamicResource txtStatOrponingNow}" />
+            <TextBlock
+                Grid.Row="4"
+                Grid.Column="2"
+                Text="{Binding Statistics.OrponingNow}" />
+            <TextBlock
+                Grid.Row="5"
+                Grid.Column="0"
+                Text="{DynamicResource txtStatHouse}" />
+            <TextBlock
+                Grid.Row="5"
+                Grid.Column="2"
+                Text="{Binding Statistics.House}" />
+            <TextBlock
+                Grid.Row="6"
+                Grid.Column="0"
+                Text="{DynamicResource txtStatExact}" />
+            <TextBlock
+                Grid.Row="6"
+                Grid.Column="2"
+                Text="{Binding Statistics.Exact}" />
+            <TextBlock
+                Grid.Row="7"
+                Grid.Column="0"
+                Text="Не найдено:" />
+            <TextBlock
+                Grid.Row="7"
+                Grid.Column="2"
+                Text="{Binding Statistics.NotFound}" />
+            <TextBlock
+                Grid.Row="8"
+                Grid.Column="0"
+                Text="{DynamicResource txtStatTimeOrponing}" />
+            <TextBlock
+                Grid.Row="8"
+                Grid.Column="2"
+                Text="{Binding Statistics.TimeGeoCod, StringFormat={}{0:hh}:{0:mm}:{0:ss}}" />
+            <TextBlock
+                Grid.Row="9"
+                Grid.Column="0"
+                Text="{DynamicResource txtStatTimeLeftOrponing}" />
+            <TextBlock
+                Grid.Row="9"
+                Grid.Column="2"
+                Text="{Binding Statistics.TimeLeftGeoCod, StringFormat={}{0:hh}:{0:mm}:{0:ss}}" />
+        </Grid>
+    </GroupBox>
+</UserControl>

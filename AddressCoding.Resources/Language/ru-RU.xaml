@@ -39,6 +39,39 @@
     <system:String x:Key="txtContentButtonSaveOutputFile">Сохранить данные</system:String>
     <system:String x:Key="txtToolTipButtonSaveOutputFile">Сохранить полученные данные в выбраном файле</system:String>
 
+    <!-- Индикация работы-->
+    <system:String x:Key="txtWorkIndication">Идет обработка данных...</system:String>
+    
+    <!-- Таблица данных-->
+    <system:String x:Key="txtTabDataHeder">Данные</system:String>
+    <system:String x:Key="txtTabDataHederAddress">Адрес</system:String>
+    <system:String x:Key="txtTabDataHederOrponId">Орпон ID</system:String>
+    <system:String x:Key="txtTabDataHederQualitiCode">Качество</system:String>
+    <system:String x:Key="txtTabDataHederParsingLevel">Тип объекта</system:String>
+    
+    <!-- Кнопка запуска работы-->
+    <system:String x:Key="txtContentStart">Орпонизировать</system:String>
+    <system:String x:Key="txtToolTipStart">Запустить орпонизацию</system:String>
+    <system:String x:Key="txtContentStop">Стоп</system:String>
+    <system:String x:Key="txtToolTipStop">Остановить орпонизацию</system:String>
+    
+    <!-- Статистика-->
+    <system:String x:Key="txtStatHeader">Статистика</system:String>
+    <system:String x:Key="txtStatAll">Всего</system:String>
+    <system:String x:Key="txtStatOrponing">ОРПОНизированы</system:String>
+    <system:String x:Key="txtStatError">Ошибки:</system:String>
+    <system:String x:Key="txtStatNotOrponing">Не ОРПОНизированы</system:String>
+    <system:String x:Key="txtStatOrponingNow">ОРПОНизируются</system:String>
+    <system:String x:Key="txtStatHouse">Домов</system:String>
+    <system:String x:Key="txtStatExact">Точное совпадение</system:String>
+    <system:String x:Key="txtStatNotFound">Не найдено</system:String>
+    <system:String x:Key="txtStatTimeOrponing">Время выполнения</system:String>
+    <system:String x:Key="txtStatTimeLeftOrponing">Время осталось</system:String>
+    
+
+
+
+
     <!--#endregion Текст интерфейса-->
     
     <!--#region Текст внутри кода программы -->

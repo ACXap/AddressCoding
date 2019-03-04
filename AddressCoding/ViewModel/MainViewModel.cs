@@ -3,6 +3,8 @@ using AddressCoding.Notifications;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.Windows;
+using System.Collections.ObjectModel;
+using AddressCoding.Entities;
 
 namespace AddressCoding.ViewModel
 {
@@ -74,10 +76,6 @@ namespace AddressCoding.ViewModel
                         {
                             _notification.NotificationAsync(null, result.Error.Message);
                         }
-                        else
-                        {
-                            throw new System.ArgumentException(nameof(result));
-                        }
                     }));
 
         /// <summary>
@@ -115,10 +113,6 @@ namespace AddressCoding.ViewModel
                 {
                     _notification.NotificationAsync(null, result.Error.Message);
                 }
-                else
-                {
-                    throw new System.ArgumentException(nameof(result));
-                }
             }));
 
         private string _fileOutput;
@@ -128,6 +122,45 @@ namespace AddressCoding.ViewModel
             set => Set(ref _fileOutput, value);
         }
 
+
+        private ObservableCollection<EntityOrpon> _collection;
+        /// <summary>
+        /// 
+        /// </summary>
+        public ObservableCollection<EntityOrpon> Collection
+        {
+            get => _collection;
+            set => Set(ref _collection, value);
+        }
+
+
+        private RelayCommand _commandGetAllGeoCod;
+        public RelayCommand CommandGetAllGeoCod =>
+        _commandGetAllGeoCod ?? (_commandGetAllGeoCod = new RelayCommand(
+                    () =>
+                    {
+
+                    }));
+
+
+        private bool _isStartOrponing = false;
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool IsStartOrponing
+        {
+            get => _isStartOrponing;
+            set => Set(ref _isStartOrponing, value);
+        }
+
+
+        private RelayCommand _commandStopOrponing;
+        public RelayCommand CommandStopOrponing =>
+        _commandStopOrponing ?? (_commandStopOrponing = new RelayCommand(
+                    () =>
+                    {
+
+                    }));
 
         public MainViewModel(IFileService fileService, INotifications notification)
         {

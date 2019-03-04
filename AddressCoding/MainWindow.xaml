@@ -20,6 +20,12 @@
     DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
+    <Controls:MetroWindow.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <local:ConverterStatToProgress x:Key="ConverterStatToProgress" />
+        <local:ConverterStatOrponingToProgressState x:Key="ConverterStatOrponingToProgressState" />
+    </Controls:MetroWindow.Resources>
+
     <!--  Панель команд на заголовке окна  -->
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
@@ -40,6 +46,14 @@
             </ToggleButton>
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
+
+    <!-- Отображение процесса геокодирования на панели задач-->
+    <Controls:MetroWindow.TaskbarItemInfo>
+        <TaskbarItemInfo
+            ProgressValue="{Binding Stat.Statistics.Percent, Converter={StaticResource ConverterStatToProgress}}"
+            ProgressState="{Binding IsStartGeoCoding, Converter={StaticResource ConverterStatOrponingToProgressState}}">
+        </TaskbarItemInfo>
+    </Controls:MetroWindow.TaskbarItemInfo>
 
     <!--  Основная панель контролов  -->
     <Grid AllowDrop="True">
@@ -194,6 +208,90 @@
             </Border>
         </Grid>
 
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!--  Индикация работы орпонизации  -->
+            <uc:WorkIndication
+                HorizontalAlignment="Center" VerticalAlignment="Top"
+                Panel.ZIndex="1"
+                IsActive="{Binding IsStartGeoCoding}"
+                Text="{DynamicResource txtWorkIndication}" />
+
+            <TabControl Grid.Column="0">
+                <TabItem Header="{DynamicResource txtTabDataHeder}">
+                    <DataGrid ItemsSource="{Binding Collection}">
+                        <DataGrid.Columns>
+
+                            <!-- Колонка статуса-->
+                            <DataGridTemplateColumn SortMemberPath="Status">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Style="{StaticResource TextBlockStatus}" Tag="{Binding Status}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!-- Колонка адреса-->
+                            <DataGridTemplateColumn Header="{DynamicResource txtTabDataHederAddress}" SortMemberPath="Address">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Address}" TextWrapping="Wrap" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!-- Колонка орпонАйди-->
+                            <DataGridTemplateColumn Header="{DynamicResource txtTabDataHederOrponId}" SortMemberPath="Orpon.GlobalID">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Orpon.GlobalID}" TextWrapping="Wrap" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!-- Колонка качества разбора-->
+                            <DataGridTemplateColumn Header="{DynamicResource txtTabDataHederQualitiCode}" SortMemberPath="Orpon.QualityCode">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Orpon.QualityCode}" TextWrapping="Wrap" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!-- Колонка типа объекта-->
+                            <DataGridTemplateColumn Header="{DynamicResource txtTabDataHederParsingLevel}" SortMemberPath="Orpon.ParsingLevelCode">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Orpon.ParsingLevelCode}" TextWrapping="Wrap" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+            </TabControl>
+
+            <Grid Grid.Column="1" Width="200">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <!--  Статистика  -->
+                <uc:Statistics Grid.Row="0" />
+                
+                <!--  Запуск геокодирования  -->
+                <Button Grid.Row="2" Style="{StaticResource ButtonStopStart}" />
+            </Grid>
+        </Grid>
+        
     </Grid>
 
     <!--  Всплывающие окна  -->
