@@ -132,7 +132,7 @@
                 </TabItem>
 
                 <TabItem Header="{DynamicResource txtHederTabItemAddress}">
-                    <!--  Панель работы с aдресом  -->
+                    <!--  Панель работы с адресом  -->
                     <Border
                         Height="100"
                         Padding="5"
@@ -171,41 +171,49 @@
                                     <TextBlock
                                         Grid.Row="0"
                                         Grid.Column="0"
+                                        VerticalAlignment="Center"
                                         Text="GlobalID" />
                                     <TextBlock
                                         Grid.Row="1"
                                         Grid.Column="0"
+                                        VerticalAlignment="Center"
                                         Text="QualityCode" />
                                     <TextBlock
                                         Grid.Row="0"
                                         Grid.Column="4"
+                                        VerticalAlignment="Center"
                                         Text="CheckStatus" />
                                     <TextBlock
                                         Grid.Row="1"
                                         Grid.Column="4"
+                                        VerticalAlignment="Center"
                                         Text="ParsingLevelCode" />
 
                                     <TextBox
                                         Grid.Row="0"
                                         Grid.Column="2"
+                                        VerticalAlignment="Center"
                                         BorderThickness="0"
                                         IsReadOnly="True"
                                         Text="{Binding SinglOrpon.Orpon.GlobalID}" />
                                     <TextBox
                                         Grid.Row="1"
                                         Grid.Column="2"
+                                        VerticalAlignment="Center"
                                         BorderThickness="0"
                                         IsReadOnly="True"
                                         Text="{Binding SinglOrpon.Orpon.QualityCode}" />
                                     <TextBox
                                         Grid.Row="0"
                                         Grid.Column="6"
+                                        VerticalAlignment="Center"
                                         BorderThickness="0"
                                         IsReadOnly="True"
                                         Text="{Binding SinglOrpon.Orpon.CheckStatus}" />
                                     <TextBox
                                         Grid.Row="1"
                                         Grid.Column="6"
+                                        VerticalAlignment="Center"
                                         BorderThickness="0"
                                         IsReadOnly="True"
                                         Text="{Binding SinglOrpon.Orpon.ParsingLevelCode}" />
