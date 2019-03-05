@@ -49,4 +49,9 @@
         <Setter Property="Margin" Value="2" />
     </Style>
 
+    <Style x:Key="TextBoxMain" TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="Margin" Value="2" />
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
 </ResourceDictionary>

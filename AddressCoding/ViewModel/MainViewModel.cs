@@ -202,68 +202,10 @@ namespace AddressCoding.ViewModel
         _commandGetAllOrpon ?? (_commandGetAllOrpon = new RelayCommand(
             () =>
             {
-             GetOrpons();
+                GetOrpons();
             }, () => CanStartOrponing()));
 
-        private void GetOrpons()
-        {
-            IsStartOrponing = true;
-            _stat.Start();
 
-            var listAddress = _collection.Partition(2);
-            cts = new CancellationTokenSource();
-            var t = cts.Token;
-
-            ParallelOptions po = new ParallelOptions()
-            {
-                MaxDegreeOfParallelism = 3,
-                CancellationToken = t
-            };
-
-            Task.Factory.StartNew(() =>
-            {
-                try
-                {
-                    Parallel.ForEach(listAddress, po, (item) =>
-                    {
-                        var add = item.Select(x =>
-                        {
-                            x.Status = StatusType.OrponingNow;
-                            return x.Address;
-                        }).ToArray();
-
-                        var a = _orpon.GetOrpon(add);
-                        if (a != null && a.Error == null)
-                        {
-                            var indexRow = 0;
-                            foreach (var k in a.Objects)
-                            {
-                                item.ElementAt(indexRow).Orpon = k;
-                                item.ElementAt(indexRow).Status = StatusType.OK;
-                                indexRow++;
-                            }
-                        }
-                        else if (a != null && a.Error != null)
-                        {
-                            foreach (var i in _collection)
-                            {
-                                i.Status = StatusType.Error;
-                                i.Error = a.Error.Message;
-                            }
-                            _notification.NotificationAsync(null, a.Error.Message);
-                        }
-                    });
-                }
-                catch (Exception ex)
-                {
-                    _notification.NotificationAsync(null, ex.Message);
-                }
-
-                _notification.NotificationAsync(null, "OK");
-                IsStartOrponing = false;
-                _stat.Stop();
-            }, t);
-        }
 
         /// <summary>
         /// Команда для остановки процесса орпонизации
@@ -432,6 +374,69 @@ namespace AddressCoding.ViewModel
         }
 
         /// <summary>
+        /// Метод для получения орпон объекта
+        /// </summary>
+        private void GetOrpons()
+        {
+            IsStartOrponing = true;
+            _stat.Start();
+
+            var listAddress = _collection.Partition(2);
+            cts = new CancellationTokenSource();
+            var t = cts.Token;
+
+            ParallelOptions po = new ParallelOptions()
+            {
+                MaxDegreeOfParallelism = 3,
+                CancellationToken = t
+            };
+
+            Task.Factory.StartNew(() =>
+            {
+                try
+                {
+                    Parallel.ForEach(listAddress, po, (item) =>
+                    {
+                        var add = item.Select(x =>
+                        {
+                            x.Status = StatusType.OrponingNow;
+                            return x.Address;
+                        }).ToArray();
+
+                        var a = _orpon.GetOrpon(add);
+                        if (a != null && a.Error == null)
+                        {
+                            var indexRow = 0;
+                            foreach (var k in a.Objects)
+                            {
+                                item.ElementAt(indexRow).Orpon = k;
+                                item.ElementAt(indexRow).Status = StatusType.OK;
+                                indexRow++;
+                            }
+                        }
+                        else if (a != null && a.Error != null)
+                        {
+                            foreach (var i in _collection)
+                            {
+                                i.Status = StatusType.Error;
+                                i.Error = a.Error.Message;
+                            }
+                            _notification.NotificationAsync(null, a.Error.Message);
+                        }
+                    });
+                }
+                catch (Exception ex)
+                {
+                    _notification.NotificationAsync(null, ex.Message);
+                }
+
+                _notification.NotificationAsync(null, "OK");
+                IsStartOrponing = false;
+                _stat.Stop();
+            }, t);
+        }
+
+        /// <summary>
         /// Метод для проверки возможности записать данные в выходной файл
         /// </summary>
         /// <returns>Возвращает true если коллекция существует, имеет объекты и есть выходной файл</returns>
@@ -499,6 +504,21 @@ namespace AddressCoding.ViewModel
 
             obj.DateTimeOrponing = DateTime.Now;
             _stat.UpdateStatisticsCollection();
+        }
+
+        private RelayCommand _commandOrponingAddress;
+        public RelayCommand CommandOrponingAddress =>
+            _commandOrponingAddress ?? (_commandOrponingAddress = new RelayCommand(
+             () =>
+             {
+                 GetOrponAsync(_singlOrpon);
+             }));
+
+        private EntityOrpon _singlOrpon = new EntityOrpon();
+        public EntityOrpon SinglOrpon
+        {
+            get => _singlOrpon;
+            set => Set(ref _singlOrpon, value);
         }
 
         public MainViewModel(IFileService fileService, INotifications notification, StatisticsViewModel stat, SettingsViewModel set, IRepository orpon)

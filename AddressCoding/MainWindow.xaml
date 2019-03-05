@@ -84,6 +84,7 @@
 
                     <!--  Панель работы с входным файлом  -->
                     <Border
+                        Height="100"
                         Padding="5"
                         BorderBrush="{DynamicResource AccentColorBrush}"
                         BorderThickness="1">
@@ -130,13 +131,102 @@
                     </Border>
                 </TabItem>
 
-                <TabItem Header="{DynamicResource txtHederTabItemAddress}" />
+                <TabItem Header="{DynamicResource txtHederTabItemAddress}">
+                    <!--  Панель работы с aдресом  -->
+                    <Border
+                        Height="100"
+                        Padding="5"
+                        BorderBrush="{DynamicResource AccentColorBrush}"
+                        BorderThickness="1">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBox
+                                Grid.Row="0"
+                                Controls:TextBoxHelper.ClearTextButton="True"
+                                Controls:TextBoxHelper.Watermark="{DynamicResource txtWatermarkAddress}"
+                                Style="{StaticResource TextBoxMain}"
+                                Text="{Binding SinglOrpon.Address}" />
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.Column="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="5" />
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="5" />
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="5" />
+                                        <ColumnDefinition Width="auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Text="GlobalID" />
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Text="QualityCode" />
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        Grid.Column="4"
+                                        Text="CheckStatus" />
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Grid.Column="4"
+                                        Text="ParsingLevelCode" />
+
+                                    <TextBox
+                                        Grid.Row="0"
+                                        Grid.Column="2"
+                                        BorderThickness="0"
+                                        IsReadOnly="True"
+                                        Text="{Binding SinglOrpon.Orpon.GlobalID}" />
+                                    <TextBox
+                                        Grid.Row="1"
+                                        Grid.Column="2"
+                                        BorderThickness="0"
+                                        IsReadOnly="True"
+                                        Text="{Binding SinglOrpon.Orpon.QualityCode}" />
+                                    <TextBox
+                                        Grid.Row="0"
+                                        Grid.Column="6"
+                                        BorderThickness="0"
+                                        IsReadOnly="True"
+                                        Text="{Binding SinglOrpon.Orpon.CheckStatus}" />
+                                    <TextBox
+                                        Grid.Row="1"
+                                        Grid.Column="6"
+                                        BorderThickness="0"
+                                        IsReadOnly="True"
+                                        Text="{Binding SinglOrpon.Orpon.ParsingLevelCode}" />
+                                </Grid>
+                                <Button
+                                    Grid.Column="2"
+                                    Command="{Binding CommandGetFile}"
+                                    Content="{DynamicResource txtContentButtonOrponing}"
+                                    Style="{StaticResource ButtonMainStyle}"
+                                    ToolTip="{DynamicResource txtToolTipButtonOrponing}" />
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </TabItem>
             </TabControl>
 
             <!--  Панель работы с выходным файлом  -->
             <Border
                 Grid.Column="2"
-                Margin="0,46,3,3"
+                Height="100"
+                Margin="0,45,3,3"
                 Padding="5"
                 BorderBrush="{DynamicResource AccentColorBrush}"
                 BorderThickness="1">
@@ -253,7 +343,10 @@
                             <DataGridTemplateColumn Header="{DynamicResource txtTabDataHederOrponId}" SortMemberPath="Orpon.GlobalID">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Orpon.GlobalID}" TextWrapping="Wrap" HorizontalAlignment="Center"/>
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            Text="{Binding Orpon.GlobalID}"
+                                            TextWrapping="Wrap" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
@@ -262,7 +355,7 @@
                             <DataGridTemplateColumn Header="{DynamicResource txtTabDataHederQualitiCode}" SortMemberPath="Orpon.QualityCode">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Orpon.QualityCode}" HorizontalAlignment="Center"/>
+                                        <TextBlock HorizontalAlignment="Center" Text="{Binding Orpon.QualityCode}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
@@ -271,7 +364,7 @@
                             <DataGridTemplateColumn Header="{DynamicResource txtTabDataHederParsingLevel}" SortMemberPath="Orpon.ParsingLevelCode">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Orpon.ParsingLevelCode}" HorizontalAlignment="Center" />
+                                        <TextBlock HorizontalAlignment="Center" Text="{Binding Orpon.ParsingLevelCode}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
@@ -295,15 +388,15 @@
                 <!--  Запуск геокодирования  -->
                 <!--<Button Grid.Row="2" x:Name="b" Style="{StaticResource ButtonStopStart}" Tag="{Binding Source={StaticResource Locator}, Path=Stat.Statistics.Percent}"/>-->
 
-                <uc:ButtonStartStop 
-                    Grid.Row="2" 
+                <uc:ButtonStartStop
+                    Grid.Row="2"
                     CommandStart="{Binding CommandGetAllOrpon}"
                     CommandStop="{Binding CommandStopOrponing}"
-                    IsStart="{Binding IsStartOrponing}" 
-                    ShowProgress="True" 
-                    TextStart="{DynamicResource txtContentStart}" 
-                    TextStop="{DynamicResource txtContentStop}"
-                    Percent="{Binding Source={StaticResource Locator}, Path=Stat.Statistics.Percent}"/>
+                    IsStart="{Binding IsStartOrponing}"
+                    Percent="{Binding Source={StaticResource Locator}, Path=Stat.Statistics.Percent}"
+                    ShowProgress="True"
+                    TextStart="{DynamicResource txtContentStart}"
+                    TextStop="{DynamicResource txtContentStop}" />
             </Grid>
         </Grid>
 
