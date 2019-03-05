@@ -155,10 +155,10 @@ namespace AddressCoding.FileService
         /// <summary>
         /// Метод для сохранения данных в файл
         /// </summary>
+        /// /// <param name="fileName">Имя файла</param>
         /// <param name="data">Коллекция данных</param>
-        /// <param name="fileName">Имя файла</param>
         /// <returns>Возвращает результат записи</returns>
-        public EntityResult<string> SaveData(IEnumerable<string> data, string fileName)
+        public EntityResult<string> SaveData(string fileName, IEnumerable<string> data)
         {
             EntityResult<string> result = new EntityResult<string>();
 
@@ -237,6 +237,104 @@ namespace AddressCoding.FileService
 
             return result;
         }
+       
+        /// <summary>
+        /// Метод для создания папки
+        /// </summary>
+        /// <param name="path">Имя папки</param>
+        /// <returns>Возвращает результат создания</returns>
+        public EntityResult<string> CreateFolder(string path)
+        {
+            EntityResult<string> result = new EntityResult<string>();
+
+            try
+            {
+                if(!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                else
+                {
+                    result.Result = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Error = ex;
+                result.Result = false;
+            }
+
+            return result;
+        }
+       
+        /// <summary>
+        /// Метод для создания папок
+        /// </summary>
+        /// <param name="path">Массив папок</param>
+        /// <returns>Возвращает результаты создания</returns>
+        public EntityResult<string> CreateFolder(IEnumerable<string> path)
+        {
+            EntityResult<string> result = new EntityResult<string>();
+
+            foreach(var item in path)
+            {
+                var r = CreateFolder(item);
+                if(r!=null && r.Error!=null)
+                {
+                    result = r;
+                }
+            }
+
+            return result;
+        }
+      
+        /// <summary>
+        /// Метод для проверки существования файла
+        /// </summary>
+        /// <param name="fileName">Полный путь к файлу</param>
+        /// <returns>Возвращает результат проверки существования</returns>
+        public EntityResult<bool> ExistFile(string fileName)
+        {
+            EntityResult<bool> result = new EntityResult<bool>();
+
+            try
+            {
+                result.Object = File.Exists(fileName);
+            }
+            catch (Exception ex)
+            {
+                result.Error = ex;
+                result.Result = false;
+                result.Object = false;
+            }
+
+            return result;
+        }
+
+        public EntityResult<string> AppendToFile(string fileName, IEnumerable<string> data)
+        {
+            EntityResult<string> result = new EntityResult<string>();
+
+            try
+            {
+                if(File.Exists(fileName))
+                {
+                    File.AppendAllLines(fileName, data, Encoding.UTF8);
+                }
+                else
+                {
+                    result.Error = new FileNotFoundException(fileName);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Error = ex;
+                result.Result = false;
+            }
+
+            return result;
+        }
+
 
         #endregion PublicMethod
     }

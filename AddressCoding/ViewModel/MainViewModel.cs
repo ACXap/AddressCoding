@@ -328,7 +328,7 @@ namespace AddressCoding.ViewModel
                         return $"{x.Address};{x.Orpon?.QualityCode};{x.Orpon?.CheckStatus};{x.Orpon?.ParsingLevelCode};{x.Orpon?.GlobalID}";
                     }));
 
-                    var result = _fileService.SaveData(data, _fileOutput);
+                    var result = _fileService.SaveData(_fileOutput, data);
 
                     if (result != null && result.Error == null)
                     {
