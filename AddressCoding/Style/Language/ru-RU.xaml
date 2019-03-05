@@ -65,7 +65,7 @@
     <system:String x:Key="txtStatHeader">Статистика</system:String>
     <system:String x:Key="txtStatAll">Всего</system:String>
     <system:String x:Key="txtStatOrponing">ОРПОНизированы</system:String>
-    <system:String x:Key="txtStatError">Ошибки:</system:String>
+    <system:String x:Key="txtStatError">Ошибки</system:String>
     <system:String x:Key="txtStatNotOrponing">Не ОРПОНизированы</system:String>
     <system:String x:Key="txtStatOrponingNow">ОРПОНизируются</system:String>
     <system:String x:Key="txtStatHouse">Домов</system:String>

@@ -51,6 +51,19 @@
 
     <!--  Стиль для значка статуса  -->
     <Style x:Key="TextBlockStatus" TargetType="{x:Type TextBlock}">
+       
+        <Style.Resources>
+            <Storyboard x:Key="flashAnimation">
+                <DoubleAnimation
+                            AutoReverse="True"
+                            RepeatBehavior="Forever"
+                            Storyboard.TargetProperty="Opacity"
+                            From="1"
+                            To="0"
+                            Duration="0:0:0.5" />
+            </Storyboard>
+        </Style.Resources>
+        
         <Setter Property="FontFamily" Value="{StaticResource FontAwesome}" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
@@ -73,6 +86,12 @@
             <Trigger Property="Tag" Value="{x:Static enum:StatusType.OrponingNow}">
                 <Setter Property="Text" Value="{StaticResource FontAwesomeCheckNow}" />
                 <Setter Property="ToolTip" Value="ОРПОНизируется сейча" />
+                <Trigger.EnterActions>
+                    <BeginStoryboard Name="flash" Storyboard="{StaticResource flashAnimation}" />
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <StopStoryboard BeginStoryboardName="flash" />
+                </Trigger.ExitActions>
             </Trigger>
         </Style.Triggers>
     </Style>

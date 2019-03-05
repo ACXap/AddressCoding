@@ -28,6 +28,7 @@
                 <ResourceDictionary Source="Style/ToolTip.xaml" />
                 <ResourceDictionary Source="Style/DataGrid.xaml" />
                 <ResourceDictionary Source="Style/Flyout.xaml" />
+                <ResourceDictionary Source="Style/Progress.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

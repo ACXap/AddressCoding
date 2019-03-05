@@ -4,8 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:AddressCoding.UserControls"
+    xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="450"
+    d:DesignHeight="450" DataContext="{Binding Source={StaticResource Locator}, Path=Settings}"
     d:DesignWidth="800"
     mc:Ignorable="d">
     <d:DesignerProperties.DesignStyle>
@@ -13,6 +14,213 @@
             <Setter Property="Background" Value="White" />
         </Style>
     </d:DesignerProperties.DesignStyle>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <TabControl Grid.Row="0" Controls:TabControlHelper.Underlined="TabPanel">
+            <TabItem Header="Файлы и папки">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
 
-    <Grid />
+                    <GroupBox Grid.Row="0" Header="Папки для файлов">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                Text="Папка для входящих файлов" />
+                            <TextBox
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                Style="{StaticResource TextBoxFolderOpen}"
+                                Text="{Binding FileSettings.FolderInput}" />
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                Text="Папка для исходящих файлов" />
+                            <TextBox
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Style="{StaticResource TextBoxFolderOpen}"
+                                Text="{Binding FileSettings.FolderOutput}" />
+                            <TextBlock
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                Text="Папка для временных файлов" />
+                            <TextBox
+                                Grid.Row="2"
+                                Grid.Column="2"
+                                Style="{StaticResource TextBoxFolderOpen}"
+                                Text="{Binding FileSettings.FolderTemp}" />
+                            <TextBlock
+                                Grid.Row="3"
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                Text="Папка для статистики" />
+                            <TextBox
+                                Grid.Row="3"
+                                Grid.Column="2"
+                                Style="{StaticResource TextBoxFolderOpen}"
+                                Text="{Binding FileSettings.FolderStatistics}" />
+                            <TextBlock
+                                Grid.Row="4"
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                Text="Папка для ошибок" />
+                            <TextBox
+                                Grid.Row="4"
+                                Grid.Column="2"
+                                Style="{StaticResource TextBoxFolderOpen}"
+                                Text="{Binding FileSettings.FolderErrors}" />
+                        </Grid>
+                    </GroupBox>
+                    <WrapPanel
+                        Grid.Row="1"
+                        Margin="0,10,0,0"
+                        Orientation="Vertical">
+
+                        <WrapPanel Orientation="Horizontal">
+                            <CheckBox
+                                Grid.Row="4"
+                                Grid.Column="2"
+                                Margin="5"
+                                Content="Разбить файл на части (по строкам)"
+                                IsChecked="{Binding FileSettings.CanBreakFileOutput}" />
+                            <TextBlock
+                                Grid.Row="5"
+                                Grid.Column="0"
+                                Margin="20,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="Количество строк" />
+                            <TextBox
+                                Grid.Row="5"
+                                Grid.Column="2"
+                                MinWidth="40"
+                                Margin="5"
+                                Text="{Binding FileSettings.MaxSizePart, UpdateSourceTrigger=PropertyChanged}" />
+                        </WrapPanel>
+                    </WrapPanel>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Орпон">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <GroupBox Grid.Row="0" Header="настройка сервиса">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                Text="Адрес" />
+                            <TextBox
+                                Grid.Row="0"
+                                Grid.Column="2" Margin="5"
+                                Text="{Binding RepositorySettings.Address, Mode=TwoWay}" />
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                Text="EndPoint" />
+                            <TextBox
+                                Grid.Row="1" Margin="5"
+                                Grid.Column="2"
+                                Text="{Binding RepositorySettings.NameEndpoint, Mode=TwoWay}" />
+                        </Grid>
+                    </GroupBox>
+                    <WrapPanel
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Orientation="Horizontal">
+                        <Button
+                            Margin="10"
+                            HorizontalAlignment="Left"
+                            Command="{Binding CommandCheckConnect}"
+                            Style="{StaticResource ButtonStopStartConnect}"
+                            Tag="{Binding RepositorySettings.StatusConnect}" />
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            FontWeight="Bold"
+                            Text="Статус подключения:" />
+                        <TextBlock
+                            Margin="5"
+                            VerticalAlignment="Center"
+                            Text="{Binding RepositorySettings.StatusConnect}" />
+                    </WrapPanel>
+                    <WrapPanel
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        Orientation="Horizontal">
+                        <Controls:ProgressRing Style="{StaticResource ProgressRingConnect}" Tag="{Binding RepositorySettings.StatusConnect}" />
+                        <TextBox
+                            Margin="10"
+                            BorderThickness="0"
+                            Text="{Binding RepositorySettings.Error}"
+                            TextWrapping="Wrap" />
+                    </WrapPanel>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Общие">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <WrapPanel Margin="5" Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center" Text="Цветовая тема приложения" />
+                        <ComboBox
+                            Margin="5"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            ItemsSource="{Binding  GeneralSettings.ListTheme}"
+                            SelectedItem="{Binding GeneralSettings.ColorTheme}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding DisplayName}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </WrapPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <Button
+            Grid.Row="1"
+            Margin="10"
+            Padding="10"
+            HorizontalAlignment="Left"
+            Command="{Binding CommandSaveSettings}"
+            Content="Сохранить настройки" />
+    </Grid>
 </UserControl>

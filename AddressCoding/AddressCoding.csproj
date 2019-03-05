@@ -60,6 +60,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -85,6 +86,22 @@
     <Compile Include="Converters\ConverterStatToProgress.cs" />
     <Compile Include="Helpers\ExtensionMethods.cs" />
     <Compile Include="Helpers\FlowDocumentFromFile.cs" />
+    <Compile Include="Helpers\ProtectedDataDPAPI.cs" />
+    <Compile Include="Properties\FileSettings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>FileSettings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\GeneralSettings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>GeneralSettings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\RepositorySettings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>RepositorySettings.settings</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\FlyoutSettings.xaml.cs">
       <DependentUpon>FlyoutSettings.xaml</DependentUpon>
     </Compile>
@@ -132,6 +149,10 @@
     <Page Include="Style\Language\ru-RU.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Style\Progress.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Style\TextBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -181,6 +202,18 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\FileSettings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>FileSettings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Properties\GeneralSettings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>GeneralSettings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Properties\RepositorySettings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>RepositorySettings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -205,6 +238,10 @@
     <ProjectReference Include="..\AddressCoding.Notifications\AddressCoding.Notifications.csproj">
       <Project>{469F1F7E-7E95-4E1A-A35F-A78E2952F3DE}</Project>
       <Name>AddressCoding.Notifications</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AddressCoding.Repository\AddressCoding.Repository.csproj">
+      <Project>{CBE9D1B7-148B-4A2D-B0F6-C7A5CD062EE2}</Project>
+      <Name>AddressCoding.Repository</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,6 @@
 using AddressCoding.FileService;
 using AddressCoding.Notifications;
+using AddressCoding.Repository;
 using CommonServiceLocator;
 using GalaSoft.MvvmLight.Ioc;
 
@@ -12,6 +13,7 @@ namespace AddressCoding.ViewModel
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
             SimpleIoc.Default.Register<IFileService, FileService.FileService>();
+            SimpleIoc.Default.Register<IRepository, OrponRepository>(); 
             SimpleIoc.Default.Register<INotifications, Notification>();
 
             SimpleIoc.Default.Register<MainViewModel>();

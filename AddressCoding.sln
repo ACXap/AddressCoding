@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddressCoding.Entities", "A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddressCoding.Notifications", "AddressCoding.Notifications\AddressCoding.Notifications.csproj", "{469F1F7E-7E95-4E1A-A35F-A78E2952F3DE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddressCoding.Repository", "AddressCoding.Repository\AddressCoding.Repository.csproj", "{CBE9D1B7-148B-4A2D-B0F6-C7A5CD062EE2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{469F1F7E-7E95-4E1A-A35F-A78E2952F3DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{469F1F7E-7E95-4E1A-A35F-A78E2952F3DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{469F1F7E-7E95-4E1A-A35F-A78E2952F3DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBE9D1B7-148B-4A2D-B0F6-C7A5CD062EE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBE9D1B7-148B-4A2D-B0F6-C7A5CD062EE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBE9D1B7-148B-4A2D-B0F6-C7A5CD062EE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBE9D1B7-148B-4A2D-B0F6-C7A5CD062EE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

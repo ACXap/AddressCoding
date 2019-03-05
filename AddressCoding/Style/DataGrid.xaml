@@ -4,9 +4,9 @@
     xmlns:l="clr-namespace:AddressCoding.Entities;assembly=AddressCoding.Entities"
     xmlns:local="clr-namespace:AddressCoding.Style">
     <ContextMenu x:Key="ContextMenuRow">
-        <MenuItem Command="{Binding DataContext.CommandGetOrpon, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Header="{DynamicResource txtContextMenuGetOrppon}" />
+        <MenuItem Command="{Binding DataContext.CommandGetOrpon, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" CommandParameter="{Binding}" Header="{DynamicResource txtContextMenuGetOrppon}" />
         <Separator />
-        <MenuItem Command="{Binding DataContext.CommandCopyAddress, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Header="{DynamicResource txtContextMenuCopyAddress}" />
+        <MenuItem Command="{Binding DataContext.CommandCopyAddress, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" CommandParameter="{Binding}" Header="{DynamicResource txtContextMenuCopyAddress}" />
         <Separator />
         <MenuItem Command="{Binding DataContext.CommandClearCollection, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Header="{DynamicResource txtContextMenuClearCollection}" />
     </ContextMenu>

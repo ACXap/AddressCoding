@@ -1,6 +1,7 @@
 using AddressCoding.Entities;
 using AddressCoding.FileService;
 using AddressCoding.Notifications;
+using AddressCoding.Repository;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using System;
@@ -18,6 +19,10 @@ namespace AddressCoding.ViewModel
         /// Поле для хранения ссылки на модуль работы с файлами
         /// </summary>
         private readonly IFileService _fileService;
+        /// <summary>
+        /// Поле для хранения ссылки на модуль работы с орпоном
+        /// </summary>
+        private readonly IRepository _orpon;
         /// <summary>
         /// Поле для хранения ссылки на модуль работы с оповещениями
         /// </summary>
@@ -79,7 +84,7 @@ namespace AddressCoding.ViewModel
         /// <summary>
         /// Поле для хранения команды орпонизации выбранного объекта
         /// </summary>
-        private RelayCommand _сommandGetOrpon;
+        private RelayCommand<EntityOrpon> _сommandGetOrpon;
         /// <summary>
         /// Поле для хранения команды копирования адреса в буфер
         /// </summary>
@@ -204,16 +209,17 @@ namespace AddressCoding.ViewModel
             () =>
             {
 
-            }));
+            }, () => !_isStartOrponing));
 
         /// <summary>
         /// Команда запуска орпонизации выбранного объекта
         /// </summary>
-        public RelayCommand CommandGetOrpon =>
-        _сommandGetOrpon ?? (_сommandGetOrpon = new RelayCommand(
-                    () =>
+        public RelayCommand<EntityOrpon> CommandGetOrpon =>
+        _сommandGetOrpon ?? (_сommandGetOrpon = new RelayCommand<EntityOrpon>(
+                    obj =>
                     {
-
+                        GetOrponAsync(obj);
+                        _stat.UpdateStatisticsCollection();
                     }));
 
         /// <summary>
@@ -411,12 +417,34 @@ namespace AddressCoding.ViewModel
         #region PublicMethod
         #endregion PublicMethod
 
-        public MainViewModel(IFileService fileService, INotifications notification, StatisticsViewModel stat, SettingsViewModel set)
+        private async void GetOrponAsync(EntityOrpon obj)
+        {
+            obj.Status = StatusType.OrponingNow;
+
+            var a = await _orpon.GetOrponAsync(obj.Address);
+            if (a != null && a.Error == null && a.Object != null)
+            {
+                obj.Orpon = a.Object;
+                obj.Status = StatusType.OK;
+
+            }
+            else if (a != null && a.Error != null)
+            {
+                obj.Status = StatusType.Error;
+                obj.Error = a.Error.Message;
+            }
+
+            obj.DateTimeOrponing = DateTime.Now;
+            _stat.UpdateStatisticsCollection();
+        }
+
+        public MainViewModel(IFileService fileService, INotifications notification, StatisticsViewModel stat, SettingsViewModel set, IRepository orpon)
         {
             _fileService = fileService;
             _notification = notification;
             _stat = stat;
             _set = set;
+            _orpon = orpon;
         }
     }
 }

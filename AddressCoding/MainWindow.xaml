@@ -253,7 +253,7 @@
                             <DataGridTemplateColumn Header="{DynamicResource txtTabDataHederOrponId}" SortMemberPath="Orpon.GlobalID">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Orpon.GlobalID}" TextWrapping="Wrap" />
+                                        <TextBlock Text="{Binding Orpon.GlobalID}" TextWrapping="Wrap" HorizontalAlignment="Center"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
@@ -262,7 +262,7 @@
                             <DataGridTemplateColumn Header="{DynamicResource txtTabDataHederQualitiCode}" SortMemberPath="Orpon.QualityCode">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Orpon.QualityCode}" TextWrapping="Wrap" />
+                                        <TextBlock Text="{Binding Orpon.QualityCode}" HorizontalAlignment="Center"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
@@ -271,7 +271,7 @@
                             <DataGridTemplateColumn Header="{DynamicResource txtTabDataHederParsingLevel}" SortMemberPath="Orpon.ParsingLevelCode">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Orpon.ParsingLevelCode}" TextWrapping="Wrap" />
+                                        <TextBlock Text="{Binding Orpon.ParsingLevelCode}" HorizontalAlignment="Center" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
