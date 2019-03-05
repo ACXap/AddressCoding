@@ -99,7 +99,7 @@
                                 Controls:TextBoxHelper.Watermark="{DynamicResource txtWatermarkInputFile}"
                                 IsReadOnly="True"
                                 Style="{StaticResource TextBoxFolderOpen}"
-                                Text="{Binding FileInput}" />
+                                Text="{Binding Source={StaticResource Locator}, Path=Settings.FileSettings.FileInput}" />
 
                             <!--  Управление входным файлом  -->
                             <Grid Grid.Row="1">
@@ -155,7 +155,7 @@
                         Controls:TextBoxHelper.Watermark="{DynamicResource txtWatermarkOutputFile}"
                         IsReadOnly="True"
                         Style="{StaticResource TextBoxFolderOpen}"
-                        Text="{Binding FileOutput}" />
+                        Text="{Binding Source={StaticResource Locator}, Path=Settings.FileSettings.FileOutput}" />
 
                     <!--  Управление выходным файлом  -->
                     <Grid Grid.Row="1">

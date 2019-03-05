@@ -39,22 +39,7 @@ namespace AddressCoding.ViewModel
         /// Поле для хранения ссылки на текущий выделенный элемент
         /// </summary>
         private EntityOrpon _currentOrpon;
-        /// <summary>
-        /// Поле для хранения имени входного файла
-        /// </summary>
-        private string _fileInput = string.Empty;
-        /// <summary>
-        /// Поле для хранения имени выходного файла
-        /// </summary>
-        private string _fileOutput = string.Empty;
-        /// <summary>
-        /// Поле для хранения разбивать ли выходной файл на части
-        /// </summary>
-        private bool _canBreakFileOutput = false;
-        /// <summary>
-        /// Поле для хранения на сколько частей разбивать выходной файл
-        /// </summary>
-        private int _maxSizePart = 0;
+
         /// <summary>
         /// Поле для хранения запущена ли процедура
         /// </summary>
@@ -130,38 +115,7 @@ namespace AddressCoding.ViewModel
             get => _isStartOrponing;
             set => Set(ref _isStartOrponing, value);
         }
-        /// <summary>
-        /// Имя входного файла
-        /// </summary>
-        public string FileInput
-        {
-            get => _fileInput;
-            set => Set(ref _fileInput, value);
-        }
-        /// <summary>
-        /// Имя выходного файла
-        /// </summary>
-        public string FileOutput
-        {
-            get => _fileOutput;
-            set => Set(ref _fileOutput, value);
-        }
-        /// <summary>
-        /// Разбивать ли выходной файл на части
-        /// </summary>
-        public bool CanBreakFileOutput
-        {
-            get => _canBreakFileOutput;
-            set => Set(ref _canBreakFileOutput, value);
-        }
-        /// <summary>
-        /// На сколько частей разбивать выходной файл
-        /// </summary>
-        public int MaxSizePart
-        {
-            get => _maxSizePart;
-            set => Set(ref _maxSizePart, value);
-        }
+
         #endregion PublicProperties
 
         #region PublicCommand
@@ -212,7 +166,7 @@ namespace AddressCoding.ViewModel
                         {
                             GetDataFromFile();
                         }
-                    }, ()=> CanGetDataFromFile()));
+                    }, () => CanGetDataFromFile()));
 
         /// <summary>
         /// Команда для выбора файла для сохранения данных
@@ -224,7 +178,7 @@ namespace AddressCoding.ViewModel
                var result = _fileService.SetFileForSave();
                if (result != null && result.Result && result.Error == null)
                {
-                   FileOutput = result.Object;
+                   _set.FileSettings.FileOutput = result.Object;
                }
                else if (result != null && result.Error != null)
                {
@@ -240,7 +194,7 @@ namespace AddressCoding.ViewModel
             () =>
             {
 
-            }, ()=> CanStartOrponing()));
+            }, () => CanStartOrponing()));
 
         /// <summary>
         /// Команда для остановки процесса орпонизации
@@ -299,7 +253,7 @@ namespace AddressCoding.ViewModel
         _commandOpenFolder ?? (_commandOpenFolder = new RelayCommand<string>(
             obj =>
             {
-                if(obj == "AppFolder")
+                if (obj == "AppFolder")
                 {
                     obj = _set.FileSettings.FolderApp;
                 }
@@ -328,7 +282,7 @@ namespace AddressCoding.ViewModel
                         return $"{x.Address};{x.Orpon?.QualityCode};{x.Orpon?.CheckStatus};{x.Orpon?.ParsingLevelCode};{x.Orpon?.GlobalID}";
                     }));
 
-                    var result = _fileService.SaveData(_fileOutput, data);
+                    var result = _fileService.SaveData(_set.FileSettings.FileOutput, data);
 
                     if (result != null && result.Error == null)
                     {
@@ -355,10 +309,10 @@ namespace AddressCoding.ViewModel
         /// <param name="file">Имя файла</param>
         private void SetFileInput(string file)
         {
-            FileInput = file;
+            _set.FileSettings.FileInput = file;
             GetDataFromFile();
 
-            FileOutput = GetDefaultName();
+            _set.FileSettings.FileOutput = GetDefaultName();
         }
 
         /// <summary>
@@ -371,11 +325,11 @@ namespace AddressCoding.ViewModel
 
             if (_collection != null && _collection.Any())
             {
-                defName = $"{DateTime.Now.ToString("yyyy_MM_dd")}_{System.IO.Path.GetFileNameWithoutExtension(_fileInput)}_{_collection.Count}.csv";
+                defName = $"{DateTime.Now.ToString("yyyy_MM_dd")}_{System.IO.Path.GetFileNameWithoutExtension(_set.FileSettings.FileInput)}_{_collection.Count}.csv";
             }
             else
             {
-                defName = $"{DateTime.Now.ToString("yyyy_MM_dd")}_{System.IO.Path.GetFileNameWithoutExtension(_fileInput)}.csv";
+                defName = $"{DateTime.Now.ToString("yyyy_MM_dd")}_{System.IO.Path.GetFileNameWithoutExtension(_set.FileSettings.FileInput)}.csv";
             }
 
             return $"{_set.FileSettings.FolderOutput}\\{defName}";
@@ -386,12 +340,13 @@ namespace AddressCoding.ViewModel
         /// </summary>
         private void GetDataFromFile()
         {
-            var result = _fileService.GetData(_fileInput);
+            var result = _fileService.GetData(_set.FileSettings.FileInput);
+            var id = 0;
             if (result != null && result.Error == null && result.Objects != null)
             {
                 Collection = new ObservableCollection<EntityOrpon>(result.Objects.Select(x =>
                 {
-                    return new EntityOrpon() { Address = x };
+                    return new EntityOrpon() { Id = id++, Address = x };
                 }));
 
                 if (_collection != null)
@@ -412,7 +367,7 @@ namespace AddressCoding.ViewModel
         /// <returns>Возвращает true если коллекция существует, имеет объекты и есть выходной файл</returns>
         private bool CanSaveFile()
         {
-            return _collection != null && _collection.Any() && !string.IsNullOrEmpty(_fileOutput);
+            return _collection != null && _collection.Any() && !string.IsNullOrEmpty(_set.FileSettings.FileOutput);
         }
 
         /// <summary>
@@ -430,7 +385,7 @@ namespace AddressCoding.ViewModel
         /// <returns>Возвращает true, если процесс орпонизации не запущен, есть файл</returns>
         private bool CanGetDataFromFile()
         {
-            return !_isStartOrponing && !string.IsNullOrEmpty(_fileInput);
+            return !_isStartOrponing && !string.IsNullOrEmpty(_set.FileSettings.FileInput);
         }
 
         /// <summary>
@@ -441,7 +396,7 @@ namespace AddressCoding.ViewModel
         {
             return !_isStartOrponing && _collection != null && _collection.Any();
         }
-        
+
         /// <summary>
         /// метод для проверки возможности орпонизации выбранного объекта
         /// </summary>

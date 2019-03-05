@@ -83,6 +83,7 @@
     </ApplicationDefinition>
     <Compile Include="Converters\ConverterStartOrponingToProgress.cs" />
     <Compile Include="Converters\ConverterStatToProgress.cs" />
+    <Compile Include="Helpers\ExtensionMethods.cs" />
     <Compile Include="Helpers\FlowDocumentFromFile.cs" />
     <Compile Include="UserControls\FlyoutSettings.xaml.cs">
       <DependentUpon>FlyoutSettings.xaml</DependentUpon>

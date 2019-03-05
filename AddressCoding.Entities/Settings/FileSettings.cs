@@ -2,7 +2,10 @@
 
 namespace AddressCoding.Entities.Settings
 {
-    public class FileSettings:ViewModelBase
+    /// <summary>
+    /// Класс для хранения настроек работы с файлами
+    /// </summary>
+    public class FileSettings : ViewModelBase
     {
         private string _folderApp = string.Empty;
         /// <summary>
@@ -82,6 +85,36 @@ namespace AddressCoding.Entities.Settings
         {
             get => _canBreakFileOutput;
             set => Set(ref _canBreakFileOutput, value);
+        }
+
+        private string _fileInput = string.Empty;
+        /// <summary>
+        /// Имя входного файла
+        /// </summary>
+        public string FileInput
+        {
+            get => _fileInput;
+            set => Set(ref _fileInput, value);
+        }
+
+        private string _fileOutput = string.Empty;
+        /// <summary>
+        /// Имя выходного файла
+        /// </summary>
+        public string FileOutput
+        {
+            get => _fileOutput;
+            set => Set(ref _fileOutput, value);
+        }
+
+        private string _fileError = string.Empty;
+        /// <summary>
+        /// Имя файла с ошибками
+        /// </summary>
+        public string FileError
+        {
+            get => _fileError;
+            set => Set(ref _fileError, value);
         }
     }
 }

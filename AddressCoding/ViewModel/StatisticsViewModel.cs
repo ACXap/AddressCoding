@@ -53,6 +53,15 @@ namespace AddressCoding.ViewModel
         /// Коллекция для подсчета статистики
         /// </summary>
         private IEnumerable<EntityOrpon> _collection;
+
+        /// <summary>
+        /// Поле для хранения команды для сохранения статистики
+        /// </summary>
+        private RelayCommand _commandSaveStatistics;
+        /// <summary>
+        /// Поле для хранения команды открытия папки
+        /// </summary>
+        private RelayCommand<string> _commandOpenFolder;
         #endregion PrivateFields
 
         #region PublicProperty
@@ -72,6 +81,7 @@ namespace AddressCoding.ViewModel
         #endregion PublicProperty
 
         #region PublicMethod
+
         /// <summary>
         /// Метод инициализации таймера
         /// </summary>
@@ -131,38 +141,6 @@ namespace AddressCoding.ViewModel
                 IsSave = false;
             }
         }
-        #endregion PublicMethod
-
-        #region PrivateMethod
-        /// <summary>
-        /// Метод обновления статистики
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void GetStat(object sender, EventArgs e)
-        {
-            UpdateStatisticsCollection();
-            _statistics.TimeGeoCod = TimeSpan.FromSeconds((DateTime.Now - _timeStart).TotalSeconds);
-            if (_statistics.Percent > 0)
-            {
-                _statistics.TimeLeftGeoCod = TimeSpan.FromSeconds(((100 / _statistics.Percent) * _statistics.TimeGeoCod.TotalSeconds) - _statistics.TimeGeoCod.TotalSeconds);
-            }
-        }
-        #endregion PrivateMethod
-
-        /// <summary>
-        /// Поле для хранения команды для сохранения статистики
-        /// </summary>
-        private RelayCommand _commandSaveStatistics;
-        /// <summary>
-        /// Команда для сохранения статистики
-        /// </summary>
-        public RelayCommand CommandSaveStatistics =>
-            _commandSaveStatistics ?? (_commandSaveStatistics = new RelayCommand(
-            () =>
-            {
-                SaveStatistics();
-            }));
 
         /// <summary>
         /// Метод сохранения статистики
@@ -207,11 +185,47 @@ namespace AddressCoding.ViewModel
                 _notification.NotificationAsync(null, result.Error.Message);
             }
         }
+        #endregion PublicMethod
+
+        #region PrivateMethod
+        /// <summary>
+        /// Метод обновления статистики
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GetStat(object sender, EventArgs e)
+        {
+            UpdateStatisticsCollection();
+            _statistics.TimeGeoCod = TimeSpan.FromSeconds((DateTime.Now - _timeStart).TotalSeconds);
+            if (_statistics.Percent > 0)
+            {
+                _statistics.TimeLeftGeoCod = TimeSpan.FromSeconds(((100 / _statistics.Percent) * _statistics.TimeGeoCod.TotalSeconds) - _statistics.TimeGeoCod.TotalSeconds);
+            }
+        }
 
         /// <summary>
-        /// Поле для хранения команды открытия папки
+        /// Метод получения строки статистики
         /// </summary>
-        private RelayCommand<string> _commandOpenFolder;
+        /// <returns>Возвращает строку статистики</returns>
+        private string GetStringStatistics()
+        {
+            return $"{DateTime.Now};{Environment.UserName};{_set.FileSettings.FileInput};{_set.FileSettings.FileOutput};{_set.FileSettings.FileError};{_statistics.AllEntity};{_statistics.OK};{_statistics.Error};" +
+                    $"{_statistics.NotOrponing};{_statistics.House};{_statistics.Exact};{_statistics.NotFound};{_statistics.TimeGeoCod}";
+        }
+        #endregion PrivateMethod
+
+        #region PublicCommand
+
+        /// <summary>
+        /// Команда для сохранения статистики
+        /// </summary>
+        public RelayCommand CommandSaveStatistics =>
+            _commandSaveStatistics ?? (_commandSaveStatistics = new RelayCommand(
+            () =>
+            {
+                SaveStatistics();
+            }));
+
         /// <summary>
         /// Команда открытия папки
         /// </summary>
@@ -230,16 +244,7 @@ namespace AddressCoding.ViewModel
                 }
             }));
 
-        /// <summary>
-        /// Метод получения строки статистики
-        /// </summary>
-        /// <returns>Возвращает строку статистики</returns>
-        private string GetStringStatistics()
-        {
-            return $"{DateTime.Now};{Environment.UserName};{null};{null};{null};{_statistics.AllEntity};{_statistics.OK};{_statistics.Error};" +
-                    $"{_statistics.NotOrponing};{_statistics.House};{_statistics.Exact};{_statistics.NotFound};{_statistics.TimeGeoCod}";
-        }
-
+        #endregion PublicCommand
 
         public StatisticsViewModel(IFileService fileService, SettingsViewModel set, INotifications notification)
         {
