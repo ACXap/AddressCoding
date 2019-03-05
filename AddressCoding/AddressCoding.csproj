@@ -102,6 +102,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>RepositorySettings.settings</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ButtonStartStop.xaml.cs">
+      <DependentUpon>ButtonStartStop.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\FlyoutSettings.xaml.cs">
       <DependentUpon>FlyoutSettings.xaml</DependentUpon>
     </Compile>
@@ -165,6 +168,10 @@
     <Page Include="Style\ToolTip.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\ButtonStartStop.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\FlyoutSettings.xaml">
       <SubType>Designer</SubType>

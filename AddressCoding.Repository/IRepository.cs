@@ -24,14 +24,18 @@ namespace AddressCoding.Repository
         /// </summary>
         /// <param name="data">Массив данных</param>
         /// <returns>Возвращает объекты орпона</returns>
-        EntityResult<IEnumerable<Entities.Orpon>> GetOrpon(IEnumerable<string> data);
+        EntityResult<Entities.Orpon> GetOrpon(IEnumerable<string> data);
         /// <summary>
         /// Асинхронный метод получения объектов орпона
         /// </summary>
         /// <param name="data">Массив данных</param>
         /// <returns>Возвращает объекты орпона</returns>
-        Task<EntityResult<IEnumerable<Entities.Orpon>>> GetOrponAsync(IEnumerable<string> data);
+        Task<EntityResult<Entities.Orpon>> GetOrponAsync(IEnumerable<string> data);
 
+        /// <summary>
+        /// Асинхронный метод проверки подключения
+        /// </summary>
+        /// <returns>Возвращает результат подключения</returns>
         Task<EntityResult<string>> TestConnectAsync();
 
         /// <summary>

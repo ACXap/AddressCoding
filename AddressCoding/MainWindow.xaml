@@ -293,7 +293,17 @@
                 <uc:Statistics Grid.Row="0" />
 
                 <!--  Запуск геокодирования  -->
-                <Button Grid.Row="2" Style="{StaticResource ButtonStopStart}" />
+                <!--<Button Grid.Row="2" x:Name="b" Style="{StaticResource ButtonStopStart}" Tag="{Binding Source={StaticResource Locator}, Path=Stat.Statistics.Percent}"/>-->
+
+                <uc:ButtonStartStop 
+                    Grid.Row="2" 
+                    CommandStart="{Binding CommandGetAllOrpon}"
+                    CommandStop="{Binding CommandStopOrponing}"
+                    IsStart="{Binding IsStartOrponing}" 
+                    ShowProgress="True" 
+                    TextStart="{DynamicResource txtContentStart}" 
+                    TextStop="{DynamicResource txtContentStop}"
+                    Percent="{Binding Source={StaticResource Locator}, Path=Stat.Statistics.Percent}"/>
             </Grid>
         </Grid>
 

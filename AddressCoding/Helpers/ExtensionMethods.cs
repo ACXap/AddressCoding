@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace AddressCoding.Helpers
+namespace AddressCoding
 {
     public static class ExtensionMethods
     {
