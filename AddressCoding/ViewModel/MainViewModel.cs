@@ -397,6 +397,8 @@ namespace AddressCoding.ViewModel
                 {
                     Parallel.ForEach(listAddress, po, (item) =>
                     {
+
+
                         var add = item.Select(x =>
                         {
                             x.Status = StatusType.OrponingNow;
@@ -416,21 +418,22 @@ namespace AddressCoding.ViewModel
                         }
                         else if (a != null && a.Error != null)
                         {
-                            foreach (var i in _collection)
+                            foreach(var i in item)
                             {
-                                i.Status = StatusType.Error;
                                 i.Error = a.Error.Message;
+                                i.Status = StatusType.Error;
                             }
                             _notification.NotificationAsync(null, a.Error.Message);
                         }
                     });
+
+                    _notification.NotificationAsync(null, "OK");
                 }
                 catch (Exception ex)
                 {
                     _notification.NotificationAsync(null, ex.Message);
                 }
-
-                _notification.NotificationAsync(null, "OK");
+                
                 IsStartOrponing = false;
                 _stat.Stop();
             }, t);
