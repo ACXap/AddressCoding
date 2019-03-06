@@ -46,5 +46,29 @@ namespace AddressCoding.Properties {
                 this["NameEndpointRepository"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("200")]
+        public int MaxObj {
+            get {
+                return ((int)(this["MaxObj"]));
+            }
+            set {
+                this["MaxObj"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("4")]
+        public int MaxParallelism {
+            get {
+                return ((int)(this["MaxParallelism"]));
+            }
+            set {
+                this["MaxParallelism"] = value;
+            }
+        }
     }
 }

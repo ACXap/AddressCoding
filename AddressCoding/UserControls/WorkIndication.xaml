@@ -46,8 +46,19 @@
         <TextBlock
             FontSize="35"
             FontWeight="Bold"
-            Foreground="{Binding ElementName=uc, Path=TextColor}"
-            Text="{Binding ElementName=uc, Path=Text}" />
+            Foreground="{Binding ElementName=uc, Path=TextColor}">
+            <TextBlock.Style>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Text" Value="{Binding ElementName=uc, Path=Text}"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=uc, Path=IsShowTextAlternative}" Value="True">
+                            <Setter Property="Text" Value="{Binding ElementName=uc, Path=TextAlternative}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+
     </StackPanel>
 
 </UserControl>

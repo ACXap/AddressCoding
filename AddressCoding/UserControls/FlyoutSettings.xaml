@@ -128,7 +128,7 @@
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
-                    <GroupBox Grid.Row="0" Header="настройка сервиса">
+                    <GroupBox Grid.Row="0" Header="Настройка сервиса">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto" />
@@ -136,6 +136,8 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
                                 <RowDefinition Height="auto" />
                                 <RowDefinition Height="auto" />
                             </Grid.RowDefinitions>
@@ -157,6 +159,17 @@
                                 Grid.Row="1" Margin="5"
                                 Grid.Column="2"
                                 Text="{Binding RepositorySettings.NameEndpoint, Mode=TwoWay}" />
+                            
+                            <WrapPanel Grid.Row="2" Grid.ColumnSpan="3" Orientation="Horizontal">
+                                <TextBlock Text="Количество обрабатываемых объектов" Margin="5" VerticalAlignment="Center"/>
+                                <TextBox Text="{Binding RepositorySettings.MaxObj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5" MinWidth="60"/>
+                                <TextBlock Text="-количество сразу обрабатываемых объектов сервисом (1-500), чем больше тем, может быть, быстрее" TextWrapping="Wrap" MaxWidth="400"/>
+                            </WrapPanel>
+                            <WrapPanel Grid.Row="3" Grid.ColumnSpan="3" Orientation="Horizontal">
+                                <TextBlock Text="Количество потоков" Margin="5" VerticalAlignment="Center"/>
+                                <TextBox Text="{Binding RepositorySettings.MaxParallelism, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5" MinWidth="60"/>
+                                <TextBlock Text="-количество потоков работающих параллельно (1-8), чем больше тем, может быть, быстрее" TextWrapping="Wrap" MaxWidth="400"/>
+                            </WrapPanel>
                         </Grid>
                     </GroupBox>
                     <WrapPanel

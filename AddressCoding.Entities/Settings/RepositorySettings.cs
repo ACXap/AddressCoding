@@ -34,6 +34,56 @@ namespace AddressCoding.Entities.Settings
             set => Set(ref _statusConnect, value);
         }
 
+        private int _maxObj = 200;
+        /// <summary>
+        /// 
+        /// </summary>
+        public int MaxObj
+        {
+            get => _maxObj;
+            set
+            {
+                if(value<1)
+                {
+                    Set(ref _maxObj, 1);
+                }
+
+                if(value>500)
+                {
+                    Set(ref _maxObj, 500);
+                }
+                if(value<=500 && value>0)
+                {
+                    Set(ref _maxObj, value);
+                }
+            }
+        }
+
+
+
+        private int _maxParallelism = 4;
+        /// <summary>
+        /// 
+        /// </summary>
+        public int MaxParallelism
+        {
+            get => _maxParallelism;
+            set
+            {
+                if(value<1)
+                {
+                    Set(ref _maxParallelism, 1);
+                }
+                if(value>8)
+                {
+                    Set(ref _maxParallelism, 8);
+                }
+                if(value<=8 && value>0)
+                {
+                    Set(ref _maxParallelism, value);
+                }
+            }
+        }
 
         private string _error = string.Empty;
         /// <summary>

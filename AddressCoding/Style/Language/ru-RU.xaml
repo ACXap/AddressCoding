@@ -47,6 +47,7 @@
 
     <!--  Индикация работы  -->
     <system:String x:Key="txtWorkIndication">Идет обработка данных...</system:String>
+    <system:String x:Key="txtWorkIndicationStop">Идет завершения процессов. Подождите...</system:String>
 
     <!--  Таблица данных  -->
     <system:String x:Key="txtTabDataHeder">Данные</system:String>
@@ -65,6 +66,8 @@
     <system:String x:Key="txtToolTipStart">Запустить орпонизацию</system:String>
     <system:String x:Key="txtContentStop">Стоп</system:String>
     <system:String x:Key="txtToolTipStop">Остановить орпонизацию</system:String>
+    <system:String x:Key="txtContentRequestedStop">Останавливается</system:String>
+    <system:String x:Key="txtToolTipRequestedStop">Процесс останавливается</system:String>
 
     <!--  Статистика  -->
     <system:String x:Key="txtStatHeader">Статистика</system:String>

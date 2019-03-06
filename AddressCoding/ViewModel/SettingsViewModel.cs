@@ -145,6 +145,8 @@ namespace AddressCoding.ViewModel
             _generalSettings.CanSaveDataAsFull = gs.CanSaveDataAsFull;
 
             var rs = Properties.RepositorySettings.Default;
+            _repositorySettings.MaxObj = rs.MaxObj;
+            _repositorySettings.MaxParallelism = rs.MaxParallelism;
             var add = Helpers.ProtectedDataDPAPI.DecryptData(rs.AddressRepository);
             if(add!=null && add.Error==null)
             {
@@ -170,6 +172,8 @@ namespace AddressCoding.ViewModel
             gs.CanSaveDataAsFull = _generalSettings.CanSaveDataAsFull;
             gs.CanSaveDataAsShot = _generalSettings.CanSaveDataAsShot;
 
+            rs.MaxObj = _repositorySettings.MaxObj;
+            rs.MaxParallelism = _repositorySettings.MaxParallelism;
             var add = Helpers.ProtectedDataDPAPI.EncryptData(_repositorySettings.Address);
             if(add!=null && add.Error==null)
             {

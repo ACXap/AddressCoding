@@ -29,6 +29,9 @@
                         <DataTrigger Binding="{Binding ElementName=uc, Path=IsStart}" Value="True">
                             <Setter Property="Visibility" Value="Visible"/>
                         </DataTrigger>
+                        <DataTrigger Binding="{Binding ElementName=uc, Path=IsDisabledStop}" Value="True">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
                     </Style.Triggers>
                 </Style>
             </Button.Style>
@@ -41,7 +44,8 @@
                 <Controls:ContentControlEx Grid.Row="0"
                         VerticalAlignment="Center" HorizontalAlignment="Center"
                         Content="{Binding ElementName=uc, Path=TextStop}" 
-                        ContentCharacterCasing="Upper" />
+                        ContentCharacterCasing="Upper"/>
+
                 <TextBlock Grid.Row="1" Text="{Binding ElementName=uc, Path=Percent, StringFormat=\{0:N\}%}" HorizontalAlignment="Center" FontSize="14"/>
                 <Controls:MetroProgressBar Grid.Row="2" IsIndeterminate="{Binding ElementName=uc, Path=IsStart}" EllipseDiameter="7"/>
             </Grid>

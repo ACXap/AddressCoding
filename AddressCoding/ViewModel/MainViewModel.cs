@@ -123,7 +123,11 @@ namespace AddressCoding.ViewModel
         public bool IsStartOrponing
         {
             get => _isStartOrponing;
-            set => Set(ref _isStartOrponing, value);
+            set
+            {
+                Set(ref _isStartOrponing, value);
+                IsRequestedStop = false;
+            }
         }
 
         #endregion PublicProperties
@@ -217,6 +221,7 @@ namespace AddressCoding.ViewModel
             () =>
             {
                 cts.Cancel();
+                IsRequestedStop = true;
             }, () => _isStartOrponing));
 
         /// <summary>
@@ -357,16 +362,36 @@ namespace AddressCoding.ViewModel
         /// </summary>
         private async void GetOrponsAsync()
         {
+            IEnumerable<IEnumerable<EntityOrpon>> listAddress = null;
+
+            if (_set.GeneralSettings.CanOrponingGetAll)
+            {
+                listAddress = _collection.Partition(_set.RepositorySettings.MaxObj);
+            }
+            else if (_set.GeneralSettings.CanOrponingGetError)
+            {
+                listAddress = _collection.Where(x => x.Status == StatusType.Error).Partition(2);
+            }
+            else
+            {
+                listAddress = _collection.Where(x => x.Status == StatusType.NotOrponing).Partition(2);
+            }
+
+            if (!listAddress.Any())
+            {
+                _notification.NotificationAsync(null, "Data null");
+                return;
+            }
+
             IsStartOrponing = true;
             _stat.Start();
 
-            var listAddress = _collection.Partition(2);
             cts = new CancellationTokenSource();
             var t = cts.Token;
 
             ParallelOptions po = new ParallelOptions()
             {
-                MaxDegreeOfParallelism = 3,
+                MaxDegreeOfParallelism = _set.RepositorySettings.MaxParallelism,
                 CancellationToken = t
             };
 
@@ -411,11 +436,11 @@ namespace AddressCoding.ViewModel
                 }
             }, t);
 
-
             IsStartOrponing = false;
             _stat.Stop();
             SaveData();
             _stat.SaveStatistics();
+
         }
 
         /// <summary>
@@ -468,7 +493,7 @@ namespace AddressCoding.ViewModel
         /// </summary>
         private void SaveData()
         {
-            if(_set.GeneralSettings.CanSaveDataAsShot)
+            if (_set.GeneralSettings.CanSaveDataAsShot)
             {
                 var data = new List<string>(_collection.Count)
                     {
@@ -483,7 +508,7 @@ namespace AddressCoding.ViewModel
 
                 if (result != null && result.Error == null)
                 {
-                    _notification.NotificationAsync(null, "Save Ok");
+                    _notification.NotificationAsync(null, $"Save Ok {_set.FileSettings.FileOutput}");
                 }
                 else if (result != null && result.Error != null)
                 {
@@ -491,7 +516,7 @@ namespace AddressCoding.ViewModel
                 }
             }
 
-            if(_set.GeneralSettings.CanSaveDataAsFull)
+            if (_set.GeneralSettings.CanSaveDataAsFull)
             {
                 var data = new List<string>(_collection.Count)
                     {
@@ -507,11 +532,11 @@ namespace AddressCoding.ViewModel
                     $"{x.Orpon?.Ownership};{x.Orpon?.OwnershipLitera};{x.Orpon?.FIASHouseId}";
                 }));
 
-                var result = _fileService.SaveData($"{_set.FileSettings.FolderTemp}\\{Path.GetFileName(_set.FileSettings.FileOutput)}" , data);
+                var result = _fileService.SaveData($"{_set.FileSettings.FolderTemp}\\{Path.GetFileName(_set.FileSettings.FileOutput)}", data);
 
                 if (result != null && result.Error == null)
                 {
-                    _notification.NotificationAsync(null, "Save Ok");
+                    _notification.NotificationAsync(null, $"Save Ok {_set.FileSettings.FolderTemp}\\{Path.GetFileName(_set.FileSettings.FileOutput)}");
                 }
                 else if (result != null && result.Error != null)
                 {
@@ -519,9 +544,9 @@ namespace AddressCoding.ViewModel
                 }
             }
 
-            
 
-            if(_set.GeneralSettings.CanOpenFolderAfter)
+
+            if (_set.GeneralSettings.CanOpenFolderAfter)
             {
                 OpenFolder(_set.FileSettings.FileOutput);
             }
@@ -578,6 +603,16 @@ namespace AddressCoding.ViewModel
         {
             get => _singlOrpon;
             set => Set(ref _singlOrpon, value);
+        }
+
+        private bool _isRequestedStop = false;
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool IsRequestedStop
+        {
+            get => _isRequestedStop;
+            set => Set(ref _isRequestedStop, value);
         }
 
         public MainViewModel(IFileService fileService, INotifications notification, StatisticsViewModel stat, SettingsViewModel set, IRepository orpon)

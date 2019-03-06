@@ -321,7 +321,9 @@
                 VerticalAlignment="Top"
                 Panel.ZIndex="1"
                 IsActive="{Binding IsStartOrponing}"
-                Text="{DynamicResource txtWorkIndication}" />
+                Text="{DynamicResource txtWorkIndication}" 
+                IsShowTextAlternative="{Binding IsRequestedStop}" 
+                TextAlternative="{DynamicResource txtWorkIndicationStop}"/>
 
             <TabControl Grid.Column="0">
                 <TabItem Header="{DynamicResource txtTabDataHeder}">
@@ -404,7 +406,8 @@
                     CommandStop="{Binding CommandStopOrponing}"
                     IsStart="{Binding IsStartOrponing}"
                     Percent="{Binding Source={StaticResource Locator}, Path=Stat.Statistics.Percent}"
-                    ShowProgress="True"
+                    ShowProgress="True" 
+                    IsDisabledStop="{Binding IsRequestedStop}"
                     TextStart="{DynamicResource txtContentStart}"
                     TextStop="{DynamicResource txtContentStop}" />
 

@@ -83,5 +83,15 @@ namespace AddressCoding.UserControls
         // Using a DependencyProperty as the backing store for CommandStop.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CommandStopProperty =
             DependencyProperty.Register("CommandStop", typeof(ICommand), typeof(ButtonStartStop), new PropertyMetadata(null));
+
+        public bool IsDisabledStop
+        {
+            get { return (bool)GetValue(IsDisabledStopProperty); }
+            set { SetValue(IsDisabledStopProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsDisabledStop.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsDisabledStopProperty =
+            DependencyProperty.Register("IsDisabledStop", typeof(bool), typeof(ButtonStartStop), new PropertyMetadata(false));
     }
 }
