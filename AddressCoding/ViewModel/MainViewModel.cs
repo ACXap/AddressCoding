@@ -273,10 +273,7 @@ namespace AddressCoding.ViewModel
             obj =>
             {
                 OpenFolder(obj);
-
             }));
-
-
 
         /// <summary>
         /// Команда для сохранения данных в файл
@@ -362,6 +359,12 @@ namespace AddressCoding.ViewModel
         /// </summary>
         private async void GetOrponsAsync()
         {
+            if (_set.RepositorySettings.StatusConnect != StatusConnect.OK)
+            {
+                _notification.NotificationAsync(null, "Not set connect OrponService");
+                return;
+            }
+
             IEnumerable<IEnumerable<EntityOrpon>> listAddress = null;
 
             if (_set.GeneralSettings.CanOrponingGetAll)
@@ -395,52 +398,58 @@ namespace AddressCoding.ViewModel
                 CancellationToken = t
             };
 
-            await Task.Factory.StartNew(() =>
+            try
             {
-                try
+                await Task.Factory.StartNew(() =>
                 {
-                    Parallel.ForEach(listAddress, po, (item) =>
+                    try
                     {
-                        var add = item.Select(x =>
+                        Parallel.ForEach(listAddress, po, (item) =>
                         {
-                            x.Status = StatusType.OrponingNow;
-                            return x.Address;
-                        }).ToArray();
-
-                        var a = _orpon.GetOrpon(add);
-                        if (a != null && a.Error == null)
-                        {
-                            var indexRow = 0;
-                            foreach (var k in a.Objects)
+                            var add = item.Select(x =>
                             {
-                                item.ElementAt(indexRow).Orpon = k;
-                                item.ElementAt(indexRow).Status = StatusType.OK;
-                                indexRow++;
-                            }
-                        }
-                        else if (a != null && a.Error != null)
-                        {
-                            foreach (var i in item)
-                            {
-                                i.Error = a.Error.Message;
-                                i.Status = StatusType.Error;
-                            }
-                        }
-                    });
+                                x.Status = StatusType.OrponingNow;
+                                return x.Address;
+                            }).ToArray();
 
-                    _notification.NotificationAsync(null, "OK");
-                }
-                catch (Exception ex)
-                {
-                    _notification.NotificationAsync(null, ex.Message);
-                }
-            }, t);
+                            var a = _orpon.GetOrpon(add);
+                            if (a != null && a.Error == null)
+                            {
+                                var indexRow = 0;
+                                foreach (var k in a.Objects)
+                                {
+                                    item.ElementAt(indexRow).Orpon = k;
+                                    item.ElementAt(indexRow).Status = StatusType.OK;
+                                    indexRow++;
+                                }
+                            }
+                            else if (a != null && a.Error != null)
+                            {
+                                foreach (var i in item)
+                                {
+                                    i.Error = a.Error.Message;
+                                    i.Status = StatusType.Error;
+                                }
+                            }
+                        });
+
+                        _notification.NotificationAsync(null, "OK");
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                }, t);
+                SaveData();
+                _stat.SaveStatistics();
+            }
+            catch (Exception ex)
+            {
+                _notification.NotificationAsync(null, ex.Message);
+            }
 
             IsStartOrponing = false;
             _stat.Stop();
-            SaveData();
-            _stat.SaveStatistics();
-
         }
 
         /// <summary>

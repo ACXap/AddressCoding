@@ -80,23 +80,22 @@ namespace AddressCoding.ViewModel
                     {
                         _orpon.Initialize(_repositorySettings.Address, _repositorySettings.NameEndpoint);
                         TestConectAsync();
-                    }));
+                    }, () => !string.IsNullOrEmpty(_repositorySettings.Address) && !string.IsNullOrEmpty(_repositorySettings.NameEndpoint)));
 
         private async void TestConectAsync()
         {
             _repositorySettings.StatusConnect = Entities.StatusConnect.ConnectNow;
             var a = await _orpon.TestConnectAsync();
-            if(a!=null && a.Error==null)
+            if (a != null && a.Error == null)
             {
                 _repositorySettings.StatusConnect = Entities.StatusConnect.OK;
                 _repositorySettings.Error = string.Empty;
             }
-            else if(a!=null && a.Error!=null)
+            else if (a != null && a.Error != null)
             {
                 _repositorySettings.StatusConnect = Entities.StatusConnect.Error;
                 _repositorySettings.Error = a.Error.Message;
             }
-
         }
 
         public SettingsViewModel(IFileService fileService, INotifications notifications, IRepository orpon)
@@ -129,7 +128,9 @@ namespace AddressCoding.ViewModel
 
             GetSettings();
 
-            _orpon.Initialize(_repositorySettings.Address, _repositorySettings.NameEndpoint);
+            CommandCheckConnect.Execute(null);
+           // _orpon.Initialize(_repositorySettings.Address, _repositorySettings.NameEndpoint);
+
         }
 
         private void GetSettings()
@@ -148,12 +149,12 @@ namespace AddressCoding.ViewModel
             _repositorySettings.MaxObj = rs.MaxObj;
             _repositorySettings.MaxParallelism = rs.MaxParallelism;
             var add = Helpers.ProtectedDataDPAPI.DecryptData(rs.AddressRepository);
-            if(add!=null && add.Error==null)
+            if (add != null && add.Error == null)
             {
                 _repositorySettings.Address = add.Object;
             }
             var end = Helpers.ProtectedDataDPAPI.DecryptData(rs.NameEndpointRepository);
-            if(end !=null && end.Error == null)
+            if (end != null && end.Error == null)
             {
                 _repositorySettings.NameEndpoint = end.Object;
             }
@@ -175,12 +176,12 @@ namespace AddressCoding.ViewModel
             rs.MaxObj = _repositorySettings.MaxObj;
             rs.MaxParallelism = _repositorySettings.MaxParallelism;
             var add = Helpers.ProtectedDataDPAPI.EncryptData(_repositorySettings.Address);
-            if(add!=null && add.Error==null)
+            if (add != null && add.Error == null)
             {
                 rs.AddressRepository = add.Object;
             }
             var end = Helpers.ProtectedDataDPAPI.EncryptData(_repositorySettings.NameEndpoint);
-            if(end!=null && end.Error==null)
+            if (end != null && end.Error == null)
             {
                 rs.NameEndpointRepository = end.Object;
             }

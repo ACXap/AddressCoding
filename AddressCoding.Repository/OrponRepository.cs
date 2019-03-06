@@ -96,47 +96,55 @@ namespace AddressCoding.Repository
         {
             EntityResult<Entities.Orpon> result = new EntityResult<Entities.Orpon>();
 
-            using (var client = new wsSearchAddrElByFullNamePortTypeClient(_nameEndpoint, _address))
+            try
             {
-                try
+                using (var client = new wsSearchAddrElByFullNamePortTypeClient(_nameEndpoint, _address))
                 {
-                    var address = data.Select(x =>
+                    try
                     {
-                        return new AddressElementNameDataAddressElementFullNameGroup()
+                        var address = data.Select(x =>
                         {
-                            FullAddress = x
-                        };
-                    }).ToArray();
+                            return new AddressElementNameDataAddressElementFullNameGroup()
+                            {
+                                FullAddress = x
+                            };
+                        }).ToArray();
 
-                    var a = client.SearchAddressElementByFullName(new Orpon.AddressElementNameData()
-                    {
-                        AddressElementFullNameList = address
-                    });
-
-                    if (a != null)
-                    {
-                        result.Objects = a.AddressElementResponseList.Select(x =>
+                        var a = client.SearchAddressElementByFullName(new Orpon.AddressElementNameData()
                         {
-                            return GetOrpon(x);
+                            AddressElementFullNameList = address
                         });
+
+                        if (a != null)
+                        {
+                            result.Objects = a.AddressElementResponseList.Select(x =>
+                            {
+                                return GetOrpon(x);
+                            });
+                        }
+                        else
+                        {
+                            result.Result = false;
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
+                        result.Error = ex;
                         result.Result = false;
                     }
-                }
-                catch (Exception ex)
-                {
-                    result.Error = ex;
-                    result.Result = false;
-                }
-                finally
-                {
-                    if (client != null)
+                    finally
                     {
-                        client.Close();
+                        if (client != null)
+                        {
+                            client.Close();
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                result.Error = ex;
+                result.Result = false;
             }
 
             return result;
@@ -164,26 +172,33 @@ namespace AddressCoding.Repository
             {
                 EntityResult<string> result = new EntityResult<string>();
 
-                using (var client = new Orpon.wsSearchAddrElByFullNamePortTypeClient(_nameEndpoint, _address))
+                try
                 {
-                    try
+                    using (var client = new Orpon.wsSearchAddrElByFullNamePortTypeClient(_nameEndpoint, _address))
                     {
-                        client.Open();
-
-                        result.Result = true;
-                    }
-                    catch (Exception ex)
-                    {
-                        result.Error = ex;
-                        result.Result = false;
-                    }
-                    finally
-                    {
-                        if (client != null)
+                        try
                         {
-                            client.Close();
+                            client.Open();
+
+                            result.Result = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            result.Error = ex;
+                            result.Result = false;
+                        }
+                        finally
+                        {
+                            if (client != null)
+                            {
+                                client.Close();
+                            }
                         }
                     }
+                }
+                catch (Exception ex)
+                {
+                    result.Error = ex;
                 }
 
                 return result;
