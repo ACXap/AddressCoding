@@ -229,7 +229,7 @@
                                 </Grid>
                                 <Button
                                     Grid.Column="2"
-                                    Command="{Binding CommandGetFile}"
+                                    Command="{Binding CommandOrponingAddress}"
                                     Content="{DynamicResource txtContentButtonOrponing}"
                                     Style="{StaticResource ButtonMainStyle}"
                                     ToolTip="{DynamicResource txtToolTipButtonOrponing}" />
