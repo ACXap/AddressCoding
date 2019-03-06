@@ -581,6 +581,12 @@ namespace AddressCoding.ViewModel
 
         private async void GetOrponAsync(EntityOrpon obj)
         {
+            if (_set.RepositorySettings.StatusConnect != StatusConnect.OK)
+            {
+                _notification.NotificationAsync(null, "Not set connect OrponService");
+                return;
+            }
+
             obj.Status = StatusType.OrponingNow;
 
             var a = await _orpon.GetOrponAsync(obj.Address);
