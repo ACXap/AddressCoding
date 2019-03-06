@@ -62,13 +62,14 @@ namespace AddressCoding.ViewModel
         /// Поле для хранения команды открытия папки
         /// </summary>
         private RelayCommand<string> _commandOpenFolder;
+
+        /// <summary>
+        /// Поле для хранения была ли сохранена статистика
+        /// </summary>
+        private bool _isSave;
         #endregion PrivateFields
 
         #region PublicProperty
-        /// <summary>
-        /// Была ли сохранена статистика
-        /// </summary>
-        public bool IsSave { get; set; } = false;
 
         /// <summary>
         /// Статистика по выполненной орпонизации
@@ -138,7 +139,7 @@ namespace AddressCoding.ViewModel
                 // _statistics.Exact = _collection.Count(x => x.MainGeoCod?.Precision == PrecisionType.Exact);
                 // _statistics.NotFound = _collection.Count(x => x.CountResult == 0);
                 _statistics.Percent = ((_statistics.AllEntity - _statistics.NotOrponing - _statistics.OrponingNow) / (double)_statistics.AllEntity) * 100;
-                IsSave = false;
+                _isSave = false;
             }
         }
 
@@ -147,7 +148,14 @@ namespace AddressCoding.ViewModel
         /// </summary>
         public void SaveStatistics()
         {
+            // если статистики нет, то и сохранять нечего
             if (_statistics == null)
+            {
+                return;
+            }
+
+            // если статистика уже была сохранена, нечего еще раз сохранять
+            if(_isSave)
             {
                 return;
             }
@@ -165,6 +173,8 @@ namespace AddressCoding.ViewModel
                 {
                     _notification.NotificationAsync(null, resAdd.Error.Message);
                 }
+
+                _isSave = true;
             }
             // если нет файла статистки, создать и добавить
             else if (result != null && !result.Object && result.Error == null)
@@ -178,6 +188,8 @@ namespace AddressCoding.ViewModel
                 {
                     _notification.NotificationAsync(null, resSave.Error.Message);
                 }
+
+                _isSave = true;
             }
             // если ошибки
             else if (result != null && result.Error != null)

@@ -197,7 +197,7 @@
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
-                    <WrapPanel Margin="5" Orientation="Horizontal">
+                    <WrapPanel Grid.Row="0" Margin="5" Orientation="Horizontal">
                         <TextBlock VerticalAlignment="Center" Text="Цветовая тема приложения" />
                         <ComboBox
                             Margin="5"
@@ -212,6 +212,12 @@
                             </ComboBox.ItemTemplate>
                         </ComboBox>
                     </WrapPanel>
+                    <WrapPanel Grid.Row="1" Margin="5" Orientation="Vertical">
+                        <CheckBox IsChecked="{Binding GeneralSettings.CanSaveDataAsShot}" Content="Сохранить данные в кратком виде" Margin="5"/>
+                        <CheckBox IsChecked="{Binding GeneralSettings.CanSaveDataAsFull}" Content="Сохранить данные в полном виде (во временную папку)" Margin="5"/>
+                        <CheckBox IsChecked="{Binding GeneralSettings.CanOpenFolderAfter}" Content="Открыть папку после сохранения" Margin="5"/>
+                    </WrapPanel>
+                    
                 </Grid>
             </TabItem>
         </TabControl>

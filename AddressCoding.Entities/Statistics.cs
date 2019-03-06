@@ -88,7 +88,6 @@ namespace AddressCoding.Entities
             set => Set(ref _timeGeoCod, value);
         }
 
-
         private TimeSpan _timeLeftGeoCod;
         /// <summary>
         /// Время оставшееся до окончания

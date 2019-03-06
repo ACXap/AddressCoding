@@ -140,6 +140,9 @@ namespace AddressCoding.ViewModel
 
             var gs = Properties.GeneralSettings.Default;
             _generalSettings.ColorTheme = ThemeManager.GetTheme(gs.Theme);
+            _generalSettings.CanOpenFolderAfter = gs.CanOpenFolderAfter;
+            _generalSettings.CanSaveDataAsShot = gs.CanSaveDataAsShot;
+            _generalSettings.CanSaveDataAsFull = gs.CanSaveDataAsFull;
 
             var rs = Properties.RepositorySettings.Default;
             var add = Helpers.ProtectedDataDPAPI.DecryptData(rs.AddressRepository);
@@ -163,6 +166,9 @@ namespace AddressCoding.ViewModel
             fs.MaxSizePart = _fileSettings.MaxSizePart;
 
             gs.Theme = _generalSettings.ColorTheme.Name;
+            gs.CanOpenFolderAfter = _generalSettings.CanOpenFolderAfter;
+            gs.CanSaveDataAsFull = _generalSettings.CanSaveDataAsFull;
+            gs.CanSaveDataAsShot = _generalSettings.CanSaveDataAsShot;
 
             var add = Helpers.ProtectedDataDPAPI.EncryptData(_repositorySettings.Address);
             if(add!=null && add.Error==null)

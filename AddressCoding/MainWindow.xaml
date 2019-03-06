@@ -52,7 +52,9 @@
 
     <!--  Отображение процесса геокодирования на панели задач  -->
     <Controls:MetroWindow.TaskbarItemInfo>
-        <TaskbarItemInfo ProgressState="{Binding IsStartOrponing, Converter={StaticResource ConverterStatOrponingToProgressState}}" ProgressValue="{Binding Source={StaticResource Locator}, Path=Stat.Statistics.Percent, Converter={StaticResource ConverterStatToProgress}}" />
+        <TaskbarItemInfo 
+            ProgressState="{Binding IsStartOrponing, Converter={StaticResource ConverterStatOrponingToProgressState}}" 
+            ProgressValue="{Binding Source={StaticResource Locator}, Path=Stat.Statistics.Percent, Converter={StaticResource ConverterStatToProgress}}" />
     </Controls:MetroWindow.TaskbarItemInfo>
 
     <!--  Основная панель контролов  -->
@@ -405,6 +407,60 @@
                     ShowProgress="True"
                     TextStart="{DynamicResource txtContentStart}"
                     TextStop="{DynamicResource txtContentStop}" />
+
+                <!--  Настройки орпонизации  -->
+                <StackPanel Grid.Row="3" Orientation="Vertical" DataContext="{Binding Source={StaticResource Locator}, Path=Settings.GeneralSettings}">
+
+                    <StackPanel  Orientation="Vertical" >
+                        <TextBlock
+                        Margin="5,1,1,1"
+                        FontWeight="Bold"
+                        Text="Что орпанизируем:" />
+                        <!--  Орпонизируем все объекты в таблице данных  -->
+                        <RadioButton
+                        Margin="10,2,2,5"
+                        Content="Все" ToolTip="Будут орпонизированы все адреса в таблице"
+                        IsChecked="{Binding CanOrponingGetAll}" />
+
+                        <!--  Орпонизировать только объекты со статусом "Ошибка"  -->
+                        <RadioButton
+                        Margin="10,2,2,5"
+                        Content="С ошибками" ToolTip="Будут орпонизированы все адреса с ошибками"
+                        IsChecked="{Binding CanOrponingGetError}" />
+
+                        <!--  Орпонизировать только объекты со статусом "Неорпонизированы" -->
+                        <RadioButton
+                        Margin="10,2,2,5"
+                        Content="Неорпонизированые"
+                        IsChecked="{Binding CanOrponingGetNotOrponing}" ToolTip="Будут орпонизированы все неорпонизированные адреса" />
+                    </StackPanel>
+
+                    <TextBlock
+                        Margin="5,1,1,1"
+                        FontWeight="Bold"
+                        Text="Что делаем после:" />
+                    
+                    <CheckBox
+                        Margin="10,2,2,5"
+                        Content="Сохранить в кратком виде"
+                        IsChecked="{Binding CanSaveDataAsShot}"
+                        ToolTip="Сохранить в данные в кратком виде" />
+                    
+                    <CheckBox
+                        Margin="10,2,2,5"
+                        IsChecked="{Binding CanSaveDataAsFull}"
+                        ToolTip="Сохранить все данные в полном формате со всеми столбцами во временную папку">
+                        <TextBlock Text="Сохранить в подробном виде" TextWrapping="Wrap" />
+                    </CheckBox>
+
+                    <CheckBox
+                        Margin="10,2,2,5"
+                        IsChecked="{Binding CanOpenFolderAfter}"
+                        ToolTip="Открыть папку с сохранённым файлом">
+                        <TextBlock Text="Открыть папку результатов после сохранения" TextWrapping="Wrap" />
+                    </CheckBox>
+                </StackPanel>
+
             </Grid>
         </Grid>
 

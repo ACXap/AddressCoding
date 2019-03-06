@@ -7,6 +7,7 @@ using GalaSoft.MvvmLight.CommandWpf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace AddressCoding.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        CancellationTokenSource cts;
+        private CancellationTokenSource cts;
 
         #region PrivateField
         /// <summary>
@@ -144,7 +145,7 @@ namespace AddressCoding.ViewModel
                                         SetFileInput(files[0]);
                                     }
                                 }
-                            }));
+                            }, obj => !_isStartOrponing));
 
         /// <summary>
         /// Команда для получения файла
@@ -162,7 +163,7 @@ namespace AddressCoding.ViewModel
                         {
                             _notification.NotificationAsync(null, result.Error.Message);
                         }
-                    }));
+                    }, () => !_isStartOrponing));
 
         /// <summary>
         /// Команда получения данных из файла
@@ -202,7 +203,8 @@ namespace AddressCoding.ViewModel
         _commandGetAllOrpon ?? (_commandGetAllOrpon = new RelayCommand(
             () =>
             {
-                GetOrpons();
+                GetOrponsAsync();
+
             }, () => CanStartOrponing()));
 
 
@@ -265,16 +267,11 @@ namespace AddressCoding.ViewModel
         _commandOpenFolder ?? (_commandOpenFolder = new RelayCommand<string>(
             obj =>
             {
-                if (obj == "AppFolder")
-                {
-                    obj = _set.FileSettings.FolderApp;
-                }
-                var result = _fileService.OpenFolder(obj);
-                if (result != null && result.Error != null)
-                {
-                    _notification.NotificationAsync(null, result.Error.Message);
-                }
+                OpenFolder(obj);
+
             }));
+
+
 
         /// <summary>
         /// Команда для сохранения данных в файл
@@ -285,25 +282,7 @@ namespace AddressCoding.ViewModel
             {
                 if (CanSaveFile())
                 {
-                    var data = new List<string>(_collection.Count)
-                    {
-                        $"Адрес;QualityCode;CheckStatus;ParsingLevelCode;GlobalID"
-                    };
-                    data.AddRange(_collection.Select(x =>
-                    {
-                        return $"{x.Address};{x.Orpon?.QualityCode};{x.Orpon?.CheckStatus};{x.Orpon?.ParsingLevelCode};{x.Orpon?.GlobalID}";
-                    }));
-
-                    var result = _fileService.SaveData(_set.FileSettings.FileOutput, data);
-
-                    if (result != null && result.Error == null)
-                    {
-                        _notification.NotificationAsync(null, "Save Ok");
-                    }
-                    else if (result != null && result.Error != null)
-                    {
-                        _notification.NotificationAsync(null, result.Error.Message);
-                    }
+                    SaveData();
                 }
                 else
                 {
@@ -376,7 +355,7 @@ namespace AddressCoding.ViewModel
         /// <summary>
         /// Метод для получения орпон объекта
         /// </summary>
-        private void GetOrpons()
+        private async void GetOrponsAsync()
         {
             IsStartOrponing = true;
             _stat.Start();
@@ -391,14 +370,12 @@ namespace AddressCoding.ViewModel
                 CancellationToken = t
             };
 
-            Task.Factory.StartNew(() =>
+            await Task.Factory.StartNew(() =>
             {
                 try
                 {
                     Parallel.ForEach(listAddress, po, (item) =>
                     {
-
-
                         var add = item.Select(x =>
                         {
                             x.Status = StatusType.OrponingNow;
@@ -418,12 +395,11 @@ namespace AddressCoding.ViewModel
                         }
                         else if (a != null && a.Error != null)
                         {
-                            foreach(var i in item)
+                            foreach (var i in item)
                             {
                                 i.Error = a.Error.Message;
                                 i.Status = StatusType.Error;
                             }
-                            _notification.NotificationAsync(null, a.Error.Message);
                         }
                     });
 
@@ -433,10 +409,13 @@ namespace AddressCoding.ViewModel
                 {
                     _notification.NotificationAsync(null, ex.Message);
                 }
-                
-                IsStartOrponing = false;
-                _stat.Stop();
             }, t);
+
+
+            IsStartOrponing = false;
+            _stat.Stop();
+            SaveData();
+            _stat.SaveStatistics();
         }
 
         /// <summary>
@@ -484,10 +463,87 @@ namespace AddressCoding.ViewModel
             return _currentOrpon != null;
         }
 
+        /// <summary>
+        /// Метод для сохранения данных в файл
+        /// </summary>
+        private void SaveData()
+        {
+            if(_set.GeneralSettings.CanSaveDataAsShot)
+            {
+                var data = new List<string>(_collection.Count)
+                    {
+                        $"Адрес;QualityCode;CheckStatus;ParsingLevelCode;GlobalID"
+                    };
+                data.AddRange(_collection.Select(x =>
+                {
+                    return $"{x.Address};{x.Orpon?.QualityCode};{x.Orpon?.CheckStatus};{x.Orpon?.ParsingLevelCode};{x.Orpon?.GlobalID}";
+                }));
+
+                var result = _fileService.SaveData(_set.FileSettings.FileOutput, data);
+
+                if (result != null && result.Error == null)
+                {
+                    _notification.NotificationAsync(null, "Save Ok");
+                }
+                else if (result != null && result.Error != null)
+                {
+                    _notification.NotificationAsync(null, result.Error.Message);
+                }
+            }
+
+            if(_set.GeneralSettings.CanSaveDataAsFull)
+            {
+                var data = new List<string>(_collection.Count)
+                    {
+                        $"Адрес;QualityCode;CheckStatus;ParsingLevelCode;GlobalID;SystemCode;KLADRLocalityId;FIASLocalityId;" +
+                        $"KLADRStreetId;FIASStreetId;Street;StreetKind;House;HouseLitera;CornerHouse;BuildingBlock;" +
+                        $"BuildingBlockLitera;Building;BuildingLitera;Ownership;OwnershipLitera;FIASHouseId"
+                    };
+                data.AddRange(_collection.Select(x =>
+                {
+                    return $"{x.Address};{x.Orpon?.QualityCode};{x.Orpon?.CheckStatus};{x.Orpon?.ParsingLevelCode};{x.Orpon?.GlobalID};{x.Orpon?.SystemCode};" +
+                    $"{x.Orpon?.KLADRLocalityId};{x.Orpon?.FIASLocalityId};{x.Orpon?.KLADRStreetId};{x.Orpon?.FIASStreetId};{x.Orpon?.Street};{x.Orpon?.StreetKind};{x.Orpon?.House};" +
+                    $"{x.Orpon?.HouseLitera};{x.Orpon?.CornerHouse};{x.Orpon?.BuildingBlock};{x.Orpon?.BuildingBlockLitera};{x.Orpon?.Building};{x.Orpon?.BuildingLitera};" +
+                    $"{x.Orpon?.Ownership};{x.Orpon?.OwnershipLitera};{x.Orpon?.FIASHouseId}";
+                }));
+
+                var result = _fileService.SaveData($"{_set.FileSettings.FolderTemp}\\{Path.GetFileName(_set.FileSettings.FileOutput)}" , data);
+
+                if (result != null && result.Error == null)
+                {
+                    _notification.NotificationAsync(null, "Save Ok");
+                }
+                else if (result != null && result.Error != null)
+                {
+                    _notification.NotificationAsync(null, result.Error.Message);
+                }
+            }
+
+            
+
+            if(_set.GeneralSettings.CanOpenFolderAfter)
+            {
+                OpenFolder(_set.FileSettings.FileOutput);
+            }
+        }
+
         #endregion PrivateMethod
 
         #region PublicMethod
         #endregion PublicMethod
+
+        private void OpenFolder(string obj)
+        {
+            if (obj == "AppFolder")
+            {
+                obj = _set.FileSettings.FolderApp;
+            }
+            var result = _fileService.OpenFolder(obj);
+            if (result != null && result.Error != null)
+            {
+                _notification.NotificationAsync(null, result.Error.Message);
+            }
+        }
 
         private async void GetOrponAsync(EntityOrpon obj)
         {

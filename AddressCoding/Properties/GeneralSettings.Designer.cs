@@ -34,5 +34,41 @@ namespace AddressCoding.Properties {
                 this["Theme"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool CanSaveDataAsShot {
+            get {
+                return ((bool)(this["CanSaveDataAsShot"]));
+            }
+            set {
+                this["CanSaveDataAsShot"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool CanSaveDataAsFull {
+            get {
+                return ((bool)(this["CanSaveDataAsFull"]));
+            }
+            set {
+                this["CanSaveDataAsFull"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool CanOpenFolderAfter {
+            get {
+                return ((bool)(this["CanOpenFolderAfter"]));
+            }
+            set {
+                this["CanOpenFolderAfter"] = value;
+            }
+        }
     }
 }
