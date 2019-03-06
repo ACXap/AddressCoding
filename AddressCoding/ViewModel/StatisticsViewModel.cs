@@ -135,9 +135,9 @@ namespace AddressCoding.ViewModel
                 _statistics.NotOrponing = _collection.Count(x => x.Status == StatusType.NotOrponing);
                 _statistics.OrponingNow = _collection.Count(x => x.Status == StatusType.OrponingNow);
                 _statistics.Error = _collection.Count(x => x.Status == StatusType.Error);
-                // _statistics.House = _collection.Count(x => x.MainGeoCod?.Kind == KindType.House);
-                // _statistics.Exact = _collection.Count(x => x.MainGeoCod?.Precision == PrecisionType.Exact);
-                // _statistics.NotFound = _collection.Count(x => x.CountResult == 0);
+                 _statistics.House = _collection.Count(x => x.Orpon?.ParsingLevelCode == "FIAS_HOUSE");
+                 _statistics.Exact = _collection.Count(x => x.Orpon?.QualityCode == "GOOD" || x.Orpon?.QualityCode == "UNDEF_05");
+                 _statistics.NotFound = _collection.Count(x => x.Orpon?.ParsingLevelCode == "EMPTY");
                 _statistics.Percent = ((_statistics.AllEntity - _statistics.NotOrponing - _statistics.OrponingNow) / (double)_statistics.AllEntity) * 100;
                 _isSave = false;
             }

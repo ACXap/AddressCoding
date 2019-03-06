@@ -26,6 +26,13 @@
         <local:ConverterStatOrponingToProgressState x:Key="ConverterStatOrponingToProgressState" />
     </Controls:MetroWindow.Resources>
 
+    <!--  Иконка приложения с контекст меню  -->
+    <Controls:MetroWindow.IconTemplate>
+        <DataTemplate>
+            <Image Margin="2" Source="house.ico" />
+        </DataTemplate>
+    </Controls:MetroWindow.IconTemplate>
+
     <!--  Панель команд на заголовке окна  -->
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
