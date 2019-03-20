@@ -40,7 +40,10 @@ namespace AddressCoding.ViewModel
         /// Поле для хранения ссылки на модуль работы с настройками
         /// </summary>
         private readonly SettingsViewModel _set;
-
+        /// <summary>
+        /// Поле для хранения названия столбцов файла для орпанизации геокодера
+        /// </summary>
+        private readonly string _columnNameForGeoCodingOrpon = @"globalid;address;AddressWeb;Longitude;Latitude;Qcode;Error;Status;DateTimeGeoCod;Kind;Precision;CountResult;Proxy";
         /// <summary>
         /// Поле для хранения ссылки на коллекцию данных
         /// </summary>
@@ -337,16 +340,40 @@ namespace AddressCoding.ViewModel
             var id = 0;
             if (result != null && result.Error == null && result.Objects != null)
             {
-                Collection = new ObservableCollection<EntityOrpon>(result.Objects.Select(x =>
+                if (result.Objects.First() == _columnNameForGeoCodingOrpon)
                 {
-                    return new EntityOrpon() { Id = id++, Address = x };
-                }));
+                    IsOrponingGeoData = true;
+                    var list = new List<EntityOrpon>(result.Objects.Count() - 1);
+                    foreach (var item in result.Objects.Skip(1))
+                    {
+                        var entity = new EntityOrpon();
+                        var str = item.Split(';');
+                        entity.Address = str[2];
+
+                        entity.GlobalIdOriginal = str[0];
+                        entity.Longitude = str[3];
+                        entity.Latitude = str[4];
+
+                        int.TryParse(str[5], out int qcode);
+                        entity.QCode = qcode;
+
+                        list.Add(entity);
+                    }
+
+                    Collection = new ObservableCollection<EntityOrpon>(list);
+                }
+                else
+                {
+                    Collection = new ObservableCollection<EntityOrpon>(result.Objects.Select(x =>
+                    {
+                        return new EntityOrpon() { Id = id++, Address = x };
+                    }));
+                }
 
                 if (_collection != null)
                 {
                     _stat.Init(_collection);
                 }
-
             }
             else if (result != null && result.Error != null)
             {
@@ -367,17 +394,35 @@ namespace AddressCoding.ViewModel
 
             IEnumerable<IEnumerable<EntityOrpon>> listAddress = null;
 
-            if (_set.GeneralSettings.CanOrponingGetAll)
+            if (_isOrponinGeoData)
             {
-                listAddress = _collection.Partition(_set.RepositorySettings.MaxObj);
-            }
-            else if (_set.GeneralSettings.CanOrponingGetError)
-            {
-                listAddress = _collection.Where(x => x.Status == StatusType.Error).Partition(2);
+                if (_set.GeneralSettings.CanOrponingGetAll)
+                {
+                    listAddress = _collection.Where(x => x.QCode == 1).Partition(_set.RepositorySettings.MaxObj);
+                }
+                else if (_set.GeneralSettings.CanOrponingGetError)
+                {
+                    listAddress = _collection.Where(x => x.Status == StatusType.Error && x.QCode == 1).Partition(_set.RepositorySettings.MaxObj);
+                }
+                else
+                {
+                    listAddress = _collection.Where(x => x.Status == StatusType.NotOrponing && x.QCode == 1).Partition(_set.RepositorySettings.MaxObj);
+                }
             }
             else
             {
-                listAddress = _collection.Where(x => x.Status == StatusType.NotOrponing).Partition(2);
+                if (_set.GeneralSettings.CanOrponingGetAll)
+                {
+                    listAddress = _collection.Partition(_set.RepositorySettings.MaxObj);
+                }
+                else if (_set.GeneralSettings.CanOrponingGetError)
+                {
+                    listAddress = _collection.Where(x => x.Status == StatusType.Error).Partition(2);
+                }
+                else
+                {
+                    listAddress = _collection.Where(x => x.Status == StatusType.NotOrponing).Partition(2);
+                }
             }
 
             if (!listAddress.Any())
@@ -440,7 +485,38 @@ namespace AddressCoding.ViewModel
                         throw ex;
                     }
                 }, t);
-                SaveData();
+
+                if (_isOrponinGeoData)
+                {
+                    foreach (var item in _collection)
+                    {
+                        if (string.IsNullOrEmpty(item.Orpon?.GlobalID))
+                        {
+                            item.QCodeNew = item.QCode;
+                        }
+                        else
+                        {
+                            if (item.GlobalIdOriginal != item.Orpon.GlobalID)
+                            {
+                                item.QCodeNew = 2;
+                            }
+                            else
+                            {
+                                item.QCodeNew = item.QCode;
+                            }
+                        }
+                    }
+                }
+                if (_isOrponinGeoData)
+                {
+                    SaveDataGeo();
+                }
+                else
+                {
+                    SaveData();
+                }
+
+                _stat.Stop();
                 _stat.SaveStatistics();
             }
             catch (Exception ex)
@@ -553,13 +629,36 @@ namespace AddressCoding.ViewModel
                 }
             }
 
-
-
             if (_set.GeneralSettings.CanOpenFolderAfter)
             {
                 OpenFolder(_set.FileSettings.FileOutput);
             }
         }
+
+        private void SaveDataGeo()
+        {
+            var data = new List<string>(_collection.Count)
+                    {
+                        $"globalid;Latitude;Longitude;Qcode"
+                    };
+
+            data.AddRange(_collection.Select(x =>
+            {
+                return $"{x.GlobalIdOriginal};{x.Latitude};{x.Longitude};{x.QCodeNew}";
+            }));
+
+            var result = _fileService.SaveData(_set.FileSettings.FileOutput, data);
+
+            if (result != null && result.Error == null)
+            {
+                _notification.NotificationAsync(null, $"Save Ok {_set.FileSettings.FileOutput}");
+            }
+            else if (result != null && result.Error != null)
+            {
+                _notification.NotificationAsync(null, result.Error.Message);
+            }
+        }
+
 
         #endregion PrivateMethod
 
@@ -618,6 +717,34 @@ namespace AddressCoding.ViewModel
         {
             get => _singlOrpon;
             set => Set(ref _singlOrpon, value);
+        }
+
+
+        private bool _isOrponinGeoData;
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool IsOrponingGeoData
+        {
+            get => _isOrponinGeoData;
+            set
+            {
+                Set(ref _isOrponinGeoData, value);
+                if (value)
+                {
+                    IndexTab = 1;
+                }
+            }
+        }
+
+        private int _indexTab = 0;
+        /// <summary>
+        /// 
+        /// </summary>
+        public int IndexTab
+        {
+            get => _indexTab;
+            set => Set(ref _indexTab, value);
         }
 
         private bool _isRequestedStop = false;

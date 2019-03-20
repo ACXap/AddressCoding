@@ -55,6 +55,56 @@ namespace AddressCoding.Entities
             set => Set(ref _dateTimeOrponing, value);
         }
 
+        private string _globalIdOriginal;
+        /// <summary>
+        /// 
+        /// </summary>
+        public string GlobalIdOriginal
+        {
+            get => _globalIdOriginal;
+            set => Set(ref _globalIdOriginal, value);
+        }
+
+        private int _qCode = 0;
+        /// <summary>
+        /// 
+        /// </summary>
+        public int QCode
+        {
+            get => _qCode;
+            set => Set(ref _qCode, value);
+        }
+
+        private int _qCodeNew = 0;
+        /// <summary>
+        /// 
+        /// </summary>
+        public int QCodeNew
+        {
+            get => _qCodeNew;
+            set => Set(ref _qCodeNew, value);
+        }
+
+        private string _latitude = string.Empty;
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Latitude
+        {
+            get => _latitude;
+            set => Set(ref _latitude, value);
+        }
+
+        private string _longitude = string.Empty;
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Longitude
+        {
+            get => _longitude;
+            set => Set(ref _longitude, value);
+        }
+
         private Orpon _orpon;
         /// <summary>
         /// ОРПОН - данные об объекте

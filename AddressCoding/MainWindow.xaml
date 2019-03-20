@@ -94,7 +94,7 @@
                     <!--  Панель работы с входным файлом  -->
                     <Border
                         Height="100"
-                        Padding="5"
+                        Padding="2"
                         BorderBrush="{DynamicResource AccentColorBrush}"
                         BorderThickness="1">
                         <Grid>
@@ -144,7 +144,7 @@
                     <!--  Панель работы с адресом  -->
                     <Border
                         Height="100"
-                        Padding="5"
+                        Padding="2"
                         BorderBrush="{DynamicResource AccentColorBrush}"
                         BorderThickness="1">
                         <Grid>
@@ -332,7 +332,7 @@
                 IsShowTextAlternative="{Binding IsRequestedStop}" 
                 TextAlternative="{DynamicResource txtWorkIndicationStop}"/>
 
-            <TabControl Grid.Column="0">
+            <TabControl Grid.Column="0" SelectedIndex="{Binding IndexTab}">
                 <TabItem Header="{DynamicResource txtTabDataHeder}">
                     <DataGrid
                         ItemsSource="{Binding Collection}"
@@ -391,6 +391,50 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
+                <TabItem Header="Орпонизация геоданных">
+                    <DataGrid ItemsSource="{Binding Collection}"
+                        SelectedItem="{Binding CurrentOrpon}"
+                        Style="{StaticResource DataGridMainAll}">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="GlobalIdOriginal">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding GlobalIdOriginal}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Адрес" SortMemberPath="Address">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Address}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="QCode" SortMemberPath="QCode">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding QCode}" TextAlignment="Center"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Orpon.GlobalId">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Orpon.GlobalID}" TextAlignment="Center"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="QCodeNew" SortMemberPath="QCodeNew">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding QCodeNew}" TextAlignment="Center"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+            
             </TabControl>
 
             <Grid Grid.Column="1" Width="200">
@@ -425,7 +469,7 @@
                         <TextBlock
                         Margin="5,1,1,1"
                         FontWeight="Bold"
-                        Text="Что орпанизируем:" />
+                        Text="Что орпонизируем:" />
                         <!--  Орпонизируем все объекты в таблице данных  -->
                         <RadioButton
                         Margin="10,2,2,5"
