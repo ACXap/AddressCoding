@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="uFdeo0lDlCSTwQypdZUn+HyLQJo=">
+<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="Gn9l1EZMH2AEmU28urEx2Rfam/o=">
   <bindingConfigurations>
-    <bindingConfiguration bindingType="basicHttpBinding" name="ws_SearchAddressElementByFullNameSoapBinding">
+    <bindingConfiguration bindingType="basicHttpBinding" name="ws_SearchAddressElementByFullName2SoapBinding">
       <properties>
         <property path="/name" isComplexType="false" isExplicitlyDefined="true" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>ws_SearchAddressElementByFullNameSoapBinding</serializedValue>
+          <serializedValue>ws_SearchAddressElementByFullName2SoapBinding</serializedValue>
         </property>
         <property path="/closeTimeout" isComplexType="false" isExplicitlyDefined="true" clrType="System.TimeSpan, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />
@@ -112,10 +112,10 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="WsSearchAddrElByFullNamePortTypeImplPort" contract="Orpon.wsSearchAddrElByFullNamePortType" bindingType="basicHttpBinding" address="http://10.42.78.143:8081/PONWebServices/WsSearchAddrElByFullNamePortType" bindingConfiguration="ws_SearchAddressElementByFullNameSoapBinding">
+    <endpoint name="WsSearchAddrElByFullNamePortTypeImpl2Port" contract="Orpon.wsSearchAddrElByFullNamePortType2" bindingType="basicHttpBinding" address="http://10.42.78.143:8081/PONWebServices/WsSearchAddrElByFullNamePortType2" bindingConfiguration="ws_SearchAddressElementByFullName2SoapBinding">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>http://10.42.78.143:8081/PONWebServices/WsSearchAddrElByFullNamePortType</serializedValue>
+          <serializedValue>http://10.42.78.143:8081/PONWebServices/WsSearchAddrElByFullNamePortType2</serializedValue>
         </property>
         <property path="/behaviorConfiguration" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />
@@ -124,10 +124,10 @@
           <serializedValue>basicHttpBinding</serializedValue>
         </property>
         <property path="/bindingConfiguration" isComplexType="false" isExplicitlyDefined="true" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>ws_SearchAddressElementByFullNameSoapBinding</serializedValue>
+          <serializedValue>ws_SearchAddressElementByFullName2SoapBinding</serializedValue>
         </property>
         <property path="/contract" isComplexType="false" isExplicitlyDefined="true" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>Orpon.wsSearchAddrElByFullNamePortType</serializedValue>
+          <serializedValue>Orpon.wsSearchAddrElByFullNamePortType2</serializedValue>
         </property>
         <property path="/headers" isComplexType="true" isExplicitlyDefined="false" clrType="System.ServiceModel.Configuration.AddressHeaderCollectionElement, System.ServiceModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue>System.ServiceModel.Configuration.AddressHeaderCollectionElement</serializedValue>
@@ -187,7 +187,7 @@
           <serializedValue>False</serializedValue>
         </property>
         <property path="/name" isComplexType="false" isExplicitlyDefined="true" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>WsSearchAddrElByFullNamePortTypeImplPort</serializedValue>
+          <serializedValue>WsSearchAddrElByFullNamePortTypeImpl2Port</serializedValue>
         </property>
         <property path="/kind" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />

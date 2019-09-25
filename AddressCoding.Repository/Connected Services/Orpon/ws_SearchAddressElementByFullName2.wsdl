@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.informatica.com/dis/ws/ws_" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="ws_SearchAddressElementByFullName" targetNamespace="http://www.informatica.com/dis/ws/ws_" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.informatica.com/dis/ws/ws_" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="ws_SearchAddressElementByFullName2" targetNamespace="http://www.informatica.com/dis/ws/ws_" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <xs:schema targetNamespace="http://www.informatica.com/dis/ws/ws_" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
       <xs:element name="AddressElementNameData">
@@ -28,24 +28,27 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
-      <xs:element name="AddressElementNameResponse">
+      <xs:element name="AddressElementNameResponse2">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="AddressElementResponseList">
+            <xs:element name="AddressElementResponseList2">
               <xs:complexType>
                 <xs:sequence>
-                  <xs:element maxOccurs="unbounded" name="AddressElementNameGroup">
+                  <xs:element maxOccurs="unbounded" name="AddressElementNameGroup2">
                     <xs:complexType>
                       <xs:sequence>
                         <xs:element name="QualityCode" type="xs:string" />
                         <xs:element name="CheckStatus" type="xs:string" />
+                        <xs:element minOccurs="0" name="UnparsedParts" type="xs:string" />
                         <xs:element minOccurs="0" name="ParsingLevelCode" type="xs:string" />
                         <xs:element name="SystemCode" type="xs:string" />
                         <xs:element minOccurs="0" name="GlobalID" type="xs:string" />
                         <xs:element name="KLADRLocalityId" type="xs:string" />
                         <xs:element name="FIASLocalityId" type="xs:string" />
+                        <xs:element name="LocalityGlobalId" type="xs:string" />
                         <xs:element minOccurs="0" name="KLADRStreetId" type="xs:string" />
                         <xs:element minOccurs="0" name="FIASStreetId" type="xs:string" />
+                        <xs:element minOccurs="0" name="StreetGlobalId" type="xs:string" />
                         <xs:element minOccurs="0" name="Street" type="xs:string" />
                         <xs:element minOccurs="0" name="StreetKind" type="xs:string" />
                         <xs:element minOccurs="0" name="House" type="xs:string" />
@@ -58,6 +61,10 @@
                         <xs:element minOccurs="0" name="Ownership" type="xs:string" />
                         <xs:element minOccurs="0" name="OwnershipLitera" type="xs:string" />
                         <xs:element minOccurs="0" name="FIASHouseId" type="xs:string" />
+                        <xs:element minOccurs="0" name="HouseGlobalId" type="xs:string" />
+                        <xs:element name="Latitude" type="xs:string" />
+                        <xs:element name="Longitude" type="xs:string" />
+                        <xs:element name="LocationDescription" type="xs:string" />
                       </xs:sequence>
                     </xs:complexType>
                   </xs:element>
@@ -77,16 +84,16 @@
     <wsdl:part name="FaultMessage" element="tns:ErrorField" />
   </wsdl:message>
   <wsdl:message name="SearchAddressElementByFullNameResponse">
-    <wsdl:part name="parameter" element="tns:AddressElementNameResponse" />
+    <wsdl:part name="parameter" element="tns:AddressElementNameResponse2" />
   </wsdl:message>
-  <wsdl:portType name="wsSearchAddrElByFullNamePortType">
+  <wsdl:portType name="wsSearchAddrElByFullNamePortType2">
     <wsdl:operation name="SearchAddressElementByFullName">
       <wsdl:input name="SearchAddressElementByFullName" message="tns:SearchAddressElementByFullName" />
       <wsdl:output name="SearchAddressElementByFullNameResponse" message="tns:SearchAddressElementByFullNameResponse" />
       <wsdl:fault name="FaultMessage" message="tns:FaultMessage" />
     </wsdl:operation>
   </wsdl:portType>
-  <wsdl:binding name="ws_SearchAddressElementByFullNameSoapBinding" type="tns:wsSearchAddrElByFullNamePortType">
+  <wsdl:binding name="ws_SearchAddressElementByFullName2SoapBinding" type="tns:wsSearchAddrElByFullNamePortType2">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="SearchAddressElementByFullName">
       <soap:operation soapAction="" style="document" />
@@ -101,9 +108,9 @@
       </wsdl:fault>
     </wsdl:operation>
   </wsdl:binding>
-  <wsdl:service name="ws_SearchAddressElementByFullName">
-    <wsdl:port name="WsSearchAddrElByFullNamePortTypeImplPort" binding="tns:ws_SearchAddressElementByFullNameSoapBinding">
-      <soap:address location="http://10.42.78.143:8081/PONWebServices/WsSearchAddrElByFullNamePortType" />
+  <wsdl:service name="ws_SearchAddressElementByFullName2">
+    <wsdl:port name="WsSearchAddrElByFullNamePortTypeImpl2Port" binding="tns:ws_SearchAddressElementByFullName2SoapBinding">
+      <soap:address location="http://10.42.78.143:8081/PONWebServices/WsSearchAddrElByFullNamePortType2" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

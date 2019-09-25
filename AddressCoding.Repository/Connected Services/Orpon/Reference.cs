@@ -12,8 +12,8 @@ namespace AddressCoding.Repository.Orpon {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(Namespace="http://www.informatica.com/dis/ws/ws_", ConfigurationName="Orpon.wsSearchAddrElByFullNamePortType")]
-    public interface wsSearchAddrElByFullNamePortType {
+    [System.ServiceModel.ServiceContractAttribute(Namespace="http://www.informatica.com/dis/ws/ws_", ConfigurationName="Orpon.wsSearchAddrElByFullNamePortType2")]
+    public interface wsSearchAddrElByFullNamePortType2 {
         
         // CODEGEN: Контракт генерации сообщений с операцией SearchAddressElementByFullName не является ни RPC, ни упакованным документом.
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
@@ -194,20 +194,20 @@ namespace AddressCoding.Repository.Orpon {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://www.informatica.com/dis/ws/ws_")]
-    public partial class AddressElementNameResponse : object, System.ComponentModel.INotifyPropertyChanged {
+    public partial class AddressElementNameResponse2 : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private AddressElementNameResponseAddressElementNameGroup[] addressElementResponseListField;
+        private AddressElementNameResponse2AddressElementNameGroup2[] addressElementResponseList2Field;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
-        [System.Xml.Serialization.XmlArrayItemAttribute("AddressElementNameGroup", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
-        public AddressElementNameResponseAddressElementNameGroup[] AddressElementResponseList {
+        [System.Xml.Serialization.XmlArrayItemAttribute("AddressElementNameGroup2", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
+        public AddressElementNameResponse2AddressElementNameGroup2[] AddressElementResponseList2 {
             get {
-                return this.addressElementResponseListField;
+                return this.addressElementResponseList2Field;
             }
             set {
-                this.addressElementResponseListField = value;
-                this.RaisePropertyChanged("AddressElementResponseList");
+                this.addressElementResponseList2Field = value;
+                this.RaisePropertyChanged("AddressElementResponseList2");
             }
         }
         
@@ -227,11 +227,13 @@ namespace AddressCoding.Repository.Orpon {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://www.informatica.com/dis/ws/ws_")]
-    public partial class AddressElementNameResponseAddressElementNameGroup : object, System.ComponentModel.INotifyPropertyChanged {
+    public partial class AddressElementNameResponse2AddressElementNameGroup2 : object, System.ComponentModel.INotifyPropertyChanged {
         
         private string qualityCodeField;
         
         private string checkStatusField;
+        
+        private string unparsedPartsField;
         
         private string parsingLevelCodeField;
         
@@ -243,9 +245,13 @@ namespace AddressCoding.Repository.Orpon {
         
         private string fIASLocalityIdField;
         
+        private string localityGlobalIdField;
+        
         private string kLADRStreetIdField;
         
         private string fIASStreetIdField;
+        
+        private string streetGlobalIdField;
         
         private string streetField;
         
@@ -270,6 +276,14 @@ namespace AddressCoding.Repository.Orpon {
         private string ownershipLiteraField;
         
         private string fIASHouseIdField;
+        
+        private string houseGlobalIdField;
+        
+        private string latitudeField;
+        
+        private string longitudeField;
+        
+        private string locationDescriptionField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
@@ -297,6 +311,18 @@ namespace AddressCoding.Repository.Orpon {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
+        public string UnparsedParts {
+            get {
+                return this.unparsedPartsField;
+            }
+            set {
+                this.unparsedPartsField = value;
+                this.RaisePropertyChanged("UnparsedParts");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
         public string ParsingLevelCode {
             get {
                 return this.parsingLevelCodeField;
@@ -308,7 +334,7 @@ namespace AddressCoding.Repository.Orpon {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
         public string SystemCode {
             get {
                 return this.systemCodeField;
@@ -320,7 +346,7 @@ namespace AddressCoding.Repository.Orpon {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=5)]
         public string GlobalID {
             get {
                 return this.globalIDField;
@@ -332,7 +358,7 @@ namespace AddressCoding.Repository.Orpon {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=6)]
         public string KLADRLocalityId {
             get {
                 return this.kLADRLocalityIdField;
@@ -344,7 +370,7 @@ namespace AddressCoding.Repository.Orpon {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=7)]
         public string FIASLocalityId {
             get {
                 return this.fIASLocalityIdField;
@@ -356,7 +382,19 @@ namespace AddressCoding.Repository.Orpon {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=8)]
+        public string LocalityGlobalId {
+            get {
+                return this.localityGlobalIdField;
+            }
+            set {
+                this.localityGlobalIdField = value;
+                this.RaisePropertyChanged("LocalityGlobalId");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=9)]
         public string KLADRStreetId {
             get {
                 return this.kLADRStreetIdField;
@@ -368,7 +406,7 @@ namespace AddressCoding.Repository.Orpon {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=8)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=10)]
         public string FIASStreetId {
             get {
                 return this.fIASStreetIdField;
@@ -380,7 +418,19 @@ namespace AddressCoding.Repository.Orpon {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=9)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=11)]
+        public string StreetGlobalId {
+            get {
+                return this.streetGlobalIdField;
+            }
+            set {
+                this.streetGlobalIdField = value;
+                this.RaisePropertyChanged("StreetGlobalId");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=12)]
         public string Street {
             get {
                 return this.streetField;
@@ -392,7 +442,7 @@ namespace AddressCoding.Repository.Orpon {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=10)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=13)]
         public string StreetKind {
             get {
                 return this.streetKindField;
@@ -404,7 +454,7 @@ namespace AddressCoding.Repository.Orpon {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=11)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=14)]
         public string House {
             get {
                 return this.houseField;
@@ -416,7 +466,7 @@ namespace AddressCoding.Repository.Orpon {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=12)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=15)]
         public string HouseLitera {
             get {
                 return this.houseLiteraField;
@@ -428,7 +478,7 @@ namespace AddressCoding.Repository.Orpon {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=13)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=16)]
         public string CornerHouse {
             get {
                 return this.cornerHouseField;
@@ -440,7 +490,7 @@ namespace AddressCoding.Repository.Orpon {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=14)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=17)]
         public string BuildingBlock {
             get {
                 return this.buildingBlockField;
@@ -452,7 +502,7 @@ namespace AddressCoding.Repository.Orpon {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=15)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=18)]
         public string BuildingBlockLitera {
             get {
                 return this.buildingBlockLiteraField;
@@ -464,7 +514,7 @@ namespace AddressCoding.Repository.Orpon {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=16)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=19)]
         public string Building {
             get {
                 return this.buildingField;
@@ -476,7 +526,7 @@ namespace AddressCoding.Repository.Orpon {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=17)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=20)]
         public string BuildingLitera {
             get {
                 return this.buildingLiteraField;
@@ -488,7 +538,7 @@ namespace AddressCoding.Repository.Orpon {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=18)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=21)]
         public string Ownership {
             get {
                 return this.ownershipField;
@@ -500,7 +550,7 @@ namespace AddressCoding.Repository.Orpon {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=19)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=22)]
         public string OwnershipLitera {
             get {
                 return this.ownershipLiteraField;
@@ -512,7 +562,7 @@ namespace AddressCoding.Repository.Orpon {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=20)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=23)]
         public string FIASHouseId {
             get {
                 return this.fIASHouseIdField;
@@ -520,6 +570,54 @@ namespace AddressCoding.Repository.Orpon {
             set {
                 this.fIASHouseIdField = value;
                 this.RaisePropertyChanged("FIASHouseId");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=24)]
+        public string HouseGlobalId {
+            get {
+                return this.houseGlobalIdField;
+            }
+            set {
+                this.houseGlobalIdField = value;
+                this.RaisePropertyChanged("HouseGlobalId");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=25)]
+        public string Latitude {
+            get {
+                return this.latitudeField;
+            }
+            set {
+                this.latitudeField = value;
+                this.RaisePropertyChanged("Latitude");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=26)]
+        public string Longitude {
+            get {
+                return this.longitudeField;
+            }
+            set {
+                this.longitudeField = value;
+                this.RaisePropertyChanged("Longitude");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=27)]
+        public string LocationDescription {
+            get {
+                return this.locationDescriptionField;
+            }
+            set {
+                this.locationDescriptionField = value;
+                this.RaisePropertyChanged("LocationDescription");
             }
         }
         
@@ -557,64 +655,64 @@ namespace AddressCoding.Repository.Orpon {
     public partial class SearchAddressElementByFullNameResponse {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://www.informatica.com/dis/ws/ws_", Order=0)]
-        public AddressCoding.Repository.Orpon.AddressElementNameResponse AddressElementNameResponse;
+        public AddressCoding.Repository.Orpon.AddressElementNameResponse2 AddressElementNameResponse2;
         
         public SearchAddressElementByFullNameResponse() {
         }
         
-        public SearchAddressElementByFullNameResponse(AddressCoding.Repository.Orpon.AddressElementNameResponse AddressElementNameResponse) {
-            this.AddressElementNameResponse = AddressElementNameResponse;
+        public SearchAddressElementByFullNameResponse(AddressCoding.Repository.Orpon.AddressElementNameResponse2 AddressElementNameResponse2) {
+            this.AddressElementNameResponse2 = AddressElementNameResponse2;
         }
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface wsSearchAddrElByFullNamePortTypeChannel : AddressCoding.Repository.Orpon.wsSearchAddrElByFullNamePortType, System.ServiceModel.IClientChannel {
+    public interface wsSearchAddrElByFullNamePortType2Channel : AddressCoding.Repository.Orpon.wsSearchAddrElByFullNamePortType2, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class wsSearchAddrElByFullNamePortTypeClient : System.ServiceModel.ClientBase<AddressCoding.Repository.Orpon.wsSearchAddrElByFullNamePortType>, AddressCoding.Repository.Orpon.wsSearchAddrElByFullNamePortType {
+    public partial class wsSearchAddrElByFullNamePortType2Client : System.ServiceModel.ClientBase<AddressCoding.Repository.Orpon.wsSearchAddrElByFullNamePortType2>, AddressCoding.Repository.Orpon.wsSearchAddrElByFullNamePortType2 {
         
-        public wsSearchAddrElByFullNamePortTypeClient() {
+        public wsSearchAddrElByFullNamePortType2Client() {
         }
         
-        public wsSearchAddrElByFullNamePortTypeClient(string endpointConfigurationName) : 
+        public wsSearchAddrElByFullNamePortType2Client(string endpointConfigurationName) : 
                 base(endpointConfigurationName) {
         }
         
-        public wsSearchAddrElByFullNamePortTypeClient(string endpointConfigurationName, string remoteAddress) : 
+        public wsSearchAddrElByFullNamePortType2Client(string endpointConfigurationName, string remoteAddress) : 
                 base(endpointConfigurationName, remoteAddress) {
         }
         
-        public wsSearchAddrElByFullNamePortTypeClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public wsSearchAddrElByFullNamePortType2Client(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(endpointConfigurationName, remoteAddress) {
         }
         
-        public wsSearchAddrElByFullNamePortTypeClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public wsSearchAddrElByFullNamePortType2Client(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        AddressCoding.Repository.Orpon.SearchAddressElementByFullNameResponse AddressCoding.Repository.Orpon.wsSearchAddrElByFullNamePortType.SearchAddressElementByFullName(AddressCoding.Repository.Orpon.SearchAddressElementByFullName request) {
+        AddressCoding.Repository.Orpon.SearchAddressElementByFullNameResponse AddressCoding.Repository.Orpon.wsSearchAddrElByFullNamePortType2.SearchAddressElementByFullName(AddressCoding.Repository.Orpon.SearchAddressElementByFullName request) {
             return base.Channel.SearchAddressElementByFullName(request);
         }
         
-        public AddressCoding.Repository.Orpon.AddressElementNameResponse SearchAddressElementByFullName(AddressCoding.Repository.Orpon.AddressElementNameData AddressElementNameData) {
+        public AddressCoding.Repository.Orpon.AddressElementNameResponse2 SearchAddressElementByFullName(AddressCoding.Repository.Orpon.AddressElementNameData AddressElementNameData) {
             AddressCoding.Repository.Orpon.SearchAddressElementByFullName inValue = new AddressCoding.Repository.Orpon.SearchAddressElementByFullName();
             inValue.AddressElementNameData = AddressElementNameData;
-            AddressCoding.Repository.Orpon.SearchAddressElementByFullNameResponse retVal = ((AddressCoding.Repository.Orpon.wsSearchAddrElByFullNamePortType)(this)).SearchAddressElementByFullName(inValue);
-            return retVal.AddressElementNameResponse;
+            AddressCoding.Repository.Orpon.SearchAddressElementByFullNameResponse retVal = ((AddressCoding.Repository.Orpon.wsSearchAddrElByFullNamePortType2)(this)).SearchAddressElementByFullName(inValue);
+            return retVal.AddressElementNameResponse2;
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<AddressCoding.Repository.Orpon.SearchAddressElementByFullNameResponse> AddressCoding.Repository.Orpon.wsSearchAddrElByFullNamePortType.SearchAddressElementByFullNameAsync(AddressCoding.Repository.Orpon.SearchAddressElementByFullName request) {
+        System.Threading.Tasks.Task<AddressCoding.Repository.Orpon.SearchAddressElementByFullNameResponse> AddressCoding.Repository.Orpon.wsSearchAddrElByFullNamePortType2.SearchAddressElementByFullNameAsync(AddressCoding.Repository.Orpon.SearchAddressElementByFullName request) {
             return base.Channel.SearchAddressElementByFullNameAsync(request);
         }
         
         public System.Threading.Tasks.Task<AddressCoding.Repository.Orpon.SearchAddressElementByFullNameResponse> SearchAddressElementByFullNameAsync(AddressCoding.Repository.Orpon.AddressElementNameData AddressElementNameData) {
             AddressCoding.Repository.Orpon.SearchAddressElementByFullName inValue = new AddressCoding.Repository.Orpon.SearchAddressElementByFullName();
             inValue.AddressElementNameData = AddressElementNameData;
-            return ((AddressCoding.Repository.Orpon.wsSearchAddrElByFullNamePortType)(this)).SearchAddressElementByFullNameAsync(inValue);
+            return ((AddressCoding.Repository.Orpon.wsSearchAddrElByFullNamePortType2)(this)).SearchAddressElementByFullNameAsync(inValue);
         }
     }
 }

@@ -116,5 +116,16 @@ namespace AddressCoding.Entities.Settings
             get => _fileError;
             set => Set(ref _fileError, value);
         }
+
+
+        private bool _canUseAnsi = false;
+        /// <summary>
+        /// Данные в кодировке ANSI
+        /// </summary>
+        public bool CanUseAnsi
+        {
+            get => _canUseAnsi;
+            set => Set(ref _canUseAnsi, value);
+        }
     }
 }

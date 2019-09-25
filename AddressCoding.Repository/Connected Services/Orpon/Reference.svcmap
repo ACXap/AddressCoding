@@ -19,10 +19,10 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://10.42.78.143:8081/PONWebServices/WsSearchAddrElByFullNamePortType?wsdl" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://10.42.78.143:8081/PONWebServices/WsSearchAddrElByFullNamePortType2?wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="ws_SearchAddressElementByFullName.wsdl" MetadataType="Wsdl" ID="942b76c7-2679-4eef-836f-3e7d874e1f21" SourceId="1" SourceUrl="http://10.42.78.143:8081/PONWebServices/WsSearchAddrElByFullNamePortType?wsdl" />
+    <MetadataFile FileName="ws_SearchAddressElementByFullName2.wsdl" MetadataType="Wsdl" ID="9a812f78-fb30-4ca4-9a97-7917e1ed9cf7" SourceId="1" SourceUrl="http://10.42.78.143:8081/PONWebServices/WsSearchAddrElByFullNamePortType2?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

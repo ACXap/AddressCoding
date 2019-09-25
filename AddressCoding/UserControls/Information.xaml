@@ -45,6 +45,12 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <TextBlock
             Grid.Row="0"
@@ -246,5 +252,21 @@
             Grid.Row="24"
             Grid.Column="2"
             Text="{Binding Orpon.FIASHouseId}" />
+        <TextBlock
+            Grid.Row="25"
+            Grid.Column="0"
+            Text="Latitude" />
+        <TextBlock
+            Grid.Row="25"
+            Grid.Column="2"
+            Text="{Binding Orpon.Latitude}" />
+        <TextBlock
+            Grid.Row="26"
+            Grid.Column="0"
+            Text="Longitude" />
+        <TextBlock
+            Grid.Row="26"
+            Grid.Column="2"
+            Text="{Binding Orpon.Longitude}" />
     </Grid>
 </UserControl>

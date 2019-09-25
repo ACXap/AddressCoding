@@ -25,7 +25,7 @@ namespace AddressCoding.FileService
         /// </summary>
         /// <param name="fileName">Имя файла</param>
         /// <returns>Возвращает коллекцию строк из файла</returns>
-        EntityResult<string> GetData(string fileName);
+        EntityResult<string> GetData(string fileName, bool canUseAnsi = false);
         /// <summary>
         /// Метод для сохранения данных в файл
         /// </summary>

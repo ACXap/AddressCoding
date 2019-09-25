@@ -59,9 +59,7 @@
 
     <!--  Отображение процесса геокодирования на панели задач  -->
     <Controls:MetroWindow.TaskbarItemInfo>
-        <TaskbarItemInfo 
-            ProgressState="{Binding IsStartOrponing, Converter={StaticResource ConverterStatOrponingToProgressState}}" 
-            ProgressValue="{Binding Source={StaticResource Locator}, Path=Stat.Statistics.Percent, Converter={StaticResource ConverterStatToProgress}}" />
+        <TaskbarItemInfo ProgressState="{Binding IsStartOrponing, Converter={StaticResource ConverterStatOrponingToProgressState}}" ProgressValue="{Binding Source={StaticResource Locator}, Path=Stat.Statistics.Percent, Converter={StaticResource ConverterStatToProgress}}" />
     </Controls:MetroWindow.TaskbarItemInfo>
 
     <!--  Основная панель контролов  -->
@@ -127,6 +125,13 @@
                                     Content="{DynamicResource txtContentButtonGetData}"
                                     Style="{StaticResource ButtonMainStyle}"
                                     ToolTip="{DynamicResource txtToolTipButtonGetData}" />
+
+                                <WrapPanel
+                                    Grid.Column="1"
+                                    Margin="2"
+                                    Orientation="Vertical">
+                                    <CheckBox Content="Данные в кодировке ANSI" IsChecked="{Binding Settings.FileSettings.CanUseAnsi, Source={StaticResource Locator}}" />
+                                </WrapPanel>
 
                                 <!--  Выбор файла с данными, открываем проводник  -->
                                 <Button
@@ -328,9 +333,9 @@
                 VerticalAlignment="Top"
                 Panel.ZIndex="1"
                 IsActive="{Binding IsStartOrponing}"
-                Text="{DynamicResource txtWorkIndication}" 
-                IsShowTextAlternative="{Binding IsRequestedStop}" 
-                TextAlternative="{DynamicResource txtWorkIndicationStop}"/>
+                IsShowTextAlternative="{Binding IsRequestedStop}"
+                Text="{DynamicResource txtWorkIndication}"
+                TextAlternative="{DynamicResource txtWorkIndicationStop}" />
 
             <TabControl Grid.Column="0" SelectedIndex="{Binding IndexTab}">
                 <TabItem Header="{DynamicResource txtTabDataHeder}">
@@ -391,50 +396,51 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
-                <TabItem Header="Орпонизация геоданных">
-                    <DataGrid ItemsSource="{Binding Collection}"
+                <TabItem Header="Орпонизация геоданных" Visibility="Collapsed">
+                    <DataGrid
+                        ItemsSource="{Binding Collection}"
                         SelectedItem="{Binding CurrentOrpon}"
                         Style="{StaticResource DataGridMainAll}">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="GlobalIdOriginal">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding GlobalIdOriginal}"/>
+                                        <TextBlock Text="{Binding GlobalIdOriginal}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                             <DataGridTemplateColumn Header="Адрес" SortMemberPath="Address">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Address}"/>
+                                        <TextBlock Text="{Binding Address}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                             <DataGridTemplateColumn Header="QCode" SortMemberPath="QCode">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding QCode}" TextAlignment="Center"/>
+                                        <TextBlock Text="{Binding QCode}" TextAlignment="Center" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                             <DataGridTemplateColumn Header="Orpon.GlobalId">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Orpon.GlobalID}" TextAlignment="Center"/>
+                                        <TextBlock Text="{Binding Orpon.GlobalID}" TextAlignment="Center" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                             <DataGridTemplateColumn Header="QCodeNew" SortMemberPath="QCodeNew">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding QCodeNew}" TextAlignment="Center"/>
+                                        <TextBlock Text="{Binding QCodeNew}" TextAlignment="Center" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
-            
+
             </TabControl>
 
             <Grid Grid.Column="1" Width="200">
@@ -455,51 +461,57 @@
                     Grid.Row="2"
                     CommandStart="{Binding CommandGetAllOrpon}"
                     CommandStop="{Binding CommandStopOrponing}"
+                    IsDisabledStop="{Binding IsRequestedStop}"
                     IsStart="{Binding IsStartOrponing}"
                     Percent="{Binding Source={StaticResource Locator}, Path=Stat.Statistics.Percent}"
-                    ShowProgress="True" 
-                    IsDisabledStop="{Binding IsRequestedStop}"
+                    ShowProgress="True"
                     TextStart="{DynamicResource txtContentStart}"
                     TextStop="{DynamicResource txtContentStop}" />
 
                 <!--  Настройки орпонизации  -->
-                <StackPanel Grid.Row="3" Orientation="Vertical" DataContext="{Binding Source={StaticResource Locator}, Path=Settings.GeneralSettings}">
+                <StackPanel
+                    Grid.Row="3"
+                    DataContext="{Binding Source={StaticResource Locator}, Path=Settings.GeneralSettings}"
+                    Orientation="Vertical">
 
-                    <StackPanel  Orientation="Vertical" >
+                    <StackPanel Orientation="Vertical">
                         <TextBlock
-                        Margin="5,1,1,1"
-                        FontWeight="Bold"
-                        Text="Что орпонизируем:" />
+                            Margin="5,1,1,1"
+                            FontWeight="Bold"
+                            Text="Что орпонизируем:" />
                         <!--  Орпонизируем все объекты в таблице данных  -->
                         <RadioButton
-                        Margin="10,2,2,5"
-                        Content="Все" ToolTip="Будут орпонизированы все адреса в таблице"
-                        IsChecked="{Binding CanOrponingGetAll}" />
+                            Margin="10,2,2,5"
+                            Content="Все"
+                            IsChecked="{Binding CanOrponingGetAll}"
+                            ToolTip="Будут орпонизированы все адреса в таблице" />
 
                         <!--  Орпонизировать только объекты со статусом "Ошибка"  -->
                         <RadioButton
-                        Margin="10,2,2,5"
-                        Content="С ошибками" ToolTip="Будут орпонизированы все адреса с ошибками"
-                        IsChecked="{Binding CanOrponingGetError}" />
+                            Margin="10,2,2,5"
+                            Content="С ошибками"
+                            IsChecked="{Binding CanOrponingGetError}"
+                            ToolTip="Будут орпонизированы все адреса с ошибками" />
 
-                        <!--  Орпонизировать только объекты со статусом "Неорпонизированы" -->
+                        <!--  Орпонизировать только объекты со статусом "Неорпонизированы"  -->
                         <RadioButton
-                        Margin="10,2,2,5"
-                        Content="Неорпонизированые"
-                        IsChecked="{Binding CanOrponingGetNotOrponing}" ToolTip="Будут орпонизированы все неорпонизированные адреса" />
+                            Margin="10,2,2,5"
+                            Content="Неорпонизированые"
+                            IsChecked="{Binding CanOrponingGetNotOrponing}"
+                            ToolTip="Будут орпонизированы все неорпонизированные адреса" />
                     </StackPanel>
 
                     <TextBlock
                         Margin="5,1,1,1"
                         FontWeight="Bold"
                         Text="Что делаем после:" />
-                    
+
                     <CheckBox
                         Margin="10,2,2,5"
                         Content="Сохранить в кратком виде"
                         IsChecked="{Binding CanSaveDataAsShot}"
                         ToolTip="Сохранить в данные в кратком виде" />
-                    
+
                     <CheckBox
                         Margin="10,2,2,5"
                         IsChecked="{Binding CanSaveDataAsFull}"

@@ -118,7 +118,7 @@ namespace AddressCoding.FileService
         /// </summary>
         /// <param name="fileName">Имя файла</param>
         /// <returns>Возвращает коллекцию строк из файла</returns>
-        public EntityResult<string> GetData(string fileName)
+        public EntityResult<string> GetData(string fileName, bool canUseAnsi = false)
         {
             EntityResult<string> result = new EntityResult<string>();
 
@@ -127,7 +127,12 @@ namespace AddressCoding.FileService
                 var data = new List<string>();
                 try
                 {
-                    using (StreamReader sr = new StreamReader(File.Open(fileName, FileMode.Open, FileAccess.Read, FileShare.Read), Encoding.UTF8))
+                    Encoding enc = Encoding.UTF8;
+                    if(canUseAnsi)
+                    {
+                        enc = Encoding.Default;
+                    }
+                    using (StreamReader sr = new StreamReader(File.Open(fileName, FileMode.Open, FileAccess.Read, FileShare.Read), enc))
                     {
                         while (!sr.EndOfStream)
                         {

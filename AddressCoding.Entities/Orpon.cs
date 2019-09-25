@@ -24,6 +24,16 @@ namespace AddressCoding.Entities
             set => Set(ref _checkStatus, value);
         }
 
+        private string _unparsedParts = string.Empty;
+        /// <summary>
+        /// 
+        /// </summary>
+        public string UnparsedParts
+        {
+            get => _unparsedParts;
+            set => Set(ref _unparsedParts, value);
+        }
+
         private string _parsingLevelCode = string.Empty;
         /// <summary>
         /// 
@@ -74,6 +84,16 @@ namespace AddressCoding.Entities
             set => Set(ref _fIASLocalityId, value);
         }
 
+        private string _localityGlobalId = string.Empty;
+        /// <summary>
+        /// 
+        /// </summary>
+        public string LocalityGlobalId
+        {
+            get => _localityGlobalId;
+            set => Set(ref _localityGlobalId, value);
+        }
+
         private string _kLADRStreetId = string.Empty;
         /// <summary>
         /// 
@@ -92,6 +112,16 @@ namespace AddressCoding.Entities
         {
             get => _fIASStreetId;
             set => Set(ref _fIASStreetId, value);
+        }
+
+        private string _streetGlobalId = string.Empty;
+        /// <summary>
+        /// 
+        /// </summary>
+        public string StreetGlobalId
+        {
+            get => _streetGlobalId;
+            set => Set(ref _streetGlobalId, value);
         }
 
         private string _street = string.Empty;
@@ -212,6 +242,46 @@ namespace AddressCoding.Entities
         {
             get => _fIASHouseId;
             set => Set(ref _fIASHouseId, value);
+        }
+
+        private string _houseGlobalId = string.Empty;
+        /// <summary>
+        /// 
+        /// </summary>
+        public string HouseGlobalId
+        {
+            get => _houseGlobalId;
+            set => Set(ref _houseGlobalId, value);
+        }
+
+        private string _latitude = string.Empty;
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Latitude
+        {
+            get => _latitude;
+            set => Set(ref _latitude, value);
+        }
+
+        private string _longitude = string.Empty;
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Longitude
+        {
+            get => _longitude;
+            set => Set(ref _longitude, value);
+        }
+
+        private string _locationDescription = string.Empty;
+        /// <summary>
+        /// 
+        /// </summary>
+        public string LocationDescription
+        {
+            get => _locationDescription;
+            set => Set(ref _locationDescription, value);
         }
     }
 }

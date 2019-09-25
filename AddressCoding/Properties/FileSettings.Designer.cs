@@ -12,7 +12,7 @@ namespace AddressCoding.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.2.0.0")]
     internal sealed partial class FileSettings : global::System.Configuration.ApplicationSettingsBase {
         
         private static FileSettings defaultInstance = ((FileSettings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new FileSettings())));
@@ -44,6 +44,18 @@ namespace AddressCoding.Properties {
             }
             set {
                 this["MaxSizePart"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool CanUseAnsi {
+            get {
+                return ((bool)(this["CanUseAnsi"]));
+            }
+            set {
+                this["CanUseAnsi"] = value;
             }
         }
     }

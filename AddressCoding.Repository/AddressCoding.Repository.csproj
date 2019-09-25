@@ -56,13 +56,14 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\Orpon\AddressCoding.Repository.Orpon.AddressElementNameResponse.datasource">
+    <None Include="app.config" />
+    <None Include="Connected Services\Orpon\AddressCoding.Repository.Orpon.AddressElementNameResponse2.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\Orpon\AddressCoding.Repository.Orpon.SearchAddressElementByFullNameResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\Orpon\ws_SearchAddressElementByFullName.wsdl" />
+    <None Include="Connected Services\Orpon\ws_SearchAddressElementByFullName2.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Connected Services\Orpon\" />

@@ -138,6 +138,7 @@ namespace AddressCoding.ViewModel
             var fs = Properties.FileSettings.Default;
             _fileSettings.CanBreakFileOutput = fs.CanBreakFileOutput;
             _fileSettings.MaxSizePart = fs.MaxSizePart;
+            _fileSettings.CanUseAnsi = fs.CanUseAnsi;
 
             var gs = Properties.GeneralSettings.Default;
             _generalSettings.ColorTheme = ThemeManager.GetTheme(gs.Theme);
@@ -167,6 +168,7 @@ namespace AddressCoding.ViewModel
             var rs = Properties.RepositorySettings.Default;
             fs.CanBreakFileOutput = _fileSettings.CanBreakFileOutput;
             fs.MaxSizePart = _fileSettings.MaxSizePart;
+            fs.CanUseAnsi = _fileSettings.CanUseAnsi;
 
             gs.Theme = _generalSettings.ColorTheme.Name;
             gs.CanOpenFolderAfter = _generalSettings.CanOpenFolderAfter;

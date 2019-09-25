@@ -16,7 +16,7 @@ namespace AddressCoding.Repository
         {
             EntityResult<Entities.Orpon> result = new EntityResult<Entities.Orpon>();
 
-            using (var client = new wsSearchAddrElByFullNamePortTypeClient(_nameEndpoint, _address))
+            using (var client = new wsSearchAddrElByFullNamePortType2Client(_nameEndpoint, _address))
             {
                 try
                 {
@@ -35,9 +35,9 @@ namespace AddressCoding.Repository
 
                     if (r != null)
                     {
-                        if (r.AddressElementResponseList.Length > 0)
+                        if (r.AddressElementResponseList2.Length > 0)
                         {
-                            var a = r.AddressElementResponseList[0];
+                            var a = r.AddressElementResponseList2[0];
                             result.Object = GetOrpon(a);
                         }
                         else
@@ -64,7 +64,7 @@ namespace AddressCoding.Repository
             return result;
         }
 
-        private Entities.Orpon GetOrpon(AddressElementNameResponseAddressElementNameGroup a)
+        private Entities.Orpon GetOrpon(AddressElementNameResponse2AddressElementNameGroup2 a)
         {
             return new Entities.Orpon()
             {
@@ -88,7 +88,14 @@ namespace AddressCoding.Repository
                 QualityCode = a.QualityCode,
                 Street = a.Street,
                 StreetKind = a.StreetKind,
-                SystemCode = a.SystemCode
+                SystemCode = a.SystemCode,
+                Latitude = a.Latitude,
+                LocalityGlobalId = a.LocalityGlobalId,
+                LocationDescription = a.LocationDescription,
+                Longitude = a.Longitude,
+                StreetGlobalId = a.StreetGlobalId,
+                UnparsedParts = a.UnparsedParts,
+                HouseGlobalId = a.HouseGlobalId
             };
         }
 
@@ -98,7 +105,7 @@ namespace AddressCoding.Repository
 
             try
             {
-                using (var client = new wsSearchAddrElByFullNamePortTypeClient(_nameEndpoint, _address))
+                using (var client = new wsSearchAddrElByFullNamePortType2Client(_nameEndpoint, _address))
                 {
                     try
                     {
@@ -110,14 +117,16 @@ namespace AddressCoding.Repository
                             };
                         }).ToArray();
 
-                        var a = client.SearchAddressElementByFullName(new Orpon.AddressElementNameData()
+                        client.Open();
+
+                        var a = client.SearchAddressElementByFullName(new AddressElementNameData()
                         {
                             AddressElementFullNameList = address
                         });
 
                         if (a != null)
                         {
-                            result.Objects = a.AddressElementResponseList.Select(x =>
+                            result.Objects = a.AddressElementResponseList2.Select(x =>
                             {
                                 return GetOrpon(x);
                             });
@@ -174,7 +183,7 @@ namespace AddressCoding.Repository
 
                 try
                 {
-                    using (var client = new Orpon.wsSearchAddrElByFullNamePortTypeClient(_nameEndpoint, _address))
+                    using (var client = new Orpon.wsSearchAddrElByFullNamePortType2Client(_nameEndpoint, _address))
                     {
                         try
                         {

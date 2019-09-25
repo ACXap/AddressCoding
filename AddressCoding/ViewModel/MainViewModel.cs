@@ -336,7 +336,7 @@ namespace AddressCoding.ViewModel
         /// </summary>
         private void GetDataFromFile()
         {
-            var result = _fileService.GetData(_set.FileSettings.FileInput);
+            var result = _fileService.GetData(_set.FileSettings.FileInput, _set.FileSettings.CanUseAnsi);
             var id = 0;
             if (result != null && result.Error == null && result.Objects != null)
             {
@@ -417,11 +417,11 @@ namespace AddressCoding.ViewModel
                 }
                 else if (_set.GeneralSettings.CanOrponingGetError)
                 {
-                    listAddress = _collection.Where(x => x.Status == StatusType.Error).Partition(2);
+                    listAddress = _collection.Where(x => x.Status == StatusType.Error).Partition(_set.RepositorySettings.MaxObj);
                 }
                 else
                 {
-                    listAddress = _collection.Where(x => x.Status == StatusType.NotOrponing).Partition(2);
+                    listAddress = _collection.Where(x => x.Status == StatusType.NotOrponing).Partition(_set.RepositorySettings.MaxObj);
                 }
             }
 
@@ -605,16 +605,17 @@ namespace AddressCoding.ViewModel
             {
                 var data = new List<string>(_collection.Count)
                     {
-                        $"Адрес;QualityCode;CheckStatus;ParsingLevelCode;GlobalID;SystemCode;KLADRLocalityId;FIASLocalityId;" +
-                        $"KLADRStreetId;FIASStreetId;Street;StreetKind;House;HouseLitera;CornerHouse;BuildingBlock;" +
-                        $"BuildingBlockLitera;Building;BuildingLitera;Ownership;OwnershipLitera;FIASHouseId"
+                        $"Адрес;QualityCode;CheckStatus;UnparsedParts;ParsingLevelCode;GlobalID;SystemCode;KLADRLocalityId;FIASLocalityId;LocalityGlobalId;" +
+                        $"KLADRStreetId;FIASStreetId;Street;StreetKind;KLADRStreetId;FIASStreetId;StreetGlobalId;House;HouseLitera;CornerHouse;BuildingBlock;" +
+                        $"BuildingBlockLitera;Building;BuildingLitera;Ownership;OwnershipLitera;FIASHouseId;HouseGlobalId;Latitude;Longitude;LocationDescription"
                     };
                 data.AddRange(_collection.Select(x =>
                 {
-                    return $"{x.Address};{x.Orpon?.QualityCode};{x.Orpon?.CheckStatus};{x.Orpon?.ParsingLevelCode};{x.Orpon?.GlobalID};{x.Orpon?.SystemCode};" +
-                    $"{x.Orpon?.KLADRLocalityId};{x.Orpon?.FIASLocalityId};{x.Orpon?.KLADRStreetId};{x.Orpon?.FIASStreetId};{x.Orpon?.Street};{x.Orpon?.StreetKind};{x.Orpon?.House};" +
-                    $"{x.Orpon?.HouseLitera};{x.Orpon?.CornerHouse};{x.Orpon?.BuildingBlock};{x.Orpon?.BuildingBlockLitera};{x.Orpon?.Building};{x.Orpon?.BuildingLitera};" +
-                    $"{x.Orpon?.Ownership};{x.Orpon?.OwnershipLitera};{x.Orpon?.FIASHouseId}";
+                    return $"{x.Address};{x.Orpon?.QualityCode};{x.Orpon?.CheckStatus};{x.Orpon?.UnparsedParts};{x.Orpon?.ParsingLevelCode};{x.Orpon?.GlobalID};{x.Orpon?.SystemCode};" +
+                    $"{x.Orpon?.KLADRLocalityId};{x.Orpon?.FIASLocalityId};{x.Orpon?.LocalityGlobalId};{x.Orpon?.KLADRStreetId};{x.Orpon?.FIASStreetId};{x.Orpon?.Street};{x.Orpon?.StreetKind};" +
+                    $"{x.Orpon?.KLADRStreetId};{x.Orpon?.FIASStreetId};{x.Orpon?.StreetGlobalId};{x.Orpon?.House};{x.Orpon?.HouseLitera};{x.Orpon?.CornerHouse};{x.Orpon?.BuildingBlock};" +
+                    $"{x.Orpon?.BuildingBlockLitera};{x.Orpon?.Building};{x.Orpon?.BuildingLitera};{x.Orpon?.Ownership};{x.Orpon?.OwnershipLitera};{x.Orpon?.FIASHouseId};" +
+                    $"{x.Orpon?.HouseGlobalId};{x.Orpon?.Latitude};{x.Orpon?.Longitude};{x.Orpon?.LocationDescription}";
                 }));
 
                 var result = _fileService.SaveData($"{_set.FileSettings.FolderTemp}\\{Path.GetFileName(_set.FileSettings.FileOutput)}", data);
@@ -658,7 +659,6 @@ namespace AddressCoding.ViewModel
                 _notification.NotificationAsync(null, result.Error.Message);
             }
         }
-
 
         #endregion PrivateMethod
 
