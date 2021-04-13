@@ -25,6 +25,16 @@ namespace AddressCoding.Entities
             set => Set(ref _address, value);
         }
 
+        private string _addressOrpon = string.Empty;
+        /// <summary>
+        /// Адрес объекта из базы
+        /// </summary>
+        public string AddressOrpon
+        {
+            get => _addressOrpon;
+            set => Set(ref _addressOrpon, value);
+        }
+
         private StatusType _status = StatusType.NotOrponing;
         /// <summary>
         /// 

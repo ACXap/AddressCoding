@@ -11,26 +11,26 @@ namespace AddressCoding.Repository
         /// </summary>
         /// <param name="data">Данные</param>
         /// <returns>Возвращает объект орпона</returns>
-        EntityResult<Entities.Orpon> GetOrpon(string data);
+        EntityResult<bool> GetOrpon(EntityOrpon data);
         /// <summary>
         /// Асинхронный метод для получения объекта орпон
         /// </summary>
         /// <param name="data">Данные</param>
         /// <returns>Возвращает задачу</returns>
-        Task<EntityResult<Entities.Orpon>> GetOrponAsync(string data);
+        Task<EntityResult<bool>> GetOrponAsync(EntityOrpon data);
 
         /// <summary>
         /// Метод получения объектов орпона
         /// </summary>
         /// <param name="data">Массив данных</param>
         /// <returns>Возвращает объекты орпона</returns>
-        EntityResult<Entities.Orpon> GetOrpon(IEnumerable<string> data);
+        EntityResult<bool> GetOrpon(IEnumerable<EntityOrpon> data, bool canCheckSinglObj);
         /// <summary>
         /// Асинхронный метод получения объектов орпона
         /// </summary>
         /// <param name="data">Массив данных</param>
         /// <returns>Возвращает объекты орпона</returns>
-        Task<EntityResult<Entities.Orpon>> GetOrponAsync(IEnumerable<string> data);
+        Task<EntityResult<bool>> GetOrponAsync(IEnumerable<EntityOrpon> data, bool canCheckSinglObj);
 
         /// <summary>
         /// Асинхронный метод проверки подключения

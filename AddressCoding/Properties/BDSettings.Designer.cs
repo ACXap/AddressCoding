@@ -13,11 +13,11 @@ namespace AddressCoding.Properties {
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.4.0.0")]
-    internal sealed partial class RepositorySettings : global::System.Configuration.ApplicationSettingsBase {
+    internal sealed partial class BDSettings : global::System.Configuration.ApplicationSettingsBase {
         
-        private static RepositorySettings defaultInstance = ((RepositorySettings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new RepositorySettings())));
+        private static BDSettings defaultInstance = ((BDSettings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new BDSettings())));
         
-        public static RepositorySettings Default {
+        public static BDSettings Default {
             get {
                 return defaultInstance;
             }
@@ -26,48 +26,60 @@ namespace AddressCoding.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string AddressRepository {
+        public string Server {
             get {
-                return ((string)(this["AddressRepository"]));
+                return ((string)(this["Server"]));
             }
             set {
-                this["AddressRepository"] = value;
+                this["Server"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string NameEndpointRepository {
+        public string BDName {
             get {
-                return ((string)(this["NameEndpointRepository"]));
+                return ((string)(this["BDName"]));
             }
             set {
-                this["NameEndpointRepository"] = value;
+                this["BDName"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("200")]
-        public int MaxObj {
+        [global::System.Configuration.DefaultSettingValueAttribute("5432")]
+        public int Port {
             get {
-                return ((int)(this["MaxObj"]));
+                return ((int)(this["Port"]));
             }
             set {
-                this["MaxObj"] = value;
+                this["Port"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("4")]
-        public int MaxParallelism {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Login {
             get {
-                return ((int)(this["MaxParallelism"]));
+                return ((string)(this["Login"]));
             }
             set {
-                this["MaxParallelism"] = value;
+                this["Login"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Password {
+            get {
+                return ((string)(this["Password"]));
+            }
+            set {
+                this["Password"] = value;
             }
         }
     }

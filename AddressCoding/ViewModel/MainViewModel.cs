@@ -1,3 +1,4 @@
+using AddressCoding.BDRepository;
 using AddressCoding.Entities;
 using AddressCoding.FileService;
 using AddressCoding.Notifications;
@@ -9,6 +10,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -28,6 +30,9 @@ namespace AddressCoding.ViewModel
         /// Поле для хранения ссылки на модуль работы с орпоном
         /// </summary>
         private readonly IRepository _orpon;
+
+        private readonly IBDRepository _bd;
+
         /// <summary>
         /// Поле для хранения ссылки на модуль работы с оповещениями
         /// </summary>
@@ -52,11 +57,12 @@ namespace AddressCoding.ViewModel
         /// Поле для хранения ссылки на текущий выделенный элемент
         /// </summary>
         private EntityOrpon _currentOrpon;
-
         /// <summary>
         /// Поле для хранения запущена ли процедура
         /// </summary>
         private bool _isStartOrponing = false;
+
+        private bool _isOrponinGeoData;
         /// <summary>
         /// Поле для хранения ссылки на команду обработки перетаскивания
         /// </summary>
@@ -130,6 +136,22 @@ namespace AddressCoding.ViewModel
             {
                 Set(ref _isStartOrponing, value);
                 IsRequestedStop = false;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool IsOrponingGeoData
+        {
+            get => _isOrponinGeoData;
+            set
+            {
+                Set(ref _isOrponinGeoData, value);
+                if (value)
+                {
+                    IndexTab = 1;
+                }
             }
         }
 
@@ -214,8 +236,6 @@ namespace AddressCoding.ViewModel
 
             }, () => CanStartOrponing()));
 
-
-
         /// <summary>
         /// Команда для остановки процесса орпонизации
         /// </summary>
@@ -283,11 +303,11 @@ namespace AddressCoding.ViewModel
         /// </summary>
         public RelayCommand CommandSaveData =>
         _commandSaveData ?? (_commandSaveData = new RelayCommand(
-            () =>
+            async () =>
             {
                 if (CanSaveFile())
                 {
-                    SaveData();
+                    await SaveDataAsync();
                 }
                 else
                 {
@@ -298,6 +318,18 @@ namespace AddressCoding.ViewModel
         #endregion PublicCommand
 
         #region PrivateMethod
+        private void OpenFolder(string obj)
+        {
+            if (obj == "AppFolder")
+            {
+                obj = _set.FileSettings.FolderApp;
+            }
+            var result = _fileService.OpenFolder(obj);
+            if (result != null && result.Error != null)
+            {
+                _notification.NotificationAsync(null, result.Error.Message);
+            }
+        }
 
         /// <summary>
         /// Метод для установки имени входного файла
@@ -321,11 +353,11 @@ namespace AddressCoding.ViewModel
 
             if (_collection != null && _collection.Any())
             {
-                defName = $"{DateTime.Now.ToString("yyyy_MM_dd")}_{System.IO.Path.GetFileNameWithoutExtension(_set.FileSettings.FileInput)}_{_collection.Count}.csv";
+                defName = $"{DateTime.Now.ToString("yyyy_MM_dd")}_{Path.GetFileNameWithoutExtension(_set.FileSettings.FileInput)}_{_collection.Count}.csv";
             }
             else
             {
-                defName = $"{DateTime.Now.ToString("yyyy_MM_dd")}_{System.IO.Path.GetFileNameWithoutExtension(_set.FileSettings.FileInput)}.csv";
+                defName = $"{DateTime.Now.ToString("yyyy_MM_dd")}_{Path.GetFileNameWithoutExtension(_set.FileSettings.FileInput)}.csv";
             }
 
             return $"{_set.FileSettings.FolderOutput}\\{defName}";
@@ -348,7 +380,7 @@ namespace AddressCoding.ViewModel
                     {
                         var entity = new EntityOrpon();
                         var str = item.Split(';');
-                        entity.Address = str[2];
+                        entity.Address = str[2].TrimStart(new char[] { '"' });
 
                         entity.GlobalIdOriginal = str[0];
                         entity.Longitude = str[3];
@@ -366,7 +398,7 @@ namespace AddressCoding.ViewModel
                 {
                     Collection = new ObservableCollection<EntityOrpon>(result.Objects.Select(x =>
                     {
-                        return new EntityOrpon() { Id = id++, Address = x };
+                        return new EntityOrpon() { Id = id++, Address = x.TrimStart(new char[] { '"' }) };
                     }));
                 }
 
@@ -411,7 +443,11 @@ namespace AddressCoding.ViewModel
             }
             else
             {
-                if (_set.GeneralSettings.CanOrponingGetAll)
+                if (_canGetOrponForParsingLevel)
+                {
+                    listAddress = _collection.Where(x => x.Orpon?.ParsingLevelCode == _currentParsingLevel).Partition(_set.RepositorySettings.MaxObj);
+                }
+                else if (_set.GeneralSettings.CanOrponingGetAll)
                 {
                     listAddress = _collection.Partition(_set.RepositorySettings.MaxObj);
                 }
@@ -451,34 +487,34 @@ namespace AddressCoding.ViewModel
                     {
                         Parallel.ForEach(listAddress, po, (item) =>
                         {
-                            var add = item.Select(x =>
-                            {
-                                x.Status = StatusType.OrponingNow;
-                                return x.Address;
-                            }).ToArray();
+                            //var add = item.Select(x =>
+                            //{
+                            //    x.Status = StatusType.OrponingNow;
+                            //    return x.Address;
+                            //}).ToArray();
 
-                            var a = _orpon.GetOrpon(add);
-                            if (a != null && a.Error == null)
-                            {
-                                var indexRow = 0;
-                                foreach (var k in a.Objects)
-                                {
-                                    item.ElementAt(indexRow).Orpon = k;
-                                    item.ElementAt(indexRow).Status = StatusType.OK;
-                                    indexRow++;
-                                }
-                            }
-                            else if (a != null && a.Error != null)
-                            {
-                                foreach (var i in item)
-                                {
-                                    i.Error = a.Error.Message;
-                                    i.Status = StatusType.Error;
-                                }
-                            }
+                            var a = _orpon.GetOrpon(item, _set.RepositorySettings.CanCheckSinglObj);
+                            //if (a != null && a.Error == null)
+                            //{
+                            //    var indexRow = 0;
+                            //    foreach (var k in a.Objects)
+                            //    {
+                            //        item.ElementAt(indexRow).Orpon = k;
+                            //        item.ElementAt(indexRow).Status = StatusType.OK;
+                            //        indexRow++;
+                            //    }
+                            //}
+                            //else if (a != null && a.Error != null)
+                            //{
+                            //    foreach (var i in item)
+                            //    {
+                            //        i.Error = a.Error.Message;
+                            //        i.Status = StatusType.Error;
+                            //    }
+                            //}
                         });
 
-                        _notification.NotificationAsync(null, "OK");
+                        _notification.NotificationAsync(null, "Орпонизация завершена.");
                     }
                     catch (Exception ex)
                     {
@@ -513,7 +549,7 @@ namespace AddressCoding.ViewModel
                 }
                 else
                 {
-                    SaveData();
+                    await SaveDataAsync();
                 }
 
                 _stat.Stop();
@@ -576,18 +612,95 @@ namespace AddressCoding.ViewModel
         /// <summary>
         /// Метод для сохранения данных в файл
         /// </summary>
-        private void SaveData()
+        private async Task SaveDataAsync()
         {
+            var separator = _set.GeneralSettings.SeparatorChar;
+
             if (_set.GeneralSettings.CanSaveDataAsShot)
             {
                 var data = new List<string>(_collection.Count)
                     {
-                        $"Адрес;QualityCode;CheckStatus;ParsingLevelCode;GlobalID"
+                        $"Адрес{separator}QualityCode{separator}CheckStatus{separator}ParsingLevelCode{separator}GlobalID"
                     };
                 data.AddRange(_collection.Select(x =>
                 {
-                    return $"{x.Address};{x.Orpon?.QualityCode};{x.Orpon?.CheckStatus};{x.Orpon?.ParsingLevelCode};{x.Orpon?.GlobalID}";
+                    return $"{x.Address}{separator}{x.Orpon?.QualityCode}{separator}{x.Orpon?.CheckStatus}{separator}{GetParsingLevel(x.Orpon?.ParsingLevelCode)}{separator}{x.Orpon?.GlobalID}";
                 }));
+
+                var result = _fileService.SaveData(_set.FileSettings.FileOutput, data);
+
+                if (result != null && result.Error == null)
+                {
+                    _notification.NotificationAsync(null, $"Save Ok {_set.FileSettings.FileOutput}");
+                }
+                else if (result != null && result.Error != null)
+                {
+                    _notification.NotificationAsync(null, result.Error.Message);
+                }
+            }
+
+            if (_set.GeneralSettings.CanSaveFileWhithSelectedField)
+            {
+                if (_set.GeneralSettings.CollectionFieldForSave.FirstOrDefault(x => x.Name == "Адрес ОРПОН")?.CanSave == true)
+                {
+                    try
+                    {
+                        var house = await Task.Factory.StartNew(() =>
+                        {
+                            return _bd.GetCollectionHouse(_collection.Where(x => x.Orpon?.ParsingLevelCode == "FIAS_HOUSE" && int.TryParse(x.Orpon?.GlobalID, out int id)).Select(x =>
+                            {
+                                return int.Parse(x.Orpon.GlobalID);
+                            }), new ConnectionSettingsDb()
+                            {
+                                BDName = _set.BDSettings.BDName,
+                                Login = _set.BDSettings.Login,
+                                Password = _set.BDSettings.Password,
+                                Port = _set.BDSettings.Port,
+                                Server = _set.BDSettings.Server
+                            });
+                        });
+
+                        var address = await Task.Factory.StartNew(() =>
+                        {
+                            return _bd.GetCollectionAddress(_collection.Where(x => x.Orpon?.ParsingLevelCode != "FIAS_HOUSE" && int.TryParse(x.Orpon?.GlobalID, out int id)).Select(x =>
+                            {
+                                return int.Parse(x.Orpon.GlobalID);
+                            }), new ConnectionSettingsDb()
+                            {
+                                BDName = _set.BDSettings.BDName,
+                                Login = _set.BDSettings.Login,
+                                Password = _set.BDSettings.Password,
+                                Port = _set.BDSettings.Port,
+                                Server = _set.BDSettings.Server
+                            });
+                        });
+
+                        Parallel.ForEach(house, (item) =>
+                        {
+                            System.Diagnostics.Debug.WriteLine(item.Address);
+                            var h = _collection.Where(x => x.Orpon?.GlobalID == item.GlobalId.ToString());
+                            foreach (var i in h)
+                            {
+                                i.AddressOrpon = item.Address;
+                            }
+                        });
+
+                        Parallel.ForEach(address, (item) =>
+                        {
+                            var h = _collection.Where(x => x.Orpon?.GlobalID == item.GlobalId.ToString());
+                            foreach (var i in h)
+                            {
+                                i.AddressOrpon = item.Address;
+                            }
+                        });
+                    }
+                    catch(Exception ex)
+                    {
+                        _notification.NotificationAsync(null, "При получении адресов произошла ошибка: " + ex.Message);
+                    }
+                }
+
+                var data = GetDataWhithSelectedField();
 
                 var result = _fileService.SaveData(_set.FileSettings.FileOutput, data);
 
@@ -605,20 +718,20 @@ namespace AddressCoding.ViewModel
             {
                 var data = new List<string>(_collection.Count)
                     {
-                        $"Адрес;QualityCode;CheckStatus;UnparsedParts;ParsingLevelCode;GlobalID;SystemCode;KLADRLocalityId;FIASLocalityId;LocalityGlobalId;" +
-                        $"KLADRStreetId;FIASStreetId;Street;StreetKind;KLADRStreetId;FIASStreetId;StreetGlobalId;House;HouseLitera;CornerHouse;BuildingBlock;" +
-                        $"BuildingBlockLitera;Building;BuildingLitera;Ownership;OwnershipLitera;FIASHouseId;HouseGlobalId;Latitude;Longitude;LocationDescription"
+                        $"Адрес{separator}QualityCode{separator}CheckStatus{separator}UnparsedParts{separator}ParsingLevelCode{separator}GlobalID{separator}SystemCode{separator}KLADRLocalityId{separator}FIASLocalityId{separator}LocalityGlobalId{separator}" +
+                        $"KLADRStreetId{separator}FIASStreetId{separator}Street{separator}StreetKind{separator}KLADRStreetId{separator}FIASStreetId{separator}StreetGlobalId{separator}House{separator}HouseLitera{separator}CornerHouse{separator}BuildingBlock{separator}" +
+                        $"BuildingBlockLitera{separator}Building{separator}BuildingLitera{separator}Ownership{separator}OwnershipLitera{separator}FIASHouseId{separator}HouseGlobalId{separator}Latitude{separator}Longitude{separator}LocationDescription{separator}Error"
                     };
                 data.AddRange(_collection.Select(x =>
                 {
-                    return $"{x.Address};{x.Orpon?.QualityCode};{x.Orpon?.CheckStatus};{x.Orpon?.UnparsedParts};{x.Orpon?.ParsingLevelCode};{x.Orpon?.GlobalID};{x.Orpon?.SystemCode};" +
-                    $"{x.Orpon?.KLADRLocalityId};{x.Orpon?.FIASLocalityId};{x.Orpon?.LocalityGlobalId};{x.Orpon?.KLADRStreetId};{x.Orpon?.FIASStreetId};{x.Orpon?.Street};{x.Orpon?.StreetKind};" +
-                    $"{x.Orpon?.KLADRStreetId};{x.Orpon?.FIASStreetId};{x.Orpon?.StreetGlobalId};{x.Orpon?.House};{x.Orpon?.HouseLitera};{x.Orpon?.CornerHouse};{x.Orpon?.BuildingBlock};" +
-                    $"{x.Orpon?.BuildingBlockLitera};{x.Orpon?.Building};{x.Orpon?.BuildingLitera};{x.Orpon?.Ownership};{x.Orpon?.OwnershipLitera};{x.Orpon?.FIASHouseId};" +
-                    $"{x.Orpon?.HouseGlobalId};{x.Orpon?.Latitude};{x.Orpon?.Longitude};{x.Orpon?.LocationDescription}";
+                    return $"{x.Address}{separator}{x.Orpon?.QualityCode}{separator}{x.Orpon?.CheckStatus}{separator}{x.Orpon?.UnparsedParts}{separator}{GetParsingLevel(x.Orpon?.ParsingLevelCode)}{separator}{x.Orpon?.GlobalID}{separator}{x.Orpon?.SystemCode}{separator}" +
+                    $"{x.Orpon?.KLADRLocalityId}{separator}{x.Orpon?.FIASLocalityId}{separator}{x.Orpon?.LocalityGlobalId}{separator}{x.Orpon?.KLADRStreetId}{separator}{x.Orpon?.FIASStreetId}{separator}{x.Orpon?.Street}{separator}{x.Orpon?.StreetKind}{separator}" +
+                    $"{x.Orpon?.KLADRStreetId}{separator}{x.Orpon?.FIASStreetId}{separator}{x.Orpon?.StreetGlobalId}{separator}{x.Orpon?.House}{separator}{x.Orpon?.HouseLitera}{separator}{x.Orpon?.CornerHouse}{separator}{x.Orpon?.BuildingBlock}{separator}" +
+                    $"{x.Orpon?.BuildingBlockLitera}{separator}{x.Orpon?.Building}{separator}{x.Orpon?.BuildingLitera}{separator}{x.Orpon?.Ownership}{separator}{x.Orpon?.OwnershipLitera}{separator}{x.Orpon?.FIASHouseId}{separator}" +
+                    $"{x.Orpon?.HouseGlobalId}{separator}{x.Orpon?.Latitude}{separator}{x.Orpon?.Longitude}{separator}{x.Orpon?.LocationDescription?.Replace('\n', ' ')}{separator}{x.Error}";
                 }));
 
-                var result = _fileService.SaveData($"{_set.FileSettings.FolderTemp}\\{Path.GetFileName(_set.FileSettings.FileOutput)}", data);
+                var result = _fileService.SaveData($"{_set.FileSettings.FolderTemp}\\Temp_{Path.GetFileName(_set.FileSettings.FileOutput)}", data);
 
                 if (result != null && result.Error == null)
                 {
@@ -634,6 +747,213 @@ namespace AddressCoding.ViewModel
             {
                 OpenFolder(_set.FileSettings.FileOutput);
             }
+        }
+
+        private List<string> GetDataWhithSelectedField()
+        {
+            var data = new List<string>();
+
+            var header = new StringBuilder();
+
+            foreach (var item in _set.GeneralSettings.CollectionFieldForSave)
+            {
+                if (item.CanSave)
+                {
+                    header.Append(item.Name + _set.GeneralSettings.SeparatorChar);
+                }
+            }
+
+            data.Add(header.ToString());
+
+            var str = new StringBuilder();
+
+            foreach (var item in _collection)
+            {
+                str.Clear();
+                if (_set.GeneralSettings.CollectionFieldForSave[0].CanSave)
+                {
+                    str.Append(item.Address + _set.GeneralSettings.SeparatorChar);
+                }
+                if (_set.GeneralSettings.CollectionFieldForSave[1].CanSave)
+                {
+                    str.Append(item.AddressOrpon + _set.GeneralSettings.SeparatorChar);
+                }
+                if (_set.GeneralSettings.CollectionFieldForSave[30].CanSave)
+                {
+                    str.Append(item.Error + _set.GeneralSettings.SeparatorChar);
+                }
+
+                if(item.Orpon != null)
+                {
+                    if (_set.GeneralSettings.CollectionFieldForSave[2].CanSave)
+                    {
+                        str.Append(item.Orpon.QualityCode + _set.GeneralSettings.SeparatorChar);
+                    }
+                    if (_set.GeneralSettings.CollectionFieldForSave[3].CanSave)
+                    {
+                        str.Append(item.Orpon.CheckStatus + _set.GeneralSettings.SeparatorChar);
+                    }
+                    if (_set.GeneralSettings.CollectionFieldForSave[4].CanSave)
+                    {
+                        str.Append(item.Orpon.UnparsedParts + _set.GeneralSettings.SeparatorChar);
+                    }
+                    if (_set.GeneralSettings.CollectionFieldForSave[5].CanSave)
+                    {
+                        str.Append(GetParsingLevel(item.Orpon.ParsingLevelCode) + _set.GeneralSettings.SeparatorChar);
+                    }
+                    if (_set.GeneralSettings.CollectionFieldForSave[6].CanSave)
+                    {
+                        str.Append(item.Orpon.GlobalID + _set.GeneralSettings.SeparatorChar);
+                    }
+                    if (_set.GeneralSettings.CollectionFieldForSave[7].CanSave)
+                    {
+                        str.Append(item.Orpon.SystemCode + _set.GeneralSettings.SeparatorChar);
+                    }
+                    if (_set.GeneralSettings.CollectionFieldForSave[8].CanSave)
+                    {
+                        str.Append(item.Orpon.KLADRLocalityId + _set.GeneralSettings.SeparatorChar);
+                    }
+                    if (_set.GeneralSettings.CollectionFieldForSave[9].CanSave)
+                    {
+                        str.Append(item.Orpon.FIASLocalityId + _set.GeneralSettings.SeparatorChar);
+                    }
+                    if (_set.GeneralSettings.CollectionFieldForSave[10].CanSave)
+                    {
+                        str.Append(item.Orpon.LocalityGlobalId + _set.GeneralSettings.SeparatorChar);
+                    }
+                    if (_set.GeneralSettings.CollectionFieldForSave[11].CanSave)
+                    {
+                        str.Append(item.Orpon.KLADRStreetId + _set.GeneralSettings.SeparatorChar);
+                    }
+                    if (_set.GeneralSettings.CollectionFieldForSave[12].CanSave)
+                    {
+                        str.Append(item.Orpon.FIASStreetId + _set.GeneralSettings.SeparatorChar);
+                    }
+                    if (_set.GeneralSettings.CollectionFieldForSave[13].CanSave)
+                    {
+                        str.Append(item.Orpon.StreetKind + _set.GeneralSettings.SeparatorChar);
+                    }
+                    if (_set.GeneralSettings.CollectionFieldForSave[14].CanSave)
+                    {
+                        str.Append(item.Orpon.StreetGlobalId + _set.GeneralSettings.SeparatorChar);
+                    }
+                    if (_set.GeneralSettings.CollectionFieldForSave[15].CanSave)
+                    {
+                        str.Append(item.Orpon.Street + _set.GeneralSettings.SeparatorChar);
+                    }
+                    if (_set.GeneralSettings.CollectionFieldForSave[16].CanSave)
+                    {
+                        str.Append(item.Orpon.House + _set.GeneralSettings.SeparatorChar);
+                    }
+                    if (_set.GeneralSettings.CollectionFieldForSave[17].CanSave)
+                    {
+                        str.Append(item.Orpon.HouseLitera + _set.GeneralSettings.SeparatorChar);
+                    }
+                    if (_set.GeneralSettings.CollectionFieldForSave[18].CanSave)
+                    {
+                        str.Append(item.Orpon.CornerHouse + _set.GeneralSettings.SeparatorChar);
+                    }
+                    if (_set.GeneralSettings.CollectionFieldForSave[19].CanSave)
+                    {
+                        str.Append(item.Orpon.BuildingBlock + _set.GeneralSettings.SeparatorChar);
+                    }
+                    if (_set.GeneralSettings.CollectionFieldForSave[20].CanSave)
+                    {
+                        str.Append(item.Orpon.BuildingBlockLitera + _set.GeneralSettings.SeparatorChar);
+                    }
+                    if (_set.GeneralSettings.CollectionFieldForSave[21].CanSave)
+                    {
+                        str.Append(item.Orpon.Building + _set.GeneralSettings.SeparatorChar);
+                    }
+                    if (_set.GeneralSettings.CollectionFieldForSave[22].CanSave)
+                    {
+                        str.Append(item.Orpon.BuildingLitera + _set.GeneralSettings.SeparatorChar);
+                    }
+                    if (_set.GeneralSettings.CollectionFieldForSave[23].CanSave)
+                    {
+                        str.Append(item.Orpon.Ownership + _set.GeneralSettings.SeparatorChar);
+                    }
+                    if (_set.GeneralSettings.CollectionFieldForSave[24].CanSave)
+                    {
+                        str.Append(item.Orpon.OwnershipLitera + _set.GeneralSettings.SeparatorChar);
+                    }
+                    if (_set.GeneralSettings.CollectionFieldForSave[25].CanSave)
+                    {
+                        str.Append(item.Orpon.FIASHouseId + _set.GeneralSettings.SeparatorChar);
+                    }
+                    if (_set.GeneralSettings.CollectionFieldForSave[26].CanSave)
+                    {
+                        str.Append(item.Orpon.HouseGlobalId + _set.GeneralSettings.SeparatorChar);
+                    }
+                    if (_set.GeneralSettings.CollectionFieldForSave[27].CanSave)
+                    {
+                        str.Append(item.Orpon.Latitude + _set.GeneralSettings.SeparatorChar);
+                    }
+                    if (_set.GeneralSettings.CollectionFieldForSave[28].CanSave)
+                    {
+                        str.Append(item.Orpon.Longitude + _set.GeneralSettings.SeparatorChar);
+                    }
+                    if (_set.GeneralSettings.CollectionFieldForSave[29].CanSave)
+                    {
+                        str.Append(item.Orpon.LocationDescription + _set.GeneralSettings.SeparatorChar);
+                    }
+                }
+
+                data.Add(str.ToString());
+            }
+
+            return data;
+        }
+
+        private string GetParsingLevel(string level)
+        {
+            var result = string.Empty;
+
+            if (!_set.GeneralSettings.CanUseParsinglevelRus)
+            {
+                return level;
+            }
+
+            switch (level)
+            {
+                case "FIAS_HOUSE":
+                    result = "Дом";
+                    break;
+
+                case "FIAS_STREET":
+                    result = "Улица";
+                    break;
+
+                case "FIAS_SETTLEMENT":
+                    result = "Населенный пункт";
+                    break;
+
+                case "FIAS_CITY":
+                    result = "Город";
+                    break;
+
+                case "FIAS_CITY_AREA":
+                    result = "Район города";
+                    break;
+
+                case "FIAS_PLANNING_STRUCTURE":
+                    result = "Планировочная структура";
+                    break;
+
+                case "FIAS_DISTRICT":
+                    result = "Район";
+                    break;
+
+                case "FIAS_SUBJECT":
+                    result = "Субъект";
+                    break;
+
+                default:
+                    result = level;
+                    break;
+            }
+
+            return result;
         }
 
         private void SaveDataGeo()
@@ -662,20 +982,34 @@ namespace AddressCoding.ViewModel
 
         #endregion PrivateMethod
 
-        #region PublicMethod
-        #endregion PublicMethod
-
-        private void OpenFolder(string obj)
+        private List<string> _collectionParsingLevel;
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<string> CollectionParsingLevel
         {
-            if (obj == "AppFolder")
-            {
-                obj = _set.FileSettings.FolderApp;
-            }
-            var result = _fileService.OpenFolder(obj);
-            if (result != null && result.Error != null)
-            {
-                _notification.NotificationAsync(null, result.Error.Message);
-            }
+            get => _collectionParsingLevel;
+            set => Set(ref _collectionParsingLevel, value);
+        }
+
+        private string _currentParsingLevel = string.Empty;
+        /// <summary>
+        /// 
+        /// </summary>
+        public string CurrentParsingLevel
+        {
+            get => _currentParsingLevel;
+            set => Set(ref _currentParsingLevel, value);
+        }
+
+        private bool _canGetOrponForParsingLevel = false;
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool CanGetOrponForParsingLevel
+        {
+            get => _canGetOrponForParsingLevel;
+            set => Set(ref _canGetOrponForParsingLevel, value);
         }
 
         private async void GetOrponAsync(EntityOrpon obj)
@@ -688,17 +1022,17 @@ namespace AddressCoding.ViewModel
 
             obj.Status = StatusType.OrponingNow;
 
-            var a = await _orpon.GetOrponAsync(obj.Address);
-            if (a != null && a.Error == null && a.Object != null)
-            {
-                obj.Orpon = a.Object;
-                obj.Status = StatusType.OK;
-            }
-            else if (a != null && a.Error != null)
-            {
-                obj.Status = StatusType.Error;
-                obj.Error = a.Error.Message;
-            }
+            var a = await _orpon.GetOrponAsync(obj);
+            //if (a != null && a.Error == null && a.Object != null)
+            //{
+            //    obj.Orpon = a.Object;
+            //    obj.Status = StatusType.OK;
+            //}
+            //else if (a != null && a.Error != null)
+            //{
+            //    obj.Status = StatusType.Error;
+            //    obj.Error = a.Error.Message;
+            //}
 
             obj.DateTimeOrponing = DateTime.Now;
             _stat.UpdateStatisticsCollection();
@@ -719,23 +1053,40 @@ namespace AddressCoding.ViewModel
             set => Set(ref _singlOrpon, value);
         }
 
+        private RelayCommand _commandReplaceText;
+        public RelayCommand CommandReplaceText =>
+        _commandReplaceText ?? (_commandReplaceText = new RelayCommand(
+                    () =>
+                    {
+                        if (_collection != null && _collection.Any())
+                        {
+                            _collection.AsParallel().ForAll(x =>
+                            {
+                                x.Address = x.Address.Replace(_oldText, _newText);
+                            });
+                        }
+                    }));
 
-        private bool _isOrponinGeoData;
+        private string _oldText = string.Empty;
         /// <summary>
         /// 
         /// </summary>
-        public bool IsOrponingGeoData
+        public string OldText
         {
-            get => _isOrponinGeoData;
-            set
-            {
-                Set(ref _isOrponinGeoData, value);
-                if (value)
-                {
-                    IndexTab = 1;
-                }
-            }
+            get => _oldText;
+            set => Set(ref _oldText, value);
         }
+
+        private string _newText = string.Empty;
+        /// <summary>
+        /// 
+        /// </summary>
+        public string NewText
+        {
+            get => _newText;
+            set => Set(ref _newText, value);
+        }
+
 
         private int _indexTab = 0;
         /// <summary>
@@ -757,13 +1108,40 @@ namespace AddressCoding.ViewModel
             set => Set(ref _isRequestedStop, value);
         }
 
-        public MainViewModel(IFileService fileService, INotifications notification, StatisticsViewModel stat, SettingsViewModel set, IRepository orpon)
+        private RelayCommand _commandAddCollectionAddress;
+        public RelayCommand CommandAddCollectionAddress =>
+        _commandAddCollectionAddress ?? (_commandAddCollectionAddress = new RelayCommand(
+                    () =>
+                    {
+                        var str = Clipboard.GetText().Replace("\"", "").Replace("\n","").Replace("\r", "\r\n").Replace("\r\n\r\n", "\r\n");
+                        var items = str.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+
+                        var id = 0;
+                        Collection = new ObservableCollection<EntityOrpon>(items.Select(x =>
+                        {
+                            return new EntityOrpon() { Id = id++, Address = x.TrimStart(new char[] { '"' }) };
+                        }));
+
+                        if (_collection != null)
+                        {
+                            _stat.Init(_collection);
+                        }
+
+                        _set.FileSettings.FileInput = "Clipboard";
+                        _set.FileSettings.FileOutput = GetDefaultName();
+                    }));
+
+        public MainViewModel(IFileService fileService, INotifications notification, StatisticsViewModel stat, SettingsViewModel set, IRepository orpon, IBDRepository bd)
         {
             _fileService = fileService;
             _notification = notification;
             _stat = stat;
             _set = set;
+            //_orpon = new OrponRepository1();
             _orpon = orpon;
+            _bd = bd;
+            _set.SetRepository(_orpon);
+            CollectionParsingLevel = Enum.GetNames(typeof(ParsingLevelCode)).ToList();
         }
     }
 }

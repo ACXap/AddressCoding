@@ -2,13 +2,13 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
-    xmlns:local="clr-namespace:AddressCoding.Style" 
-    xmlns:l="clr-namespace:AddressCoding.Entities;assembly=AddressCoding.Entities">
+    xmlns:l="clr-namespace:AddressCoding.Entities;assembly=AddressCoding.Entities"
+    xmlns:local="clr-namespace:AddressCoding.Style">
 
     <!--  Основной стиль для кнопок  -->
     <Style
         x:Key="ButtonMainStyle"
-        BasedOn="{StaticResource MahApps.Metro.Styles.MetroButton}"
+        BasedOn="{StaticResource MahApps.Styles.Button}"
         TargetType="{x:Type Button}">
         <Setter Property="Margin" Value="2" />
         <Setter Property="Padding" Value="2" />
@@ -36,7 +36,7 @@
                     ToolTip="{DynamicResource txtToolTipStart}" />
             </Setter.Value>
         </Setter>
-        
+
         <Style.Triggers>
             <DataTrigger Binding="{Binding IsStartOrponing}" Value="True">
                 <Setter Property="Content">
@@ -55,9 +55,9 @@
                                 ContentCharacterCasing="Upper"
                                 ToolTip="{DynamicResource txtToolTipStop}" />
                             <TextBlock
-                                Grid.Row="1" 
-                                Text="{Binding Source=b, Path=Tag}" 
-                                HorizontalAlignment="Center" 
+                                Grid.Row="1"
+                                Text="{Binding Source=b, Path=Tag}"
+                                HorizontalAlignment="Center"
                                 FontSize="14"/>
                             <Controls:MetroProgressBar
                                 Grid.Row="2"

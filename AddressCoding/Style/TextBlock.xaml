@@ -41,7 +41,7 @@
         <Setter Property="Text" Value="{StaticResource FontAwesomeSettings}" />
     </Style>
 
-    <!--  Текст для кнопки сохранения -->
+    <!--  Текст для кнопки сохранения  -->
     <Style
         x:Key="TextBlockSave"
         BasedOn="{StaticResource TextBlockWhithIconAwesome}"
@@ -51,19 +51,19 @@
 
     <!--  Стиль для значка статуса  -->
     <Style x:Key="TextBlockStatus" TargetType="{x:Type TextBlock}">
-       
+
         <Style.Resources>
             <Storyboard x:Key="flashAnimation">
                 <DoubleAnimation
-                            AutoReverse="True"
-                            RepeatBehavior="Forever"
-                            Storyboard.TargetProperty="Opacity"
-                            From="1"
-                            To="0"
-                            Duration="0:0:0.5" />
+                    AutoReverse="True"
+                    RepeatBehavior="Forever"
+                    Storyboard.TargetProperty="Opacity"
+                    From="1"
+                    To="0"
+                    Duration="0:0:0.5" />
             </Storyboard>
         </Style.Resources>
-        
+
         <Setter Property="FontFamily" Value="{StaticResource FontAwesome}" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />

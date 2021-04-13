@@ -1,14 +1,65 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:l="clr-namespace:AddressCoding.Entities;assembly=AddressCoding.Entities"
     xmlns:local="clr-namespace:AddressCoding.Style">
     <ContextMenu x:Key="ContextMenuRow">
-        <MenuItem Command="{Binding DataContext.CommandGetOrpon, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" CommandParameter="{Binding}" Header="{DynamicResource txtContextMenuGetOrppon}" />
+        <MenuItem
+            Command="{Binding DataContext.CommandGetOrpon, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+            CommandParameter="{Binding}"
+            Header="{DynamicResource txtContextMenuGetOrppon}" />
         <Separator />
-        <MenuItem Command="{Binding DataContext.CommandCopyAddress, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" CommandParameter="{Binding}" Header="{DynamicResource txtContextMenuCopyAddress}" />
+        <MenuItem
+            Command="{Binding DataContext.CommandCopyAddress, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+            CommandParameter="{Binding}"
+            Header="{DynamicResource txtContextMenuCopyAddress}" />
         <Separator />
         <MenuItem Command="{Binding DataContext.CommandClearCollection, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Header="{DynamicResource txtContextMenuClearCollection}" />
+        <Separator />
+        <WrapPanel Opacity="0.8" Orientation="Vertical">
+            <TextBlock
+                FontSize="32"
+                FontWeight="Bold"
+                Text="Заменить..." />
+            <WrapPanel Orientation="Horizontal">
+                <TextBlock
+                    Margin="5"
+                    VerticalAlignment="Center"
+                    Text="Что:" />
+                <TextBox Width="100" Text="{Binding DataContext.OldText, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" />
+                <TextBlock
+                    Margin="5"
+                    VerticalAlignment="Center"
+                    Text="Чем:" />
+                <TextBox Width="100" Text="{Binding DataContext.NewText, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" />
+            </WrapPanel>
+            <Button Command="{Binding DataContext.CommandReplaceText, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Content="Заменить" />
+        </WrapPanel>
+    </ContextMenu>
+
+    <ContextMenu x:Key="ContextMenuDataGrid">
+        <MenuItem Command="{Binding DataContext.CommandAddCollectionAddress, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Header="Вставить данные" />
+        <Separator />
+        <WrapPanel Opacity="0.8" Orientation="Vertical">
+            <TextBlock
+                FontSize="32"
+                FontWeight="Bold"
+                Text="Заменить..." />
+            <WrapPanel Orientation="Horizontal">
+                <TextBlock
+                    Margin="5"
+                    VerticalAlignment="Center"
+                    Text="Что:" />
+                <TextBox Width="100" Text="{Binding OldText, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock
+                    Margin="5"
+                    VerticalAlignment="Center"
+                    Text="Чем:" />
+                <TextBox Width="100" Text="{Binding NewText, UpdateSourceTrigger=PropertyChanged}" />
+            </WrapPanel>
+            <Button Command="{Binding CommandReplaceText}" Content="Заменить" />
+        </WrapPanel>
     </ContextMenu>
 
     <Style
@@ -25,7 +76,7 @@
 
     <Style
         x:Key="DataGridMainRowAll"
-        BasedOn="{StaticResource DataGridMainRow}"
+        BasedOn="{StaticResource MahApps.Styles.DataGridRow}"
         TargetType="{x:Type DataGridRow}">
         <Style.Triggers>
             <DataTrigger Binding="{Binding Status}" Value="{x:Static l:StatusType.Error}">
@@ -36,11 +87,12 @@
 
     <Style
         x:Key="DataGridMain"
-        BasedOn="{StaticResource MetroDataGrid}"
+        BasedOn="{StaticResource MahApps.Styles.DataGrid}"
         TargetType="{x:Type DataGrid}">
         <Setter Property="AutoGenerateColumns" Value="False" />
         <Setter Property="CanUserAddRows" Value="False" />
         <Setter Property="IsReadOnly" Value="True" />
+        <Setter Property="ContextMenu" Value="{StaticResource ContextMenuDataGrid}" />
     </Style>
 
     <Style

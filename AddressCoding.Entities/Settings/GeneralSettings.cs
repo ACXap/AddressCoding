@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using MahApps.Metro;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 
@@ -94,7 +95,14 @@ namespace AddressCoding.Entities.Settings
         public bool CanSaveDataAsShot
         {
             get => _canSaveDataAsShot;
-            set => Set(ref _canSaveDataAsShot, value);
+            set 
+            { 
+                Set(ref _canSaveDataAsShot, value);
+                if (value)
+                {
+                    CanSaveFileWhithSelectedField = false;
+                }
+            }
         }
 
         /// <summary>
@@ -113,6 +121,55 @@ namespace AddressCoding.Entities.Settings
         {
             get => _canOpenFolderAfter;
             set => Set(ref _canOpenFolderAfter, value);
+        }
+
+
+        private string _separatorChar = string.Empty;
+        /// <summary>
+        /// Строка разделитель полей
+        /// </summary>
+        public string SeparatorChar
+        {
+            get => _separatorChar;
+            set => Set(ref _separatorChar, value);
+        }
+
+
+        private bool _canUseParsinglevelRus = false;
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool CanUseParsinglevelRus
+        {
+            get => _canUseParsinglevelRus;
+            set => Set(ref _canUseParsinglevelRus, value);
+        }
+
+        private List<FieldsForSave> _collectionFieldForSave;
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<FieldsForSave> CollectionFieldForSave
+        {
+            get => _collectionFieldForSave;
+            set => Set(ref _collectionFieldForSave, value);
+        }
+
+        private bool _canSaveFileWhithSelectedField = false;
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool CanSaveFileWhithSelectedField
+        {
+            get => _canSaveFileWhithSelectedField;
+            set 
+            { 
+                Set(ref _canSaveFileWhithSelectedField, value);
+                if (value)
+                {
+                    CanSaveDataAsShot = false;
+                }
+            }
         }
     }
 }

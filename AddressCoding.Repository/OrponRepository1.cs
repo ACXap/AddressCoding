@@ -1,13 +1,14 @@
 ﻿using AddressCoding.Entities;
-using AddressCoding.Repository.Orpon;
+using AddressCoding.Repository.Orpon1;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace AddressCoding.Repository
 {
-    public class OrponRepository : IRepository
+    public class OrponRepository1 : IRepository
     {
         private string _address;
         private string _nameEndpoint;
@@ -16,7 +17,7 @@ namespace AddressCoding.Repository
         {
             EntityResult<bool> result = new EntityResult<bool>();
 
-            using (var client = new wsSearchAddrElByFullNamePortType2Client(_nameEndpoint, _address))
+            using (var client = new wsSearchAddrElByFullNamePortTypeClient(_nameEndpoint, _address))
             {
                 try
                 {
@@ -37,9 +38,9 @@ namespace AddressCoding.Repository
 
                     if (r != null)
                     {
-                        if (r.AddressElementResponseList2.Length > 0)
+                        if (r.AddressElementResponseList.Length > 0)
                         {
-                            var a = r.AddressElementResponseList2[0];
+                            var a = r.AddressElementResponseList[0];
                             data.Orpon = GetOrpon(a);
                             data.Status = StatusType.OK;
                             result.Result = true;
@@ -72,7 +73,7 @@ namespace AddressCoding.Repository
             return result;
         }
 
-        private Entities.Orpon GetOrpon(AddressElementNameResponse2AddressElementNameGroup2 a)
+        private Entities.Orpon GetOrpon(AddressElementNameResponseAddressElementNameGroup a)
         {
             return new Entities.Orpon()
             {
@@ -96,24 +97,23 @@ namespace AddressCoding.Repository
                 QualityCode = a.QualityCode,
                 Street = a.Street,
                 StreetKind = a.StreetKind,
-                SystemCode = a.SystemCode,
-                Latitude = a.Latitude,
-                LocalityGlobalId = a.LocalityGlobalId,
-                LocationDescription = a.LocationDescription,
-                Longitude = a.Longitude,
-                StreetGlobalId = a.StreetGlobalId,
-                UnparsedParts = a.UnparsedParts,
-                HouseGlobalId = a.HouseGlobalId
+                //SystemCode = a.SystemCode,
+                //Latitude = a.Latitude,
+                //LocalityGlobalId = a.LocalityGlobalId,
+                //LocationDescription = a.LocationDescription,
+                //Longitude = a.Longitude,
+                //StreetGlobalId = a.StreetGlobalId,
+                //UnparsedParts = a.UnparsedParts,
+                //HouseGlobalId = a.HouseGlobalId
             };
         }
-
         public EntityResult<bool> GetOrpon(IEnumerable<EntityOrpon> data, bool canCheckSinglObj)
         {
             EntityResult<bool> result = new EntityResult<bool>();
 
             try
             {
-                using (var client = new wsSearchAddrElByFullNamePortType2Client(_nameEndpoint, _address))
+                using (var client = new wsSearchAddrElByFullNamePortTypeClient(_nameEndpoint, _address))
                 {
                     try
                     {
@@ -138,9 +138,9 @@ namespace AddressCoding.Repository
 
                                 if (r != null)
                                 {
-                                    if (r.AddressElementResponseList2.Length > 0)
+                                    if (r.AddressElementResponseList.Length > 0)
                                     {
-                                        var a = r.AddressElementResponseList2[0];
+                                        var a = r.AddressElementResponseList[0];
                                         d.Orpon = GetOrpon(a);
                                         d.Status = StatusType.OK;
                                         //result.Result = true;
@@ -182,7 +182,7 @@ namespace AddressCoding.Repository
                             if (a != null)
                             {
                                 var indexRow = 0;
-                                foreach (var k in a.AddressElementResponseList2)
+                                foreach (var k in a.AddressElementResponseList)
                                 {
                                     data.ElementAt(indexRow).Orpon = GetOrpon(k);
                                     data.ElementAt(indexRow).Status = StatusType.OK;
@@ -254,7 +254,7 @@ namespace AddressCoding.Repository
 
                 try
                 {
-                    using (var client = new Orpon.wsSearchAddrElByFullNamePortType2Client(_nameEndpoint, _address))
+                    using (var client = new wsSearchAddrElByFullNamePortTypeClient(_nameEndpoint, _address))
                     {
                         try
                         {

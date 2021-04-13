@@ -12,10 +12,10 @@
     xmlns:uc="clr-namespace:AddressCoding.UserControls"
     x:Name="mainWindow"
     Title="{DynamicResource txtTitleWindow}"
-    Width="1400"
+    Width="1200"
     Height="800"
     Dialog:DialogParticipation.Register="{Binding Source={StaticResource Locator}, Path=Notifications}"
-    BorderBrush="{DynamicResource AccentColorBrush}"
+    BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
     BorderThickness="1"
     DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
     WindowStartupLocation="CenterScreen"
@@ -93,7 +93,7 @@
                     <Border
                         Height="100"
                         Padding="2"
-                        BorderBrush="{DynamicResource AccentColorBrush}"
+                        BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
                         BorderThickness="1">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -150,7 +150,7 @@
                     <Border
                         Height="100"
                         Padding="2"
-                        BorderBrush="{DynamicResource AccentColorBrush}"
+                        BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
                         BorderThickness="1">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -250,7 +250,7 @@
                 Height="100"
                 Margin="0,45,3,3"
                 Padding="5"
-                BorderBrush="{DynamicResource AccentColorBrush}"
+                BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
                 BorderThickness="1">
 
                 <!--  Панель работы с выходным файлом  -->
@@ -300,6 +300,7 @@
                                 <!--  Разбивать ли выходной файл на части (по количеству строк)  -->
                                 <CheckBox Content="{DynamicResource txtSplitOutputFile}" IsChecked="{Binding CanBreakFileOutput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
+
                                 <!--  Максимальное количество строк в файле  -->
                                 <TextBox
                                     Width="80"
@@ -307,6 +308,8 @@
                                     IsEnabled="{Binding CanBreakFileOutput}"
                                     Text="{Binding MaxSizePart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </StackPanel>
+
+
                         </StackPanel>
 
                         <!--  Кнопка сохранения данных  -->
@@ -340,6 +343,7 @@
             <TabControl Grid.Column="0" SelectedIndex="{Binding IndexTab}">
                 <TabItem Header="{DynamicResource txtTabDataHeder}">
                     <DataGrid
+                        ClipboardCopyMode="IncludeHeader"
                         ItemsSource="{Binding Collection}"
                         SelectedItem="{Binding CurrentOrpon}"
                         Style="{StaticResource DataGridMainAll}">
@@ -355,7 +359,10 @@
                             </DataGridTemplateColumn>
 
                             <!--  Колонка адреса  -->
-                            <DataGridTemplateColumn Header="{DynamicResource txtTabDataHederAddress}" SortMemberPath="Address">
+                            <DataGridTemplateColumn
+                                ClipboardContentBinding="{Binding Address}"
+                                Header="{DynamicResource txtTabDataHederAddress}"
+                                SortMemberPath="Address">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Address}" TextWrapping="Wrap" />
@@ -364,7 +371,10 @@
                             </DataGridTemplateColumn>
 
                             <!--  Колонка орпонАйди  -->
-                            <DataGridTemplateColumn Header="{DynamicResource txtTabDataHederOrponId}" SortMemberPath="Orpon.GlobalID">
+                            <DataGridTemplateColumn
+                                ClipboardContentBinding="{Binding Orpon.GlobalID}"
+                                Header="{DynamicResource txtTabDataHederOrponId}"
+                                SortMemberPath="Orpon.GlobalID">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock
@@ -376,7 +386,10 @@
                             </DataGridTemplateColumn>
 
                             <!--  Колонка качества разбора  -->
-                            <DataGridTemplateColumn Header="{DynamicResource txtTabDataHederQualitiCode}" SortMemberPath="Orpon.QualityCode">
+                            <DataGridTemplateColumn
+                                ClipboardContentBinding="{Binding Orpon.QualityCode}"
+                                Header="{DynamicResource txtTabDataHederQualitiCode}"
+                                SortMemberPath="Orpon.QualityCode">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock HorizontalAlignment="Center" Text="{Binding Orpon.QualityCode}" />
@@ -385,7 +398,10 @@
                             </DataGridTemplateColumn>
 
                             <!--  Колонка типа объекта  -->
-                            <DataGridTemplateColumn Header="{DynamicResource txtTabDataHederParsingLevel}" SortMemberPath="Orpon.ParsingLevelCode">
+                            <DataGridTemplateColumn
+                                ClipboardContentBinding="{Binding Orpon.ParsingLevelCode}"
+                                Header="{DynamicResource txtTabDataHederParsingLevel}"
+                                SortMemberPath="Orpon.ParsingLevelCode">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock HorizontalAlignment="Center" Text="{Binding Orpon.ParsingLevelCode}" />
@@ -499,6 +515,14 @@
                             Content="Неорпонизированые"
                             IsChecked="{Binding CanOrponingGetNotOrponing}"
                             ToolTip="Будут орпонизированы все неорпонизированные адреса" />
+
+                        <!--  Орпонизировать только объекты со статусом "Неорпонизированы"  -->
+                        <RadioButton
+                            Margin="10,2,2,5"
+                            IsChecked="{Binding Path=Main.CanGetOrponForParsingLevel, Source={StaticResource Locator}}"
+                            ToolTip="Будут орпонизированы все объекты только с определенным уровнем распознания">
+                            <ComboBox ItemsSource="{Binding Path=Main.CollectionParsingLevel, Source={StaticResource Locator}}" SelectedItem="{Binding Path=Main.CurrentParsingLevel, Source={StaticResource Locator}}" />
+                        </RadioButton>
                     </StackPanel>
 
                     <TextBlock
@@ -512,11 +536,24 @@
                         IsChecked="{Binding CanSaveDataAsShot}"
                         ToolTip="Сохранить в данные в кратком виде" />
 
+                    <!--  Разбивать ли выходной файл на части (по количеству строк)  -->
+                    <CheckBox
+                        Margin="10,2,2,5"
+                        Content="Сохранять указанные поля"
+                        IsChecked="{Binding CanSaveFileWhithSelectedField, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
                     <CheckBox
                         Margin="10,2,2,5"
                         IsChecked="{Binding CanSaveDataAsFull}"
                         ToolTip="Сохранить все данные в полном формате со всеми столбцами во временную папку">
                         <TextBlock Text="Сохранить в подробном виде" TextWrapping="Wrap" />
+                    </CheckBox>
+
+                    <CheckBox
+                        Margin="10,2,2,5"
+                        IsChecked="{Binding CanUseParsinglevelRus}"
+                        ToolTip="В итоговом файле уровень разбора написан русскими словами">
+                        <TextBlock Text="Русифицировать уровень разбора по ФИАС" TextWrapping="Wrap" />
                     </CheckBox>
 
                     <CheckBox

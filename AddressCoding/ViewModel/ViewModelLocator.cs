@@ -3,6 +3,7 @@ using AddressCoding.Notifications;
 using AddressCoding.Repository;
 using CommonServiceLocator;
 using GalaSoft.MvvmLight.Ioc;
+using AddressCoding.BDRepository;
 
 namespace AddressCoding.ViewModel
 {
@@ -13,12 +14,23 @@ namespace AddressCoding.ViewModel
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
             SimpleIoc.Default.Register<IFileService, FileService.FileService>();
-            SimpleIoc.Default.Register<IRepository, OrponRepository>(); 
             SimpleIoc.Default.Register<INotifications, Notification>();
+            SimpleIoc.Default.Register<IBDRepository, OrponDbRepository>();
 
-            SimpleIoc.Default.Register<MainViewModel>();
+           
             SimpleIoc.Default.Register<StatisticsViewModel>();
             SimpleIoc.Default.Register<SettingsViewModel>();
+
+            if(Settings.RepositorySettings.NameEndpoint == "Orpon")
+            {
+                SimpleIoc.Default.Register<IRepository, OrponRepository>();
+            }
+            else
+            {
+                SimpleIoc.Default.Register<IRepository, OrponRepository1>();
+            }
+
+            SimpleIoc.Default.Register<MainViewModel>();
         }
 
         public MainViewModel Main

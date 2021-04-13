@@ -23,6 +23,15 @@ namespace AddressCoding.Entities.Settings
             get => _nameEndpoint;
             set => Set(ref _nameEndpoint, value);
         }
+        private bool _canCheckSinglObj = false;
+        /// <summary>
+        /// Обрабатывать группу одиночными запросами
+        /// </summary>
+        public bool CanCheckSinglObj
+        {
+            get => _canCheckSinglObj;
+            set => Set(ref _canCheckSinglObj, value);
+        }
 
         private StatusConnect _statusConnect = StatusConnect.NotConnect;
         /// <summary>
@@ -58,8 +67,6 @@ namespace AddressCoding.Entities.Settings
                 }
             }
         }
-
-
 
         private int _maxParallelism = 4;
         /// <summary>
